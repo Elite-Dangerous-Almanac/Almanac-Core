@@ -1320,6 +1320,12 @@ export class ShipLoadout {
     /**
      * Return the computable blueprint candidates for a fitted module symbol.
      *
+     * A fitted `BlueprintName` can equal no listed `blueprintSymbol`, because a build can
+     * spell an ordinary recipe generically or as the journal writes it.
+     * `getMenuBlueprintForModule` in `ships/blueprint-menu` finds the listed entry. When it
+     * returns `null`, compare the fitted id as written: a Mercenary recipe is listed under
+     * its own id.
+     *
      * @param slotKey - Slot key, matched case-insensitively.
      * @returns Frozen blueprint descriptors: the ordinary engineering menu first, then
      * bespoke Mercenary upgrade recipes. An `'ordinary'` candidate is available to the

@@ -243,6 +243,13 @@ public sealed partial class ShipLoadout
     /// The ordinary engineering menu first, then any bespoke Mercenary recipe. It is empty where
     /// the mount is empty, unresolved or final, or the module has neither route.
     /// </returns>
+    /// <remarks>
+    /// A fitted <c>BlueprintName</c> can equal no listed blueprint identifier, because a build
+    /// can spell an ordinary recipe generically or as the journal writes it.
+    /// <see cref="BlueprintMenu.FindForModule"/> finds the listed entry. When it finds nothing,
+    /// compare the fitted identifier as written: a Mercenary recipe is listed under its own
+    /// identifier.
+    /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="slotKey"/> is <see langword="null"/>.</exception>
     public IReadOnlyList<AvailableBlueprint> AvailableBlueprints(string slotKey)
     {

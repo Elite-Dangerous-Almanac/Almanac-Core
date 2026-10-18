@@ -15,6 +15,7 @@ import {
     type EngineeringOptionGroup,
 } from './engineering-options.js';
 import { resolveBlueprintForModule } from './blueprint-journal.js';
+import { getMenuBlueprintForModule } from './blueprint-menu.js';
 import { BLUEPRINTS } from './blueprints.js';
 import { EXPERIMENTAL_EFFECTS } from './experimental-effects.js';
 import { getModuleBySymbol } from './modules.js';
@@ -435,6 +436,8 @@ test('every applicable corpus recipe is one its module offers', () => {
         const groupId = getEngineeringGroup(entry.symbol);
         if (groupId === null) continue; // pinned by the previous test
         const offered = getBlueprintsForModule(entry.symbol);
+        // The menu entry a consumer finds for the declaration, whichever route accepts it.
+        const entryFound = getMenuBlueprintForModule(entry.symbol, entry.blueprint);
         if (!offered.includes(entry.blueprint)) {
             const resolved = resolveBlueprintForModule(entry.symbol, entry.blueprint);
             const specific = aliases[entry.blueprint] ?? [];
@@ -442,13 +445,17 @@ test('every applicable corpus recipe is one its module offers', () => {
             if (resolved !== entry.blueprint) {
                 assert.ok(offered.includes(resolved), `${entry.symbol}: ${resolved} not offered`);
                 assert.equal(matching.length, 0, `${entry.symbol}: two ways to read one id`);
+                assert.equal(entryFound, resolved, `${entry.symbol}: ${entry.blueprint}`);
                 viaJournalSpelling += 1;
             } else if (matching.length > 0) {
                 assert.equal(matching.length, 1, `${entry.symbol}: ambiguous alias`);
+                assert.equal(entryFound, matching[0], `${entry.symbol}: ${entry.blueprint}`);
                 viaAlias += 1;
             } else {
                 assert.fail(`${entry.symbol}: ${entry.blueprint} is not offered`);
             }
+        } else {
+            assert.equal(entryFound, entry.blueprint, `${entry.symbol}: ${entry.blueprint}`);
         }
         if (
             entry.experimental &&
