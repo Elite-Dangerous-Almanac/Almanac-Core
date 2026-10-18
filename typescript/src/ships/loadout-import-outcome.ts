@@ -70,7 +70,7 @@ export type LoadoutImportOutcome =
            * identity are legitimate: the module's own engineering menu offers the recipe,
            * *and* a catalogued fixed article carries the same blueprint at the same grade
            * and effect. The roll was fitted, because that is what nearly every such block
-           * is; {@link preEngineeredVariant} is the article passed over.
+           * is; `preEngineeredVariant` is the article passed over.
            */
           readonly action: 'ambiguousEngineering';
           /** Exact slot spelling used by the imported build. */
