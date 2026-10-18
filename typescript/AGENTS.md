@@ -1,13 +1,13 @@
 # AGENTS.md — TypeScript package
 
-Rules for `@elite-dangerous-almanac/core`. The root `AGENTS.md` still applies. Run every command here from `typescript/`.
+Rules for `@elite-dangerous-almanac/core`. The root `AGENTS.md` also applies. Run every command here from `typescript/`.
 
 ## Tree-shaking
 
 Consumers, often web apps, must pay only for what they import.
 
 - **Small modules.** One class, interface or feature per file.
-- **ESM with `"sideEffects": false`.** No side effects at module top level: no registration on import, no mutable module state.
+- **ESM with `"sideEffects": false`.** No side effects at module top level: no registration on import, no mutable module state, no self-executing code.
 - **Named exports only.** No default exports and no `export * as X`.
 - **Prefer pure functions.** A class must not use static registries or couple to unrelated classes.
 - **Never one monolithic data import.** Split catalogues per domain, and per entity group where sensible.
@@ -70,7 +70,7 @@ fixtures/<domain>/*.jsonc ──(strip comments)──────────�
 | `pnpm run audit`                  | `pnpm audit --audit-level=low`                                                                                                        |
 | `pnpm run build`                  | builds `dist/` (see below)                                                                                                            |
 | `pnpm run test:package`           | imports the built `dist/` and checks every export subpath                                                                             |
-| `pnpm run docs`                   | builds the whole wiki, both languages, into `docs/wiki`                                                                               |
+| `pnpm run docs`                   | builds the whole wiki, both languages, into the root `docs/wiki`                                                                      |
 
 Run one test file with the suite's loaders:
 
@@ -109,8 +109,8 @@ pnpm settings live in `pnpm-workspace.yaml`; its comments explain each one.
 
 - **Seven-day cooldown.** `minimumReleaseAge: 10080` hides releases younger than seven days, and every install audits the lockfile against it.
   Every range floor in `package.json` must be a version that has served the cooldown.
-  `.github/dependabot.yml` sets the matching `cooldown` on the npm entry only; other ecosystems reject the key.
-- Do not disable the cooldown or add `minimumReleaseAgeExclude` entries to land an update. Take the newest mature version, or wait.
+  Only the npm entry in `.github/dependabot.yml` sets the matching `cooldown`; that file explains why.
+- Do not disable the cooldown or add `minimumReleaseAgeExclude` entries to land an update. `pnpm audit --fix` can write such entries; remove them. Take the newest mature version, or wait.
 - `allowBuilds` names the packages allowed to run install scripts. Only `esbuild` is on it.
 - **TypeScript stays at 5.x.** TypeDoc 0.28 supports 6.0 at most. 6.x also breaks `check:examples` with `TS6059`, because its scratch directory is outside `rootDir`.
 
@@ -126,5 +126,5 @@ Nobody publishes from a laptop. Run **Publish npm Package** (`.github/workflows/
 
 One-time setup before the first release:
 
-1. Create an environment named `npm`, restricted to the default branch.
+1. Create an environment named `npm`, restricted to the default branch. Add required reviewers if a release needs a second approval.
 2. On npm, add a GitHub Actions trusted publisher: owner `Elite-Dangerous-Almanac`, repository `Almanac-Core`, workflow `publish-npm.yml`, environment `npm`.

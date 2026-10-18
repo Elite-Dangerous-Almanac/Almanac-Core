@@ -1,7 +1,7 @@
 # AGENTS.md — shared data and fixtures
 
 Rules for the catalogues in `data/`, the fixtures in `fixtures/`, every `SOURCES.md`, `data/SNAPSHOTS.md` and `ATTRIBUTIONS.md`.
-The root `AGENTS.md` still applies.
+The root `AGENTS.md` also applies.
 
 ## File format: JSONC
 
@@ -82,7 +82,8 @@ A fixture is documented **in its own header comment and nowhere else**. It gets 
 - A capture's header also says where it came from, when it was acquired, its checksum, and anything scrubbed or corrected.
 - The project that published a capture is credited in `ATTRIBUTIONS.md` like any other source.
 
-A count a test asserts goes in the payload, not the header. Read it from the test.
+A count a test asserts goes in the payload, not the header. Read it from the test, and do not restate it in another test, a doc comment or a `SOURCES.md`.
+Prefer a relation a data update cannot break: `ALL_MODULES.length` equals the four category catalogues summed.
 
 ### Captured ship builds
 

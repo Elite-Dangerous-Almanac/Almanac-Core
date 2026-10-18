@@ -1,6 +1,6 @@
 # AGENTS.md — wiki build
 
-Rules for the generated wiki, `typescript/typedoc.json` and the guide pages. The root `AGENTS.md` still applies.
+Rules for the generated wiki, `typescript/typedoc.json` and the guide pages. The root `AGENTS.md` also applies.
 
 ## Surfaces
 
@@ -14,7 +14,7 @@ A cross-surface link only says the other package exists; it never carries an exp
 
 ## Build
 
-`pnpm run docs` (from `typescript/`) runs TypeDoc, then `scripts/wiki/build.mjs`, and leaves the finished wiki in `docs/wiki`.
+`pnpm run docs` (from `typescript/`) runs TypeDoc, then `scripts/wiki/build.mjs`, and leaves the finished wiki in the root `docs/wiki`.
 `build.mjs` stages the TypeDoc output, generates the .NET pages, writes `Home`, builds every sidebar and checks every link.
 
 ### TypeScript reference
@@ -44,7 +44,7 @@ So a leaf's `@packageDocumentation` is not published when a barrel re-exports it
 A type or member the published surface does not carry fails `test:wiki`.
 
 - Mark a `<code>` block that is not C#, for example `<code language="json">`.
-- The checker cannot see a call on a local or a misspelt BCL type. Write examples whose static entry points name what it should check.
+- The checker cannot see a call on a local or a misspelt type, because an unknown name may belong to the BCL. Write examples whose static entry points name what it should check.
 - Keep every statement valid C#. A bare member access is not a statement.
 
 ### Navigation and links

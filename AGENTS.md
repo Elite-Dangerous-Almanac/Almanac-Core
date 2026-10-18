@@ -108,10 +108,10 @@ Documentation describes the current state:
 - **Never write a catalogue's size into prose.** Ask: _would adding a row make this sentence false?_ If yes, delete the number.
   Write what the catalogue holds ("every core internal module, in Frontier's registry order"), and "not every blueprint" instead of a fraction.
   Three kinds of number stay:
-  a count a test asserts, pinned in a fixture payload and read by the test;
+  a count a test asserts, pinned in a fixture payload, read by the test and restated nowhere else;
   a measurement of something outside the repository (a bundle size, a fact about a pinned snapshot or the build corpus);
   a number the game fixes (region ids 1–42, engineering grades 1–5).
-  If a figure must appear in prose, generate it, as `scripts/i18n-coverage.mjs` does. Do not add a check that asserts a hand-written figure.
+  If a figure must appear in prose, generate it, as `typescript/scripts/i18n-coverage.mjs` does. Do not add a check that asserts a hand-written figure.
 
 API documentation is a first-class deliverable:
 
@@ -158,7 +158,7 @@ Before you push, confirm the branch carries one identity, the configured one:
 git log --format='%an <%ae> | %cn <%ce>' origin/<default-branch>..HEAD | sort -u
 ```
 
-Commit messages, PR text, code, data, fixtures and `SOURCES.md` carry **no personal data**: no email addresses, real names, handles, or machine and account names.
+Commit messages, PR text, code, data, fixtures and `SOURCES.md` carry **no personal data**: no email addresses, real names, handles, machine or account names, or anything else that identifies a private individual.
 Crediting an upstream project and its published author in `ATTRIBUTIONS.md` is required and is not personal data.
 
 ## Environment
@@ -172,6 +172,7 @@ apt-get update && apt-get install -y dotnet-sdk-10.0
 ```
 
 Run the update first; a stale package list gives 404s that look like a blocked host.
+Do not add Microsoft's `packages-microsoft-prod` feed; the SDK still resolves from the distribution. `api.nuget.org` is reachable, so a locked restore works.
 **Never report the .NET suite as unrunnable without trying this.** Both suites run on every change.
 
 ## Before you finish

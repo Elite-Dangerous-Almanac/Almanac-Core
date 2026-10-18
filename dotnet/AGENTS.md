@@ -1,6 +1,6 @@
 # AGENTS.md — .NET package
 
-Rules for `EliteDangerousAlmanac`. The root `AGENTS.md` still applies. Run every command here from `dotnet/`.
+Rules for `EliteDangerousAlmanac`. The root `AGENTS.md` also applies. Run every command here from `dotnet/`.
 
 ## Shape
 
@@ -21,7 +21,7 @@ A caller who reads a system name therefore never parses the nebula catalogue.
 
 ## Documentation
 
-- The compiler requires XML documentation comments on every public member: `<summary>`, `<param>`, `<returns>`, `<remarks>`, `<exception>`, `<example>`.
+- The compiler requires an XML documentation comment on every public member. Use `<summary>`, `<param>`, `<returns>`, `<remarks>`, `<exception>` and `<example>`.
 - `docs/guides/` carries the same set of guides as `typescript/docs/guides/`, written in C#. Change both in the same change.
 - A new namespace needs `docs/namespaces/<Namespace>.md`, or the wiki build fails.
 - The wiki reads the C# source, not the XML documentation file. `scripts/wiki/AGENTS.md` describes the reader and the example checker.
