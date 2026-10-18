@@ -1,414 +1,188 @@
 # AGENTS.md
 
-This file provides guidance to AI coding agents (e.g. Claude Code) when working with code in this repository.
+Guidance for AI coding agents in this repository. This file holds the rules for every change.
+Each area below has its own `AGENTS.md` with the rules for work there. Read it before you change a file in that area.
 
-## Project Purpose
+| File                     | Read it before you change                                                             |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `data/AGENTS.md`         | a catalogue in `data/`, a fixture in `fixtures/`, a `SOURCES.md` or `ATTRIBUTIONS.md` |
+| `typescript/AGENTS.md`   | the TypeScript package: source, exports, build, dependencies, release                 |
+| `dotnet/AGENTS.md`       | the .NET package                                                                      |
+| `scripts/wiki/AGENTS.md` | the wiki build, `typedoc.json`, a guide page or a namespace page                      |
 
-**Elite Dangerous Almanac** is a library of static data and calculations for Elite Dangerous community app developers and researchers: astronomy, ships and outfitting, personal equipment, engineering materials, localized display text, market commodities and galaxy-map markers. §Repository Status lists the feature areas.
+## Project purpose
+
+**Elite Dangerous Almanac** is a library of static data and calculations for Elite Dangerous app developers and researchers.
+It covers astronomy, ships and outfitting, personal equipment, engineering materials, localized display text, market commodities and galaxy-map markers.
 
 ## Pre-1.0: breaking changes are acceptable
 
-The library is a work in progress and has not reached version 1.0. **Backwards compatibility is not required at this point, and breaking changes are acceptable.** Until 1.0, get the API right rather than preserving what is already published: rename a symbol that is named badly, change a signature that takes the wrong arguments, move a module whose subpath is in the wrong place, reshape a catalogue whose structure fights its consumers.
+The library has not reached 1.0. Get the API right; do not preserve what is already published.
+Rename a badly named symbol, fix a wrong signature, move a module to the correct subpath, reshape a catalogue that fights its consumers.
 
-What that rules out is compatibility scaffolding, which is the same clutter whether it is added out of habit or out of caution:
+Do not add compatibility scaffolding:
 
-- **No deprecated aliases, re-exports or shims** kept alongside the new name, and no `@deprecated` symbols retained "for one more release".
-- **No dual code paths** that accept both the old and the new shape of an argument, option object or data file.
-- **No migration prose in the documentation.** Docs describe the current surface only (see §Language and documentation); the change belongs in the pull request and the release notes, not in a TSDoc comment or a guide page.
+- No deprecated aliases, re-exports, shims or `@deprecated` symbols kept "for one more release".
+- No dual code paths that accept the old and the new shape of an argument, option or data file.
+- No migration prose in the documentation. The pull request and the release notes carry the change.
 
-A breaking change still has to be complete and visible: update every call site, test, fixture, documented example and guide in the same change, and say plainly in the PR description what breaks and what replaces it. The version stays below 1.0 while this holds (§Releasing to npm) and the README says so for consumers — do not describe the surface as stable anywhere until 1.0 is actually released.
+A breaking change is complete and visible. Update every call site, test, fixture, example and guide in the same change.
+Say in the PR description what breaks and what replaces it. Do not call the surface stable anywhere until 1.0 is released.
 
-## Multi-Language Strategy
+## Feature parity
 
-The library has a **TypeScript** implementation and a **.NET** implementation, with **Python** (and potentially other languages/frameworks) planned for the future. Two hard requirements shape all design decisions:
+The library has a **TypeScript** and a **.NET** implementation. **Python** is planned. Two rules shape every design decision:
 
-1. **Feature parity** — every language implementation must expose the same features and behavior.
-2. **Shared test fixtures** — all implementations are validated against the same language-agnostic test fixtures.
+1. **Feature parity.** Every implementation exposes the same features and behaviour.
+2. **Shared test fixtures.** Every implementation is validated against the same language-neutral fixtures in `fixtures/`.
 
-**A new capability lands in TypeScript and in .NET in the same change.** A consumer reads the feature areas in the root `README.md` and expects their own language to carry every one. The same rule covers a fix to shared behavior and the documentation of the changed surface. Where one package cannot carry the capability in the same change, open an issue for the gap (§Tracking known gaps). Link that issue from the pull request, and say in the other package's documentation what is missing.
+A new capability, a fix to shared behaviour and the documentation of the changed surface land in TypeScript and .NET in the same change.
+This includes the guide pages: `dotnet/docs/guides/` and `typescript/docs/guides/` describe one behaviour, each in its own language.
+If one package cannot carry the change, open an issue (§Tracking known gaps), link it from the PR, and state the gap in that package's docs.
 
-When adding features or data, keep them portable: prefer language-neutral formats (e.g. JSON) for static data and fixtures so every implementation can consume them without duplication.
+Keep shared data and fixtures in language-neutral JSONC so every implementation reads the same file.
+Tree-shakeability is part of parity: other implementations mirror the same fine-grained module boundaries.
+Where a platform cannot tree-shake, the rule becomes a loading rule (see `dotnet/AGENTS.md`).
 
-Every data update must also follow `data/SNAPSHOTS.md`: record its acquisition date, immutable upstream revision when available, derivation method, and any manual corrections.
-
-### Data file format: JSONC in `data/` and in `fixtures/`
-
-Every shared file — a `data/` catalogue and a `fixtures/` fixture alike — is **JSONC** (`.jsonc`): JSON preceded by a comment header. What the header carries differs by directory: a catalogue's names its source and points at the credits (see §Attribution); a fixture's says what it pins and, for a capture, where it came from (see §Fixtures carry their own provenance).
-
-Two rules keep `.jsonc` portable. Catalogues are checked by `typescript/src/<domain>/data-files.test.ts`, fixtures by `typescript/src/fixtures.test.ts`:
-
-1. **Comments are the only JSONC extension used.** No trailing commas, no unquoted keys, no single quotes. Strip the comments and what remains must be strict JSON that any language's standard parser accepts — Python's `json`, Go's `encoding/json`, and so on. A trailing comma is portable only in JSON5, which is a different format.
-2. **Prose lives in the header comment, never in the payload.** No top-level `attribution`, `description` or `comment` key. In `data/` that is also a bundle-size rule — every payload byte is inlined into consumers' bundles, and comment bytes are not — but it holds in `fixtures/` too, so a port's parser never has to skip fields that are not data.
-
-Each implementation strips comments in its own loader, never by generating `.json` copies, which would break the single-source-of-truth rule. §How the shared assets flow into TypeScript describes the TypeScript loader and the fixture type generation.
-
-> **Editors reformat `.jsonc`.** Some formatters treat the extension as JSON5 and add trailing commas, silently breaking rule 1. If a data file starts failing to parse, check what your editor did to it before suspecting the loader.
-
-## Build & Tree-Shaking Requirements
-
-Consumers (community apps, often web-based) must only pay for what they import. Build the library in small pieces and keep everything tree-shakeable:
-
-- **Small modules**: one class/interface/feature area per file. No god-modules.
-- **ESM output** with `"sideEffects": false` in `package.json`; no side effects at module top level (no registration-on-import, no mutable module state, no self-executing code).
-- **Named exports only** — no default exports, no namespace-object re-export patterns (`export * as X`) that defeat tree-shaking.
-- **Subpath exports** (`exports` map in `package.json`) per feature area, so consumers import only the slice they need. The published package is `@elite-dangerous-almanac/core`, exposing `./astro`, `./commodities`, `./equipment`, `./galaxy-map`, `./i18n`, `./materials` and `./ships` plus one subpath per runtime module inside each (`./ships/ship-loadout`, `./astro/nebulae-real`, …). Every module row is enumerated, and `tsup.config.ts` derives its entry list from the `import` targets, so a new module under `src/` is unreachable and unbuilt until its entry is added with both `types` and `import`. `pnpm run test:package` rejects any module export lacking either target. Export a type-only module's symbols through the runtime entry that owns them; do not create a declaration-only subpath, so that a specifier resolves the same for ordinary and type-only imports. The rows that are not modules are patterns. The per-area `./<area>/internal/*` keys map to **`null`**, which makes every internal deep import a resolution error with no per-file manifest exception. `./assets/*` maps to the string `./assets/*`, which publishes the packed SVG tree, so a consumer's bundler can name one artwork file. A string target names a file `tsup` never emits, so it carries no `types` and no build entry. `package.test.mjs` names the string-target rows, so a module row cannot become one unnoticed. Root-wide helpers belong in `src/internal/`, which has no entry at all. Follow that layout for anything marked `@internal`.
-- **Prefer pure functions over stateful classes**; when classes are used, avoid static registries or cross-class coupling that drags unrelated code into the bundle.
-- **Static data is the biggest bundle risk**: never expose one monolithic data import. Split `data/` consumption into per-domain (and where sensible per-entity-group) modules so importing one ship's stats doesn't bundle the whole galaxy.
-- **Usability outranks tree-shaking when the two collide.** A registry lookup takes an *optional* catalogue argument defaulting to the whole registry (`getMaterialByName('iron')`): a journal line hands the caller a symbol and nothing else, so asking them to identify the category first solves the library's problem with the user's time. The price is that a default is a static import, so the data cannot be dropped even when an explicit catalogue is passed. Decide by measuring the module's import graph in `dist/` as a consumer's bundler ships it, fully minified (the library's own build only compacts whitespace, see §Commands): materials ~17 KiB, micro resources ~13 KiB and commodities ~30 KiB are noise; `ships/modules` at ~337 KiB (~33 KiB gzipped) is named in its own docs; `ALL_NEBULAE` at ~432 KiB is the counter-example, so `astro/nebulae` keeps its argument required. Default to the whole registry unless that would cost more than the rest of the library, say which way you went in the module's own docs, and do not reverse either decision without a fresh measurement.
-- **Nothing in a data payload that isn't data.** Prose a program never reads — attribution, notes, descriptions — is inlined into every consumer's bundle just like the records are. It belongs in the file's comment header (see §Data file format), where it stays next to the data and costs consumers nothing. On the small catalogues this is not a rounding error: `permit-locks` was 20% attribution by weight.
-- **No packing or minification in the library source.** Keep the checked-in source and the shared `data/` / `fixtures/` as normal, readable, well-formatted code and JSON — never hand-minified, pre-bundled, or otherwise compacted. All bundling, minification, tree-shaking, dead-code elimination, and payload compaction belong to the per-language **build/dist step** (e.g. `tsup`/esbuild for TypeScript) or to the consumer's bundler downstream of it, never baked into source. This keeps the data reviewable and diff-able, and keeps the shared assets portable across language implementations that each pack differently.
-
-Tree-shakeability is part of feature parity: other language implementations should mirror the same fine-grained module boundaries (e.g. Python subpackages matching the TS subpath exports).
-
-**Where a platform has no tree-shaking, the same rule becomes a loading rule.** .NET ships one assembly, so a consumer pays the download once and cannot drop a namespace they do not call. What they must not pay is the parsing and the memory: `dotnet/` keeps one type per feature area file, and every catalogue sits behind a `Lazy<T>` that reads its shared file the first time something asks for it. A caller who reads a system name therefore never parses the nebula catalogue. Keep new catalogues on that pattern.
-
-## Testing Requirements
-
-- **Validate against the shared fixtures.** Behavior is proven against the language-neutral fixtures in `fixtures/` (see Multi-Language Strategy), so every implementation demonstrates identical behavior on identical data.
-- **Minimum coverage: ≥ 80%.** Each language implementation must keep automated-test coverage at **80% or above** on **lines, branches and functions**, and CI must enforce it — a drop below the threshold fails the build. Add genuine test cases for real behavior; do not chase the number with assertion-free tests or by excluding code from measurement.
-  - **TypeScript**: `pnpm test` runs `node --test --experimental-test-coverage` with `--test-coverage-lines/-branches/-functions=80`, scoped recursively to `src/internal/**/*.ts` and `src/<area>/**/*.ts`, and excluding `*.test.ts`. Adding a new feature area means adding its `--test-coverage-include` glob, or the area is silently unmeasured; nested `internal/` modules inside an existing area are measured automatically.
-  - **.NET**: `dotnet build coverage.proj` runs the suite through coverlet with `Threshold=80` on `line,branch,method`, which fails the build under the threshold. Coverage is scoped to the `EliteDangerousAlmanac` assembly, so the test project's own helpers do not lift the figure.
-  - **Python (future)**: measure with `coverage.py` / `pytest --cov` and fail CI under 80%.
-
-## Language and documentation
-
-Use [ASD-STE-100](https://www.asd-ste100.org/) (Simplified Technical English) everywhere: replies to the person you are working with, code, comments, documentation, commit messages and pull requests.
-
-- One idea per sentence. Keep instructions to 20 words and descriptions to 25. Keep a paragraph to six sentences.
-- Active voice, present tense. Name who or what does the thing.
-- One word, one meaning. Choose a term and keep it; do not vary it for style.
-- Plain, common words. No metaphor, no idiom, no literary phrasing, no marketing adjectives, no emoji, and no jargon the reader did not use first: "add a tooltip to the heat glosses" beats "the glosses find their voice at last". Identifiers, test names and headings follow the same rule.
-- Say it once, and say it directly. Drop throat-clearing openers ("it is worth noting that"), self-assessment ("comprehensive", "robust", "seamless") and hedging that carries no information. If deleting a sentence loses nothing, delete it.
-- Write a procedure as numbered steps in the order you do them, with the condition before the action: "If the build fails, read the policy output."
-
-Two rules cover what documentation may say about the past:
-
-- **Documentation describes the current state, not the change that produced it.** Git records what moved, when and by whom; a reader opening a file wants to know how the thing works now. Keep changelog residue out of comments, docs, `README.md` and this file: no "previously", "now", "was changed to", "new", "updated", "as of <date>", no diff narration, no dated superseded notes. Write the rule, the behaviour and the reason it holds in the present tense, as though it had always been so.
-- **Delete rather than annotate.** Code and prose that do not apply any more are removed, not labelled obsolete and left in place. Commented-out code, "kept for reference" blocks and "(deprecated)" markers all go; git holds the old version. Where a decision cannot be understood without its history (a persisted format that keeps an old field name, a workaround for a known upstream defect), record the reason rather than the chronology, in the one sentence that stops someone undoing it.
-
-## Documentation Requirements
-
-This is a library, so documentation is a first-class deliverable:
-
-- **Every public class, function, type, and constant must be documented in detail** — description, parameters, return values, units (critical for astrophysical/market calculations), value ranges, and examples.
-- **Follow each language's framework-standard doc format** so standard tooling can extract it:
-  - TypeScript: TSDoc/JSDoc comments (`/** ... */` with `@param`, `@returns`, `@example`, `@remarks`).
-  - C#: XML documentation comments (`/// <summary>`, `<param>`, `<returns>`, `<remarks>`, `<exception>`, `<example>`), which the compiler already requires of every public member.
-  - Python (future): Google-style docstrings.
-- **Docs must be convertible to GitHub Wiki format.** API documentation is generated from source comments and published to the repo wiki automatically — never hand-edit generated wiki pages.
-
-### The historical facts a repository file keeps
-
-Three kinds of historical fact earn their place, because each one explains the current
-state rather than narrating a change (§Language and documentation):
-
-- **Provenance.** `data/<domain>/SOURCES.md` must record, per catalogue, the source, its immutable revision or checksum, the acquisition date, the derivation and every manual correction with the reasoning behind it — that is what `data/SNAPSHOTS.md` requires, and a date there is a fact about the *source*, not about this repository's history. Record it under the catalogue it describes, in the present tense ("`Int_Sensors_Size1_Class{1..5}` `integrity` is 36/32/40/48/44; coriolis-data's size-1 row is a verbatim copy of its size-2 row, so EDSY's figures are used"), never as a dated entry in a log at the top of the file.
-- **A rejected alternative**, where writing it down stops it being rediscovered and reapplied — "these three values look wrong and are not", "storing it as a per-group alias map is worse, because …". State the standing conclusion, not the episode that produced it.
-- **A deliberate absence**, what it means, and what would fill it — with a link to its issue (§Tracking known gaps).
-
-### How many is not documentation
-
-**Never write a catalogue's size into prose.** Not in TSDoc, a guide, a README, a
-data-file header or a `SOURCES.md`. Ask one question: *would adding a row make this
-sentence false?* If yes, delete the number. It is a maintenance bill, and it falls due on
-whoever adds the row, in every file that took a copy: adding one module to the outfitting
-catalogue can otherwise touch a dozen files only to change a count.
-
-Write what the catalogue holds instead. "Every core internal module, in Frontier's
-registry order" says more than "All 516 core internal modules", and stays true. The rule
-covers fractions too: write "not every blueprint", not "85 of the 107 blueprints". Name
-the exceptions if a reader needs them. The names do not move; the count does.
-
-Three kinds of number stay:
-
-- **A count a test asserts.** Pin it in a fixture's payload, not in the fixture's header,
-  and read it from the test. Do not restate it in a second test, a doc comment or a
-  `SOURCES.md` sentence. Prefer a relation a data update cannot break: `ALL_MODULES.length`
-  equals the four category catalogues summed.
-- **A measurement of something outside this repository.** A bundle size in KiB is an
-  import decision, so it belongs in the docs. A fact about a pinned snapshot or capture is
-  provenance: "coriolis's `blueprints.json` has 81 keys and not one prefixed", "not one of
-  1902 declared entries in the build corpus is prefixed". The source is pinned, so the
-  figure cannot go stale. The build corpus in `fixtures/ships/builds/` counts as pinned:
-  it grows when a maintainer adds a capture, never when a catalogue does. Its size may
-  therefore stand in its index header, which the bullet above otherwise forbids.
-- **A number the game or the API fixes.** Region ids run 1–42, engineering grades 1–5, six
-  stored locales, eight core mounts on a hull. A reader needs these.
-
-If a figure must appear in prose, generate it. `scripts/i18n-coverage.mjs` writes the
-locale-coverage table from `data/i18n/`, and `check:i18n-coverage` fails when it drifts.
-Do not instead add a check that asserts a hand-written figure: that keeps the figure and
-adds a second thing to update.
-
-### `SOURCES.md` documents the data, not the library
-
-A provenance file answers "where did this value come from, and what was done to it". How the library computes, accepts or refuses something is documented on the symbol that does it, in its TSDoc, and never in `SOURCES.md`: two homes for one explanation drift apart and bury the provenance. The same goes for narrating the test suite ("`x.test.ts` asserts …", "pinned in `fixtures/…` under `counts`") and for listing a module's API. Naming the *evidence* for a value is provenance and belongs there; explaining the code that consumes it does not, and neither does counting how many rows the derivation produced (§How many is not documentation).
-
-Where an explanation spans several symbols and has nowhere obvious to live, it becomes a guide page under `typescript/docs/guides/`, which `typedoc.json` publishes to the wiki, as `Build-metrics.md` and `Engineering.md` do for the ships domain. Put it there rather than in a provenance file or on one symbol's page.
-
-**Each surface is self-contained.** A .NET consumer never reads a TypeScript page to learn what the library does, so `dotnet/docs/guides/` carries the same set of guides as `typescript/docs/guides/`, in C#: the domain explained in the language the reader is writing, with that language's own types, exceptions and idioms. The two describe one behaviour, which the fixtures under `fixtures/` prove for both, so a change to what the library *does* is a change to both guides — write the second one at the same time, never as a follow-up. A cross-surface link says "the other package exists"; it never carries an explanation the reader needs.
-
-`scripts/wiki/dotnet-examples.mjs` checks C# examples without a compiler. It reads every ```csharp fence under `dotnet/docs/`, `docs/` and the NuGet README, and every `<code>` block in a `///` comment, which the reference renders as the same fence. A type or member the published surface does not carry fails `test:wiki`, and so `check`. A `<code>` block that is not C# says so, as `<code language="json">`, and is fenced and left unchecked accordingly. It cannot see a call on a local, nor a misspelt type — a name it does not publish may be the BCL's — so write an example whose static entry points state the names it should check, and keep every statement valid C# — a bare member access is a TypeScript idiom, not one that compiles here.
-
-### Doc-generation toolchain
-
-The wiki carries one reference per language, and a reader is working in one language at a time — so the wiki is **split into two surfaces**, and so is its navigation. `Home` is the shared landing page and offers the choice; `TypeScript` and `DotNet` are the two surface pages, each with its own guides, its own reference index and its own sidebar tree. Neither reader scrolls past the other language's symbols. Page names are global on GitHub Wiki, so every .NET page is prefixed `DotNet.` and no page of one surface can collide with a page of the other.
-
-- **Assembly**: `scripts/wiki/build.mjs` is the whole build. It stages TypeDoc's output, generates the .NET pages, writes `Home` from `docs/wiki-home.md`, builds every `_Sidebar.md` and checks every link, leaving the finished wiki in `docs/wiki`. It is language-neutral and lives at the repository root for the same reason `data/` and `fixtures/` do. Run it through `pnpm run docs`, which runs TypeDoc first.
-- **TypeScript**: TypeDoc + `typedoc-plugin-markdown` + `typedoc-github-wiki-theme`, writing `typescript/docs/wiki`. The theme produces wiki-friendly file names and wiki-compatible internal links. `typedoc.json` lists **one `src/<area>/index.ts` entry point per feature area** rather than a package-wide barrel, **plus every leaf module the barrels deliberately do not re-export** (the split catalogues, the cost tables, `astro/codex-region-lookup` and `ships/default-loadouts`). This gives the surface one section per entry point: the surface page links to each, every one has its own index page carrying its `@packageDocumentation` intro, and symbol pages are namespaced (`astro.Function.decodeSystemAddress`). Add a feature area there when you add one under `src/`; add a leaf only under the rule below. TypeDoc's readme page is renamed `TypeScript` during assembly, because `Home` is shared.
-- **A leaf module may be an entry point only if no other entry point re-exports its symbols.** TypeDoc attributes each symbol to exactly one owning module and the *declaring* entry point wins, so a leaf that a barrel still re-exports does not gain a page: it **moves** the symbol out of the barrel's namespace, drops it from the barrel's index into a flat `## References` list, and turns cross-references into unresolved `{@link}` warnings. That is why the split catalogues are absent from the barrels. A leaf's `@packageDocumentation` on a re-exported module is therefore not published; put orientation prose and examples on the barrel or on the symbol itself.
-- **.NET**: `scripts/wiki/dotnet-api.mjs`, which reads the C# **source** — not the compiler's XML documentation file, which states a member by its documentation id and drops every signature, and which would put the .NET SDK behind a documentation build that is otherwise one Node script. `dotnet-source.mjs` reads the declarations and `xml-doc.mjs` reads the `///` comments; both accept the shapes this library is written in and **throw on a declaration or a documentation tag they cannot read**, so an unrecognised construct fails the build rather than dropping out of the reference unannounced. A nested type is the library's own workings and is passed over, but a **public** one is refused rather than dropped. The one thing they pass over silently is a `<see cref>` naming something outside the library, which renders as code rather than a link, because a BCL type has no page to link to. A partial type is one page: the part in `<TypeName>.cs` leads, and the parts beside it add their `<content>`. The pages are shaped the way TypeDoc's are — an index of areas, a page per area, a page per symbol — which is what lets one sidebar builder read both references. A namespace's orientation prose lives in `dotnet/docs/namespaces/<Namespace>.md`, which is the .NET equivalent of a barrel's `@packageDocumentation`; add one when you add a namespace, or the build fails.
-- **Navigation**: `scripts/wiki/sidebar.mjs` builds each surface's sidebar as a collapsible tree (guides, then each area, then its member kinds, and for TypeScript a class's own members), because a flat list leaves every symbol page an index walk away. It groups the generated pages into subdirectories and writes a sidebar variant beside each group; Gollum selects the nearest `_Sidebar.md`, so only the current page's ancestry starts open. The .NET tree stops at the type, because nearly every .NET symbol is a type and expanding each one's members would make the tree longer than the reference it navigates. The builder reads the generated pages rather than any reflection tree, validates every anchor it emits, and **fails when any generated page is unreachable from a sidebar** — one check that catches every way an index page's shape can change. `scripts/wiki/check-links.mjs` then holds every link, relative and absolute, to a page that exists.
-- **Python (future)**: `mkdocstrings` (or `pydoc-markdown`) renders Google-style docstrings to Markdown as a third surface, added to the list in `build.mjs`.
-- **Publishing**: `.github/workflows/publish-wiki.yml` runs `pnpm run docs` on a push to `main` that touches `typescript/`, `dotnet/`, `docs/`, `scripts/wiki/`, `data/` or the workflow itself, or on manual dispatch, then pushes `docs/wiki` to the wiki's backing repository (`<repo>.wiki.git`) with `Andrew-Chen-Wang/github-wiki-action`; the job needs `contents: write`. It needs Node alone, because the .NET pages come from the source. The wiki must be initialized once by hand (create any first page) before CI can push to it.
-
-## Attribution Requirements
-
-Much of the static data and many calculations derive from the Elite Dangerous community (e.g. EDCD, EDDN, EDSM, Spansh, forum research, individual authors) as well as third-party libraries. Proper credit is mandatory — and **a source is described in exactly one place**, so a licence position cannot drift between copies of it.
-
-- **`ATTRIBUTIONS.md`** at the repository root is that place: every external data source, algorithm and library, with its author, link, licence position and what the project uses it for — including any licence text an upstream requires be reproduced in full. It lives at the root because it is language-neutral, exactly like `data/` and `fixtures/`, and it ships to npm consumers as `THIRD_PARTY_NOTICES.md`.
-- **Everywhere else names the source and points there.** Nothing repeats an author, a URL or a licence:
-  - Data files (`data/`): open the file with a **comment header** saying what the file holds, naming the source in a line or two, and pointing at `ATTRIBUTIONS.md` for credit and at the sibling `SOURCES.md` for provenance. Put it in a comment, not in an `attribution` field — see §Data file format for why, and copy the header of any existing `data/astro/*.jsonc` for the shape.
-  - `data/<domain>/SOURCES.md`: what was taken from a source, when, from which revision, how it was derived and every manual correction — referring to the source by name. Not who to credit, not the licence, and not how the library works (see §`SOURCES.md` documents the data, not the library).
-  - Code (calculations, ported algorithms): a doc comment on the function/module naming the original source and pointing at `ATTRIBUTIONS.md`.
-
-Whenever you add or change data, port an algorithm, or introduce a dependency that warrants credit, add the source to `ATTRIBUTIONS.md` and record the provenance where the data lives, in the same change. Respect each source's license terms (attribution text, share-alike, etc.).
-
-### Fixtures carry their own provenance
-
-A fixture in `fixtures/` is documented **in its own header comment and nowhere else** — it gets no entry in any `SOURCES.md`. The header says what the fixture pins; a capture's also says where it came from, when it was acquired, its checksum, and anything scrubbed or corrected. The projects that published a capture are credited in `ATTRIBUTIONS.md` like any other source. `typescript/src/fixtures.test.ts` enforces that every fixture has a header, parses as strict JSON without it, and keeps prose out of its payload.
-
-A `SOURCES.md` entry may still *name* a fixture as the evidence for a value ("a capture states the base reserve as 2"); what it must not do is document the fixture.
-
-### A captured ship build is an exception to the redistribution test
-
-A `Loadout` event, a SLEF export or a decoded share link is **Frontier game output** — which parts a player put in which slots — travelling through whatever project you found it in. It is not that project's work, and it carries no licence of its own beyond Frontier's media-usage terms below. So a build is **not** rejected because the repository holding it states no licence, or states one that forbids redistributing *that repository*: those terms cover the project's own code and assets, not a game capture sitting in its example data.
-
-What still applies, every time:
-
-- **Credit the source if we have one.** Name the project and its licence position in `ATTRIBUTIONS.md`, exactly as for any other source, and record the file, the revision and the checksum in the fixture's own header. Where a build reaches us with no traceable origin — as the corpus in `fixtures/ships/builds/` does — that is fine and already recorded; it is not a reason to leave the build out.
-- **Scrub the person, keep the game** (see §Commit Identity), and store the capture verbatim otherwise, with its source checksum.
-- **Builds only.** Code, stat tables and derived catalogues are held to the licence they ship under, unchanged.
-
-> **Do not write a second copy of the credits or the licence.** `README.md` carries a short pointer, not a list. `typescript/THIRD_PARTY_NOTICES.md` and `typescript/LICENSE` are **generated, git-ignored** verbatim copies of the root `ATTRIBUTIONS.md` and `LICENSE`: npm can only pack files inside the package directory, and several upstream licences require the notice to travel with the distribution. `typescript/PROVENANCE/` is generated the same way from `data/SNAPSHOTS.md` and every `data/<domain>/SOURCES.md`, so an installed version carries its exact data currency offline, and `typescript/assets/` is a copy of the shared `assets/ships/` and `assets/galaxy-map/`. `pnpm run build` writes them all (§What `pnpm run build` runs) and `package.test.mjs` asserts that the copies are complete and byte-identical to their sources. Edit the root files; never the copies. Because the root `LICENSE` is packed verbatim, keep its wording readable from inside a consumer's `node_modules` as well as from the repository.
-
-## Repository Layout
-
-Monorepo with one subfolder per language implementation and shared, language-neutral assets at the top level:
+## Repository layout
 
 ```
 data/          # shared static data (JSONC), one folder per domain, each with a SOURCES.md
 assets/        # shared visual assets, keyed by catalogue symbol
-fixtures/      # shared test fixtures (JSONC) — every implementation validates against these
-schemas/       # shared JSON Schemas — language-neutral validation for data payloads
-docs/          # the wiki's shared landing page; `docs/wiki/` is the assembled wiki, not committed
-scripts/       # repository tooling for deriving data and assembling the wiki; never shipped in any package
-typescript/    # TypeScript library (package.json, src/, tests, typedoc.json)
-dotnet/        # .NET library (EliteDangerousAlmanac.slnx, src/, tests/)
-python/        # (future) Python library — same features, same fixtures
+fixtures/      # shared test fixtures (JSONC); every implementation validates against these
+schemas/       # shared JSON Schemas for data payloads and fixtures
+docs/          # the wiki's shared landing page; docs/wiki/ is the assembled wiki, not committed
+scripts/       # repository tooling for data derivation and the wiki; never shipped in a package
+typescript/    # TypeScript library
+dotnet/        # .NET library
+python/        # (future) Python library; same features, same fixtures
 ```
 
-`data/`, `fixtures/` and `assets/` are owned by no implementation; language folders consume them. Never commit a copy of a shared asset inside a language folder; a build may copy one into the package it packs. `data/SNAPSHOTS.md` defines the metadata every update must record; each `data/<domain>/SOURCES.md` carries the provenance for that domain (source, revision, derivation, manual corrections and known gaps), organised by catalogue and written in the present tense.
+`data/`, `fixtures/` and `assets/` belong to no implementation. Never commit a copy of a shared asset inside a language folder.
+A build may copy one into the package it packs.
+
+Feature areas, in TypeScript under `typescript/src/` and in .NET as one namespace each under `dotnet/src/EliteDangerousAlmanac/`:
+
+| TypeScript     | .NET           | Contents                                                                                       |
+| -------------- | -------------- | ---------------------------------------------------------------------------------------------- |
+| `astro/`       | `Astronomy`    | procedural system names, id64 addresses, sectors, regions, nebulae, permit locks, body physics |
+| `commodities/` | `Commodities`  | standard and rare market commodities                                                           |
+| `equipment/`   | `Equipment`    | Odyssey suits, handheld weapons, suit tools, upgrades, modifications, suit loadouts            |
+| `galaxy-map/`  | `GalaxyMap`    | galaxy-map location markers and their colours                                                  |
+| `i18n/`        | `Localization` | localized catalogue names, descriptions, labels and diagnostics                                |
+| `materials/`   | `Materials`    | engineering materials and micro-resources                                                      |
+| `ships/`       | `Ships`        | ship and outfitting catalogues, engineering, loadouts and build metrics                        |
+
+## Rules for every implementation
+
+- **Catalogues are frozen.** A shared catalogue is a process-wide singleton, so one consumer's mutation would change another's lookups.
+  TypeScript passes every exported catalogue through `deepFreeze`; .NET uses immutable records and read-only collections.
+- **Data files are hand-maintained.** No script in this repository reads, clones or fetches an upstream repository, and none may be added.
+  Fetch during acquisition from a scratch directory outside the working tree. Commit only the derived data and its provenance.
+- **No packing or minification in source.** Checked-in source, `data/` and `fixtures/` stay readable and well formatted.
+  Bundling, minification and payload compaction belong to each package's build step or to the consumer's bundler.
+- **Nothing in a data payload that is not data.** Prose goes in the file's comment header (see `data/AGENTS.md`).
+- **Tests prove behaviour against the shared fixtures.** Prefer a fixture entry over an inline literal when the value is a fact about the game.
+- **Coverage stays at 80% or above** on lines, branches and functions in every implementation, and CI enforces it.
+  Write real test cases. Do not exclude code from measurement or add assertion-free tests to reach the number.
+
+## Language and documentation
+
+Use [ASD-STE-100](https://www.asd-ste100.org/) (Simplified Technical English) everywhere: replies, code, comments, documentation, commit messages and pull requests.
+
+- One idea per sentence. Instructions to 20 words, descriptions to 25, paragraphs to six sentences.
+- Active voice, present tense. Name who or what does the thing.
+- One word, one meaning. Do not vary a term for style.
+- Plain, common words. No metaphor, idiom, marketing adjectives, emoji or jargon the reader did not use first. This covers identifiers, test names and headings.
+- Say it once and directly. No throat-clearing, self-assessment ("comprehensive", "robust") or empty hedging. If deleting a sentence loses nothing, delete it.
+- Write a procedure as numbered steps, with the condition before the action: "If the build fails, read the policy output."
+
+Documentation describes the current state:
+
+- **No changelog residue.** No "previously", "now", "new", "updated", "as of <date>" or diff narration. Git records the change.
+- **Delete rather than annotate.** Remove code and prose that do not apply. No commented-out code, "kept for reference" blocks or "(deprecated)" markers.
+- **Keep three kinds of historical fact**, each stated as a standing conclusion:
+  provenance (in `SOURCES.md`, see `data/AGENTS.md`);
+  a rejected alternative, where writing it down stops someone reapplying it;
+  a deliberate absence, what it means and what would fill it, linked to its issue.
+- **Never write a catalogue's size into prose.** Ask: _would adding a row make this sentence false?_ If yes, delete the number.
+  Write what the catalogue holds ("every core internal module, in Frontier's registry order"), and "not every blueprint" instead of a fraction.
+  Three kinds of number stay:
+  a count a test asserts, pinned in a fixture payload and read by the test;
+  a measurement of something outside the repository (a bundle size, a fact about a pinned snapshot or the build corpus);
+  a number the game fixes (region ids 1–42, engineering grades 1–5).
+  If a figure must appear in prose, generate it, as `scripts/i18n-coverage.mjs` does. Do not add a check that asserts a hand-written figure.
+
+API documentation is a first-class deliverable:
+
+- **Document every public class, function, type and constant in detail**: description, parameters, return values, units, value ranges and examples.
+- **Use each language's standard format**: TSDoc in TypeScript, XML documentation comments in C#, Google-style docstrings in Python.
+- **The wiki is generated from source comments.** Never hand-edit a generated wiki page. `scripts/wiki/AGENTS.md` describes the build.
+- **Document behaviour on the symbol that does it.** An explanation that spans several symbols becomes a guide page in both `docs/guides/` folders.
+
+## Attribution
+
+A source is described in exactly one place, so its licence position cannot drift between copies.
+
+- **`ATTRIBUTIONS.md`** at the root credits every external data source, algorithm and library: author, link, licence position, use, and any licence text that must be reproduced.
+- **Everything else names the source and points there.** A data file's comment header, a `SOURCES.md` entry and a doc comment on a ported algorithm name the source and never repeat an author, URL or licence.
+- When you add data, port an algorithm or add a dependency that needs credit, update `ATTRIBUTIONS.md` and the provenance in the same change.
+- Respect each source's licence terms.
+- `README.md` carries a short pointer, not a list.
+
+`data/AGENTS.md` holds the rules for headers, `SOURCES.md`, fixtures and captured builds.
 
 ## Tracking known gaps
 
-**Open gaps live in GitHub issues**, one issue per gap on
-`Elite-Dangerous-Almanac/Almanac-Core`.
+Open gaps live in GitHub issues on `Elite-Dangerous-Almanac/Almanac-Core`, one issue per gap. When a change uncovers a gap it cannot fix:
 
-When a change uncovers a gap it cannot fix in scope:
+1. Search the open issues. If the gap is tracked, add a comment.
+2. Otherwise open an issue. State what is missing, what a consumer sees, how it was measured and what would close it.
+   Name the area in the body (`ships — data gap`, `ships — API`, …) and label it `bug`, `enhancement`, `documentation` or `help wanted`.
+3. Keep the reasoning (sources checked, what was rejected and why) in the domain's `SOURCES.md`.
+4. Cite the issue where a reader meets the gap: in Markdown as `#<number>`, in TSDoc and code comments as the full URL.
+   Name the symptom in one line; do not paraphrase the issue.
 
-1. **Open an issue** for it. Say what is missing, what a consumer sees today because of it, how it was measured (a fixture, a corpus count, a named record) and what would close it — a source that carries the value, or the shape the fix should take. State the area in the body (`ships — data gap`, `ships — API`, `ships — test coverage`, …) and label it `bug`, `enhancement`, `documentation` or `help wanted`. Search the open issues first: a gap that is already tracked gets a comment, not a second issue.
-2. **Keep the reasoning in the domain's `SOURCES.md`** — why a value was left absent, which sources were checked, what was rejected and on what grounds. The issue is the short actionable list; `SOURCES.md` is the provenance record, and it outlives the issue.
-3. **Cite the issue where a reader meets the gap** — the TSDoc on the function that returns the incomplete answer, the `SOURCES.md` bullet, the README paragraph. Link it as `#<number>` in Markdown; in TSDoc and code comments use the full URL, since TypeDoc output is read outside the repository. Do not paraphrase an issue's contents into a doc comment: name the symptom in one line and link.
+The change that fixes a gap closes its issue and removes the citations.
 
-Closing a gap means closing its issue in the same change that fixes it, and dropping the citations that pointed at it.
+## Commit identity and personal data
 
-## Repository Status
+**Commit as the identity git is already configured with. Never set one yourself.**
+Do not pass `-c user.name`/`-c user.email`, run `git config` for a different identity, or use `--reset-author`.
+A substituted identity no longer matches the signing key, and GitHub marks the commit **Unverified**.
 
-These feature areas exist in TypeScript, all under `typescript/src/`:
-
-- **`astro/`** — procedural system names and id64 addresses, sectors and galactic regions, nebulae, permit locks, and scanned-body physics.
-- **`commodities/`** — standard and rare market commodities.
-- **`equipment/`** — Odyssey suits, handheld weapons, suit tools, upgrades, modifications, and journal suit loadouts.
-- **`galaxy-map/`** — the galaxy map's location markers and the colours the game draws them in.
-- **`i18n/`** — localized catalogue names, descriptions, labels, and diagnostics.
-- **`materials/`** — engineering materials and micro-resources.
-- **`ships/`** — ship and outfitting catalogues, engineering (blueprints, experimental effects, pre-engineered variants), loadouts, and build metrics: power, shields, armour, resistances, weapons, jump range.
-
-Every one of those areas exists in .NET under `dotnet/src/EliteDangerousAlmanac/`, one namespace each: `Astronomy`, `Commodities`, `Equipment`, `GalaxyMap`, `Localization` (the `i18n` area), `Materials` and `Ships`. The library targets .NET Standard 2.1 and its tests run on .NET 10. It reads the shared catalogues as embedded resources keyed by their repository path, so `data/` stays the one copy.
-
-`python/` does not exist yet. When it lands it consumes the same `data/` and `fixtures/` and must reach parity.
-
-Two repo-wide conventions worth knowing before touching a catalogue:
-
-- **Catalogues are frozen.** Shared data is imported as a process-wide module singleton, so every exported catalogue is passed through `deepFreeze` (`src/internal/deep-freeze.ts`) — otherwise one consumer's mutation changes another's lookups. `src/catalogue-immutability.test.ts` asserts this for every exported catalogue; add new ones to it. .NET keeps the same rule with immutable records and `ReadOnlyCollection`/`ReadOnlyDictionary`; `dotnet/tests/.../CatalogueImmutabilityTests.cs` finds every published catalogue by reflection, so a new one is covered the day it lands.
-- **Data files are hand-maintained artefacts.** `scripts/data/ships/merge-normalized-catalogues.mjs` joins normalized *local* arrays that a maintainer prepares; **no script in this repository reads, clones or fetches an upstream repository, and none should be added.** Fetching during acquisition is fine — write the throwaway script in a scratch directory outside the working tree, run it there, and commit only the derived data. What lands in the repo is the data plus its provenance in the domain's `SOURCES.md`, never the script that reached for it. The rule is about what ships and what CI runs, not about how a maintainer got the bytes.
-
-## Environment
-
-Development happens inside a dev container (`.devcontainer/devcontainer.json`) based on the TypeScript/Node 22 (bookworm) image, with Python 3.12 and the .NET 10 SDK also installed. It runs as the `node` user, and its Dockerfile enables Corepack so that `pnpm` resolves to the version pinned in `typescript/package.json`. The .NET SDK arrives as a dev container feature and honours the version `dotnet/global.json` pins. ESLint + Prettier for TypeScript; the C# extension for .NET; Pylance for Python.
-
-**A session outside that container installs the SDK from the distribution's archive, not from Microsoft's.** A remote or web session can land on a bare image where `dotnet` is absent, and there the usual `dotnet-install.sh` is a dead end: it downloads from `builds.dotnet.microsoft.com`, which an egress policy may refuse (`403` on the CONNECT). The distribution's own archive carries a build inside the band `dotnet/global.json` accepts, so on Ubuntu:
-
-```bash
-apt-get update && apt-get install -y dotnet-sdk-10.0
-```
-
-Run the update first. A stale package list names pool files that have since been superseded, and every download 404s against an archive that is otherwise working — which reads like a blocked host and is not one. Adding Microsoft's `packages-microsoft-prod` feed is not the fix either; it is reachable, but the SDK still resolves from the distribution. `api.nuget.org` is reachable, so `dotnet restore --locked-mode` works once the SDK is in place. **Never report the .NET suite as unrunnable without trying this** — the whole point of the parity rule is that both suites run on the same change.
-
-## Commit Identity — no personal data in git metadata
-
-**Commit as whoever git is already configured as. Never set an identity yourself.** The environment configures `user.name` / `user.email` (and, where signing is enabled, the signing key) before you start. Do not pass `-c user.name=…` / `-c user.email=…` to `git commit`, do not `git config` a different one, and do not use `--reset-author` to change *who* a commit is by. An agent that substitutes its own choice produces commits GitHub marks **Unverified**, because the identity no longer matches the key that signed them.
-
-**An identity you did not get from git config is a personal detail, and commit metadata publishes it.** A maintainer's address may be in front of you — in the conversation, an issue, a profile, an earlier commit's author field — and none of that is permission to write it into this repository's history. The author and committer fields of a public repository are world-readable and permanent in a way ordinary files are not:
-
-> A wrong address cannot be taken back by force-pushing over it. Rewriting the branch removes the *reference*; the old commit object survives on the remote, stays fetchable by its SHA, and the force-push event in a pull request timeline links to it by SHA. Only GitHub Support can purge unreachable objects. **Getting it right the first time is the only fix that works.**
-
-Before pushing, confirm the whole branch carries one identity, the configured one:
+An identity you did not get from git config is a personal detail. A force-push cannot remove it: the old commit stays fetchable by its SHA.
+Before you push, confirm the branch carries one identity, the configured one:
 
 ```bash
 git log --format='%an <%ae> | %cn <%ce>' origin/<default-branch>..HEAD | sort -u
 ```
 
-The same rule covers everything else you author. Commit messages, PR titles and bodies, code comments, data files, fixtures and `SOURCES.md` entries carry **no personal data** — no email addresses, no real names, no handles, no machine or account names, and nothing identifying a private individual. This does **not** restrict §Attribution: crediting an upstream project and its published author is required, and a licence that must be reproduced is reproduced in full. The line is between citing work someone published under their own name and copying a person's contact details into a payload or a commit trailer.
+Commit messages, PR text, code, data, fixtures and `SOURCES.md` carry **no personal data**: no email addresses, real names, handles, or machine and account names.
+Crediting an upstream project and its published author in `ATTRIBUTIONS.md` is required and is not personal data.
 
-A related habit, for the same reason:
+## Environment
 
-- **A captured source is scrubbed of the person, not of the game.** A journal capture, a SLEF export or a community build reaches you attached to whoever produced it — a commander name, an account id, an uploader, a home directory in a path, the link the build was shared from. That goes; the game data stays. `fixtures/ships/builds/` stores its builds without author, name or link (the corpus index's own header records the choice and what it costs), while the Krait Phantom capture deliberately keeps its `ShipName`, `ShipIdent`, `ShipID` and `timestamp` — those describe a ship, they are what makes it ground truth, and none of them names a person.
+Development happens in the dev container (`.devcontainer/`): Node 22 with Corepack, Python 3.12 and the .NET SDK that `dotnet/global.json` pins.
 
-## Pull requests
-
-**Before opening any PR, have a subagent re-review the complete change.** Address every meaningful finding, then ask a subagent to review the updated change again. Repeat this review-and-fix cycle until the subagent reports no more meaningful findings; only then may the PR be opened.
-
-## Commands
-
-Each implementation has its own commands. The TypeScript ones run from `typescript/`,
-the .NET ones from `dotnet/`.
-
-### .NET
-
-The SDK version comes from `dotnet/global.json`. Every project keeps a
-`packages.lock.json` beside it, so a restore in locked mode fails rather than resolving
-when the lock file and the project files disagree.
-
-| Command                                                        | What it does                                                                                                  |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `dotnet restore EliteDangerousAlmanac.slnx --locked-mode`       | restores exactly what the lock files pin                                                                       |
-| `dotnet build EliteDangerousAlmanac.slnx`                       | builds both projects; analyzers and code style run as errors, so this checks the source too                    |
-| `dotnet build coverage.proj`                                    | runs the suite through coverlet and fails under 80% on lines, branches and methods. **Run this before finishing.** |
-| `dotnet test EliteDangerousAlmanac.slnx --filter "FullyQualifiedName~XyzTests"` | runs one test class                                                             |
-| `dotnet pack src/EliteDangerousAlmanac/EliteDangerousAlmanac.csproj -c Release` | packs the NuGet package                                                          |
-
-Adding a package means adding it to the project file and restoring once, which rewrites
-that project's `packages.lock.json`. Commit the lock file with the change.
-
-### TypeScript
-
-All TypeScript commands run from `typescript/`. The package manager is **pnpm** — see
-§Dependencies below before adding or updating one.
-
-| Command                           | What it does                                                                                                                                                                                                               |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm install --frozen-lockfile`  | installs exactly what `pnpm-lock.yaml` pins; fails on a lockfile that disagrees with the manifest                                                                                                                          |
-| `pnpm run check`                  | check:fixtures → check:i18n-coverage → lint → format:check → typecheck → check:examples → test:wiki → test. **Run this before finishing.**                                                                                             |
-| `pnpm test`                       | full suite with the coverage thresholds                                                                                                                                                                                    |
-| `pnpm run typecheck`              | `tsc --noEmit`                                                                                                                                                                                                             |
-| `pnpm run check:examples`         | type-checks every documented TS snippet and executes its machine-readable value claims                                                                                                                                     |
-| `pnpm run check:fixtures`         | fails when `schemas/fixtures.schema.json` or `src/fixtures.generated.d.ts` is stale                                                                                                                                        |
-| `pnpm run generate:fixtures`      | regenerates the shared fixture schema and TypeScript fixture import types                                                                                                                                                  |
-| `pnpm run check:i18n-coverage`    | fails when the generated locale-coverage table drifts from `data/i18n/`                                                                                                                                                    |
-| `pnpm run generate:i18n-coverage` | regenerates the locale-coverage table                                                                                                                                                                                      |
-| `pnpm run lint`                   | ESLint                                                                                                                                                                                                                     |
-| `pnpm run audit`                  | `pnpm audit --audit-level=low`                                                                                                                                                                                             |
-| `pnpm run format`                 | Prettier over the package, root `README`/`CONTRIBUTING`/`SECURITY`, `schemas/`, `scripts/` and `.github/`                                                                                                                  |
-| `pnpm run build`                  | copy notices, provenance and assets → `tsup` → source-map cleanup → `prune-barrel-imports` → `attach-barrel-docs` → `dist/` (catalogues inlined, whitespace compacted, syntax and identifiers **not** minified; see below) |
-| `pnpm run test:package`           | imports the **built** `dist/` and checks every export subpath                                                                                                                                                              |
-| `pnpm run docs`                   | TypeDoc → `typescript/docs/wiki`, then `scripts/wiki/build.mjs`, which adds the .NET reference and assembles both surfaces into `docs/wiki`                                                                                |
-| `pnpm run test:wiki`              | the wiki tooling's own tests: the C# reader and the documentation-comment reader                                                                                                                                           |
-
-`check:examples` reads public `@example` fences, the guide pages and both READMEs. A
-trailing `expression; // -> value` is executed when the snippet needs no ambient
-`declare` input: literals compare exactly, a finite decimal is rounded to the number of
-places shown recursively through arrays and objects, and `0.667…` asserts a decimal
-prefix. Every executable fence runs in a fresh, time-limited Node process so examples
-cannot share global, intrinsic or imported-module state. Prose, abbreviated values and
-context-sensitive `yield` expressions remain compile-only and are counted
-against a ratchet, so a claim cannot silently stop running. Keep every fence
-self-contained and do not start subprocesses: the timeout hard-kills the snippet runner,
-not an operating-system process tree. Use `declare const input: Type` only for a value
-the reader supplies.
-
-Run one test file with the same loaders the suite uses — plain `node --test` cannot resolve `.ts` or `.jsonc`:
+Outside the container, `dotnet` may be absent and `builds.dotnet.microsoft.com` may be blocked. Install the SDK from the distribution archive:
 
 ```bash
-node --import tsx --import ./scripts/register-jsonc.mjs --test src/ships/weapons.test.ts
+apt-get update && apt-get install -y dotnet-sdk-10.0
 ```
 
-`pnpm run check` does not build. When a change touches the export map, the bundler config, or anything a consumer imports, also run `pnpm run build && pnpm run test:package` — CI does, and `dist/` is what consumers actually get.
+Run the update first; a stale package list gives 404s that look like a blocked host.
+**Never report the .NET suite as unrunnable without trying this.** Both suites run on every change.
 
-### What `pnpm run build` runs
+## Before you finish
 
-Six steps, not just `tsup`. A change to any of them is a change to what consumers receive, so `package.test.mjs` checks each one's result against the built package; run it (`pnpm run test:package`) after touching any of them:
+Run the gate of every package you changed. A change to `data/`, `fixtures/` or `schemas/` reaches both packages.
 
-1. **`scripts/copy-notices.mjs`** writes the generated, git-ignored `THIRD_PARTY_NOTICES.md` and `LICENSE` copies that npm packs (see §Attribution), plus `PROVENANCE/SNAPSHOTS.md` and one verbatim `PROVENANCE/<domain>/SOURCES.md` for every shared data domain. The latter lets an installed package state its exact data currency without network access.
-2. **`scripts/copy-assets.mjs`** replaces the git-ignored `typescript/assets/` with a byte-identical copy of the shared `assets/ships/` and `assets/galaxy-map/`, so the SVG assets pack with the npm package. It names the directories it packs, so a new shared asset directory stays out until it is added there.
-3. **`tsup`** bundles ESM to `dist/` — one entry per public module, declarations, source maps, and the shared `data/` JSONC inlined through the `jsonc` esbuild plugin. Terser then strips whitespace with compression and mangling disabled: real minification stays the consuming application's bundler's job, and that is why the size figures above are measured as §Build & Tree-Shaking Requirements describes rather than by reading `dist/` byte counts. Whitespace is compacted because esbuild's pretty-printed catalogue literals otherwise dominate the package; the compact JavaScript is about 2 MB while function names remain intact. `format.preserve_annotations` keeps every `/* @__PURE__ */` marker for downstream tree-shaking, and Terser's generated map is chained onto esbuild's map so `--enable-source-maps` can resolve compact output to its original source.
-4. **`scripts/prune-sourcemap-sources.mjs`** removes the generated-code fallback segments that Terser's map names with tsup's absolute output path, then drops mappings into inlined JSONC data literals because those cannot produce consumer stack frames and otherwise dominate the maps. The remaining mappings point only at portable `src/**/*.ts` paths; package artifacts therefore retain TypeScript debugging without disclosing their build workspace or spending package weight on static-data positions.
-5. **`scripts/prune-barrel-imports.mjs`** blanks the redundant bare imports esbuild leaves in per-module entry files — the package is side-effect-free, so downstream bundlers discard them but warn while doing so — and removes the now-unreachable zero-code shared chunks that declaration-only dependencies can produce. It blanks rather than deletes entry imports so tsup's source maps stay valid, using **`scripts/strip-bare-imports.mjs`**, the same helper `package.test.mjs` imports to assert the shipped entries carry no bare imports.
-6. **`scripts/attach-barrel-docs.mjs`** re-attaches each barrel's `@packageDocumentation` block to its generated `.d.ts`, which tsup's declaration rollup drops when it flattens a file of pure re-exports. Without it, go-to-definition on an import lands on a bare export list instead of the feature area's orientation docs.
+| Package    | Command (from the package folder)                                                                                           |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------- |
+| TypeScript | `pnpm run check`; if a consumer import, the export map or the build changed, also `pnpm run build && pnpm run test:package` |
+| .NET       | `dotnet build coverage.proj`                                                                                                |
+| Wiki       | `pnpm run docs` (from `typescript/`) after any change to public docs, in either language                                    |
 
-## Dependencies
-
-The package manager is **pnpm**, pinned by the `packageManager` field in `typescript/package.json` together with the hash of that exact release. Corepack ships with Node 22, so `corepack enable pnpm` is the whole install: it fetches the pinned version, refuses a download whose hash does not match, and no contributor has to keep a global pnpm in step with the repository. It is `corepack enable pnpm` rather than a bare `corepack enable` because the release workflow still calls `npm publish` directly, and shimming every package manager would put Corepack between that call and npm.
-
-pnpm's own settings live in `typescript/pnpm-workspace.yaml`, which is where npm's `overrides` field moved to, and it is the only place they can go: pnpm 11 stopped reading settings from a `pnpm` key in `package.json`, and reads only authentication and registry settings from `.npmrc`. Everything the repository sets is outside that subset, so a stray user-level `.npmrc` cannot weaken it — such a setting is not overridden, it is never read.
-
-**New versions serve a seven-day cooldown.** `minimumReleaseAge: 10080` hides any release younger than that, so a package that is compromised or withdrawn in its first week never reaches the tree. Three consequences:
-
-- **Every range floor in `package.json` is a version that has already served the cooldown.** A range whose lowest allowed version is younger fails outright with `ERR_PNPM_NO_MATURE_MATCHING_VERSION` — pnpm does not quietly fall back below the floor. Within a satisfiable range it does pick the newest *mature* version, so `^1.2.0` resolving to `1.2.7` while `1.2.9` exists is the setting working, not a stale lockfile.
-- **It also audits the lockfile, `--frozen-lockfile` included.** Every install checks the pinned entries and fails with `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION` on one that was too young when it was written — the defence against a lockfile hand-edited to smuggle a fresh version past resolution. It reads publish dates from the metadata cache rather than the network, and entries only get older, so this never fails a lockfile that passed before.
-- **`.github/dependabot.yml` carries the matching `cooldown: default-days: 7` on the npm entry only.** Without it Dependabot would propose versions pnpm then refuses to install, and the pull request would fail its own CI. It is not set on the `github-actions` or `devcontainers` entries: `cooldown` is documented per ecosystem, and Dependabot rejects a configuration file as a whole when an entry carries a key it does not support, which would stop every update in the file.
-
-Do not disable either setting to land an update, and treat `minimumReleaseAgeExclude` the same way — it exempts named packages from the cooldown, and `pnpm audit --fix` can write entries into it. Take the newest version that has served the cooldown, or wait.
-
-`onlyBuiltDependencies` is not used; `allowBuilds` names the packages permitted to run install scripts, and only `esbuild` is on it — its postinstall is what puts the platform binary in place. A postinstall appearing anywhere else in the tree fails the install rather than executing unnoticed, which is the point.
-
-**TypeScript is held at 5.x.** TypeDoc 0.28 declares support through 6.0 only, so 7.x is out; 6.x additionally breaks `check:examples`, whose in-memory compiler configuration puts generated snippets under the system temporary directory while they import the library from `src/`, and 6.x rejects the resulting program with `TS6059` because no single `rootDir` covers both trees. Moving that scratch directory inside the package would be the fix, and is a change in its own right rather than something to fold into a dependency bump.
-
-## Releasing to npm
-
-Dependencies are installed and project scripts run with pnpm. Registry version lookup, manifest stamping, packing and publishing use npm; `--provenance` is npm's own feature, and `pnpm publish` does not document the flag. Git refs and releases use GitHub's CLI.
-
-`.github/workflows/publish-npm.yml` publishes `@elite-dangerous-almanac/core`. **Nobody publishes from a laptop** — a hand-run `npm publish` produces a tarball with no provenance, built from whatever happened to be in the working tree, and it cannot be undone once the version is taken.
-
-To release, run **Publish npm Package** from the Actions tab with `main` selected. Every dispatch is a real release; the workflow rejects every branch and tag except the repository's default branch. To move to a new release line, change the major and minor components in `typescript/package.json` and merge that change first.
-
-What the workflow does with that:
-
-- **Chooses the next patch.** The major and minor components come from `typescript/package.json`. npm's published versions are the release ledger: the highest patch already used on that major/minor line, including by a prerelease, is incremented by one. A line with no published versions starts at patch zero. The checked-in full version is therefore not necessarily the next published version, and is usually already published itself: a manifest reading `0.2.0` on a `0.2` line whose highest published patch is `0.2.1` next publishes `0.2.2`.
-- **Stamps and checks the package manifest.** `npm version --no-git-tag-version` writes the calculated stable version into the package assembled in the workflow without changing the checked-in manifest. After `npm pack`, the workflow reads `package/package.json` from the tarball and refuses to continue unless it contains that exact version.
-- **Reruns everything.** `pnpm run audit`, then `pnpm run check && pnpm run build && pnpm run test:package` — lint, formatting, types, documented-example compilation and value checks, the coverage-gated suite, the full build and the built-`dist/` entry-point suite. The release does not trust the earlier CI run on the branch.
-- **Refuses a version that already exists.** npm versions are immutable, so the check happens before the build rather than as a failed upload at the end. A registry that cannot be reached is not treated as a version that is free — only npm's own "no such package or version" passes.
-- **Protects the release ref.** Before building, the workflow refuses a version whose tag already exists. After npm accepts the tarball, it creates `v<version>` at the workflow commit, verifies the ref and turns it into a GitHub Release with generated notes. A retry accepts the tag only when it points at the same commit.
-- **Publishes under `latest`.** Automatically generated versions are stable SemVer versions. The workflow refuses a release line whose next patch is not newer than every published stable version, so a backport cannot move npm's `latest` tag backward.
-- **Attaches provenance.** `--provenance` needs `id-token: write`, and it is what puts the verified badge on the npm page linking the tarball to this commit and this workflow run. `--access public` is required because the package is scoped, and scoped packages default to restricted.
-
-If npm succeeds but tag or GitHub Release creation fails, use **Re-run failed jobs** on that run. Starting the whole workflow again would correctly allocate the next patch rather than repair the already-published release.
-
-**The checks and build run in a job with no `id-token` permission, and the publish step passes `--ignore-scripts`.** This is the one place the workflow deliberately departs from the obvious shape. Letting `prepublishOnly` do the work would run ESLint, `tsc`, the whole test suite and esbuild — that is, arbitrary code from every devDependency in the tree — in the job that can request the short-lived OIDC publishing identity. The privileged job instead verifies and uploads the already-built tarball without executing package code. A `prepack` or `prepare` script added to the package later has to be wired into the unprivileged build job, because `--ignore-scripts` will skip it.
-
-Setup this needs once, in repository settings, **before the first release**:
-
-1. Create an environment named `npm` (Settings → Environments), restrict its deployment branches to the default branch, and add required reviewers if publishing should need a second human approval.
-2. On npm, configure a GitHub Actions trusted publisher for `@elite-dangerous-almanac/core`: owner `Elite-Dangerous-Almanac`, repository `Almanac-Core`, workflow `publish-npm.yml`, environment `npm`. The workflow needs no long-lived npm token.
-
-## How the shared assets flow into TypeScript
-
-```
-data/<domain>/*.jsonc ──(strip comments)──> src/<area>/<catalogue>.ts ──> deepFreeze ──> exported constant
-fixtures/<domain>/*.jsonc ──(strip comments)──────────────────────────> src/<area>/*.test.ts
-```
-
-- A catalogue module imports its `.jsonc` directly. Comments are stripped by `scripts/jsonc.mjs`, wired into the test runner via `scripts/register-jsonc.mjs` (`--import` **after** tsx) and into the build by an esbuild `onLoad` plugin in `tsup.config.ts`. `src/jsonc.d.ts` types the import as `unknown`, so each catalogue casts to its own interface — that cast is the only place the data's shape is asserted, so keep the interface honest.
-- Fixtures are imported by tests with `with { type: 'json' }` — the same loader strips their header comments — and hold the *expected* values. `pnpm run generate:fixtures` groups compatible captures into fixture families, generates the language-neutral `schemas/fixtures.schema.json`, and generates `src/fixtures.generated.d.ts` for typed TypeScript imports; `pnpm run check:fixtures` detects stale output. They are the parity contract: a fixture pins behaviour for every future language implementation, so prefer adding a fixture entry over an inline literal whenever the value is a fact about the game rather than a fact about TypeScript. The build corpus is the one fixture a test reads from disk rather than importing.
-- `typedoc.json` lists **one entry point per feature area**, plus any leaf module the barrels do not re-export (§Doc-generation toolchain). Add a new area there, to the `exports` map and to the coverage globs.
+**Before you open a PR, have a subagent review the complete change.** Fix every meaningful finding, then ask for a new review.
+Repeat until the subagent reports no meaningful findings.

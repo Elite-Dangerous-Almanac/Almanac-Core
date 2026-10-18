@@ -5,7 +5,7 @@
  * Four invariants, all easy to break by accident:
  *
  * 1. **Every fixture opens with a comment header.** A fixture's provenance lives in that
- *    header and nowhere else (AGENTS.md §Attribution), so a fixture without one is a
+ *    header and nowhere else (data/AGENTS.md §Fixtures), so a fixture without one is a
  *    capture whose origin, checksum and scrubbing are unrecorded, or a parity fixture that
  *    never says what it pins.
  *

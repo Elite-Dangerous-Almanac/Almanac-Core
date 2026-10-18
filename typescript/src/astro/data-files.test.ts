@@ -13,7 +13,7 @@
  *    as an opaque module-load error.
  *
  * 2. **Every file opens with a comment header, and attribution stays in it.**
- *    Attribution belongs next to the data (AGENTS.md §Attribution) but not in the
+ *    Attribution belongs next to the data (data/AGENTS.md §The header) but not in the
  *    parsed payload, where every byte is inlined into consumers' bundles. An
  *    `attribution`, `description` or `comment` key would add prose to every bundle.
  *
