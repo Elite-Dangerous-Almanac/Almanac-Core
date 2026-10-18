@@ -26,8 +26,8 @@ minimumReleaseAge: 10080
 # the bundler that produces `dist/` is a single known build rather than whatever each
 # dependent asks for.
 overrides:
-    brace-expansion: 5.0.9
-    esbuild: 0.28.1
+    brace-expansion: 5.0.12
+    esbuild: 0.28.2
 
 # pnpm runs no dependency install script unless it is allowed here, so a postinstall
 # added anywhere in the tree fails the install instead of executing unnoticed.

@@ -72,7 +72,7 @@ export type LoadoutSlot = BuildSlot & {
      * Machine-readable reason the mount cannot currently be emptied: `cargoHatch` for
      * the built-in hatch, `requiredSlot` for a core or armour mount, or `moduleLimit`
      * when removing a fitted allowance-increasing module would leave too many limited
-     * modules. Absent when {@link removable} is true.
+     * modules. Absent when `removable` is true.
      */
     readonly immovableReason?: ImmovableReason;
 };

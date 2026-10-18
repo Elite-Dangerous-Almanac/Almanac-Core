@@ -11,8 +11,14 @@ await init;
 export function stripBareImports(source) {
     const [imports] = parse(source);
     const ranges = imports
-        .filter(({ d, ss, se }) => d === -1 && /^import\s*['"]/.test(source.slice(ss, se)))
-        .map(({ ss, se }) => [ss, source[se] === ';' ? se + 1 : se]);
+        .filter(
+            ({ type, importStart, importEnd }) =>
+                type === 'static' && /^import\s*['"]/.test(source.slice(importStart, importEnd)),
+        )
+        .map(({ importStart, importEnd }) => [
+            importStart,
+            source[importEnd] === ';' ? importEnd + 1 : importEnd,
+        ]);
 
     let cleaned = source;
     for (const [start, end] of ranges.reverse()) {
