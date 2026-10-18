@@ -43,8 +43,9 @@ public static class BlueprintJournal
     /// Only the module can settle it, which is why this takes one, and it resolves into a menu
     /// and never out of one: a sensor suite's own identifier comes back unchanged, and so does a
     /// scanner identifier asked of a suite. A generic identifier is left alone too, because such
-    /// a pair is one recipe under two published spellings. Materials are unaffected, since both
-    /// spellings of a pair bill the same at every grade.
+    /// a pair is one recipe under two published spellings, which can roll different magnitudes;
+    /// <see cref="BlueprintMenu.FindForModule"/> finds the menu entry for it. Materials are
+    /// unaffected, since both spellings of a pair bill the same at every grade.
     /// </para>
     /// </remarks>
     /// <exception cref="ArgumentNullException">

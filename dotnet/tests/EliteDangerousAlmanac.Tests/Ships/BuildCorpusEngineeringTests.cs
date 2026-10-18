@@ -164,6 +164,9 @@ public class BuildCorpusEngineeringTests
             if (EngineeringOptions.GroupFor(declaration.Symbol) is null) continue;
 
             IReadOnlyList<string> offered = EngineeringOptions.BlueprintsFor(declaration.Symbol);
+
+            // The menu entry a consumer finds for the declaration, whichever route accepts it.
+            string? entryFound = BlueprintMenu.FindForModule(declaration.Symbol, declaration.Blueprint);
             if (!Contains(offered, declaration.Blueprint))
             {
                 string resolved = BlueprintJournal.ResolveForModule(
@@ -176,6 +179,7 @@ public class BuildCorpusEngineeringTests
                         Contains(offered, resolved),
                         $"{declaration.Symbol}: {resolved} is not offered.");
                     Assert.Empty(matching);
+                    Assert.Equal(resolved, entryFound);
                     viaJournalSpelling++;
                 }
                 else
@@ -184,8 +188,13 @@ public class BuildCorpusEngineeringTests
                         matching.Count == 1,
                         $"{declaration.Symbol}: {declaration.Blueprint} names "
                             + $"{matching.Count} offered recipes.");
+                    Assert.Equal(matching[0], entryFound);
                     viaAlias++;
                 }
+            }
+            else
+            {
+                Assert.Equal(declaration.Blueprint, entryFound);
             }
 
             if (declaration.Experimental is string experimental)

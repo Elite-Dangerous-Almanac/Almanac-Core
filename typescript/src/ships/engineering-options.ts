@@ -226,10 +226,12 @@ export function getEngineeringGroup(symbol: string): EngineeringGroupId | null {
  * families the game writes a family-specific `BlueprintName`, and `BLUEPRINTS` carries
  * both that and the generic spelling — a life support's Lightweight is
  * `LifeSupport_LightWeight` here and `Misc_LightWeight` in an EDSY-authored build. The
- * family-specific id is the one listed, so compare ids with that in mind: the two are the
- * same recipe. `Sensor_LongRange` and `Scanner_LongRange` are **not** such a pair — those
- * are two different recipes rolling different stats, and the utility scanners list the
- * `Scanner_*` ones where the sensor suites list the `Sensor_*` ones. The game writes
+ * family-specific id is the one listed, so on a life support a fitted `Misc_LightWeight`
+ * equals no entry here: `getMenuBlueprintForModule` in `ships/blueprint-menu` finds the
+ * entry it is.
+ * `Sensor_LongRange` and `Scanner_LongRange` are **not** such a pair — those are two
+ * different recipes rolling different stats, and the utility scanners list the `Scanner_*`
+ * ones where the sensor suites list the `Sensor_*` ones. The game writes
  * `Sensor_LongRange` for both all the same, so a journal id has to be read against the
  * module it sits on: `resolveBlueprintForModule` in `ships/blueprint-journal` is that
  * lookup. `MC_Overcharged` is the third of that kind and the one most consumers will meet:

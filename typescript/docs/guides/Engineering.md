@@ -156,9 +156,8 @@ Mercenary hardpoints keep the experimental state they are sold with through each
 
 ## The three accommodations
 
-The gate makes exactly three allowances beyond the menu. They are applied in a fixed
-order — journal spelling, then the pre-engineered route, then the generic spelling — and
-only the first can change *which* recipe an accepted id names.
+The gate makes exactly three allowances beyond the menu. The journal spelling is read
+first, and only it can change *which* recipe an accepted id names.
 
 **The journal spelling of a menu entry.** Where the game writes one `BlueprintName` for two
 different recipes, `ships/blueprint-journal` reads that id against the fitted module's menu
@@ -176,6 +175,17 @@ The alias is **directional**, and that is what keeps it safe. A generic id stand
 family's id, never for another generic one. `Misc_ChaffCapacity` and `Misc_HeatSinkCapacity`
 are both "Ammo capacity" over the same three labels, but they roll different amounts of
 different ammunition, so neither may substitute for the other.
+
+A fitted module keeps the id its build wrote, so a generic or journal spelling can equal no
+entry of `getBlueprintsForModule`. `getMenuBlueprintForModule` in `ships/blueprint-menu`
+returns the entry the menu lists for it, or `null` when the menu lists none. Use it to show
+which menu entry a fitted module carries, and keep the fitted id for the numbers.
+
+```ts
+import { getMenuBlueprintForModule } from '@elite-dangerous-almanac/core/ships/blueprint-menu';
+
+getMenuBlueprintForModule('Int_LifeSupport_Size4_Class2', 'Misc_LightWeight'); // -> 'LifeSupport_LightWeight'
+```
 
 **The Mercenary route.** The Mercenary catalogue records describe modules bought
 already engineered at grade 1, so no ordinary menu lists their bespoke recipes and the

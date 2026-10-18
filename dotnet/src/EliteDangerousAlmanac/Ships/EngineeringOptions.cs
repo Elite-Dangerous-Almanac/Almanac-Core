@@ -75,9 +75,10 @@ public static class EngineeringOptions
     /// <remarks>
     /// Where a modification applies to several module families the game writes a family-specific
     /// identifier, and <see cref="BlueprintCatalogue"/> carries both that and the generic
-    /// spelling. The family-specific identifier is the one listed, so compare identifiers with
-    /// that in mind: the two are the same recipe. The three colliding journal spellings are not
-    /// such pairs, and <see cref="BlueprintJournal"/> settles them.
+    /// spelling. The family-specific identifier is the one listed, so on a life support a fitted
+    /// <c>Misc_LightWeight</c> equals no entry here: <see cref="BlueprintMenu.FindForModule"/>
+    /// finds the entry it is. The three colliding journal spellings are not such pairs, and
+    /// <see cref="BlueprintJournal"/> settles them.
     /// </remarks>
     public static IReadOnlyList<string> BlueprintsFor(string? symbol)
     {

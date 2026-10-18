@@ -11,6 +11,7 @@ import {
     getExperimentalsForModule,
 } from '../engineering-options.js';
 import { resolveBlueprintForModule } from '../blueprint-journal.js';
+import { getMenuBlueprintForModule } from '../blueprint-menu.js';
 import { EXPERIMENTAL_EFFECTS } from '../experimental-effects.js';
 import { getPreEngineeredVariants, type PreEngineeredVariant } from '../pre-engineered.js';
 import {
@@ -75,39 +76,6 @@ export function missingBaseLabels(
 }
 
 /**
- * What a blueprint id modifies, without the magnitudes: its display name, and the
- * `label`/`method` pairs each grade carries.
- *
- * Two ids with the same signature are the same modification written twice, which is how
- * the generic spelling is recognised as the family-specific one — see
- * {@link blueprintAvailableFor}. Deliberately blind to the min/max values, because the one
- * published divergence between such a pair is a magnitude: `LifeSupport_Shielded` G5 draws
- * +112% power where `Misc_Shielded` draws +100%. Comparing what a grade *touches* pairs
- * them; comparing what it rolls would not.
- *
- * @internal
- */
-function recipeSignature(blueprintSymbol: string): string | null {
-    const blueprint = getBlueprint(blueprintSymbol);
-    if (!blueprint) return null;
-    const grades = Object.entries(blueprint.grades)
-        .map(
-            ([grade, { features }]) =>
-                `${grade}:${features
-                    .map((feature) => `${feature.label}/${feature.method ?? ''}`)
-                    .sort()
-                    .join(',')}`,
-        )
-        .sort()
-        .join(';');
-    return `${blueprint.name.toLowerCase()}|${grades}`;
-}
-
-/** Frontier's family-agnostic spelling of a modification, e.g. `Misc_LightWeight`. */
-const isGenericSpelling = (blueprintSymbol: string): boolean =>
-    blueprintSymbol.toLowerCase().startsWith('misc_');
-
-/**
  * Whether a module is sold carrying this recipe in a form that can still be engineered.
  *
  * The Mercenary shop's Operations keys name bespoke recipes on modules bought already
@@ -163,7 +131,7 @@ export function blueprintRoutesFor(item: string): ReadonlyMap<string, AvailableB
  * {@link ShipLoadout.applyBlueprint} makes before it computes anything.
  *
  * The menu is `engineering-options`, so this answers exactly what the game offers on that
- * module, with three accommodations, applied in the order they are described here.
+ * module, with three accommodations.
  *
  * The first is the journal spelling, and it comes first because it is the one case where
  * the id names a *different* recipe rather than the same one twice: the game writes
@@ -193,8 +161,8 @@ export function blueprintRoutesFor(item: string): ReadonlyMap<string, AvailableB
  * Frontier writes a family-specific `BlueprintName` and the menu lists that one, but a
  * build authored elsewhere carries the generic spelling instead — a life support's
  * Lightweight is `LifeSupport_LightWeight` in the menu and `Misc_LightWeight` in an
- * EDSY-authored build. So a generic id is accepted when the menu offers a *family-specific*
- * id of the same {@link recipeSignature}.
+ * EDSY-authored build. {@link getMenuBlueprintForModule} pairs the two, so the menu check
+ * and a consumer's menu lookup cannot disagree.
  *
  * That the alias must run *from* the generic spelling *to* the menu's is what keeps it
  * honest: a `Misc_*` id substitutes only for a menu id that is not itself generic.
@@ -215,18 +183,11 @@ export function blueprintRoutesFor(item: string): ReadonlyMap<string, AvailableB
  * @internal
  */
 export function blueprintAvailableFor(item: string, blueprintSymbol: string): boolean {
-    const offered = getBlueprintsForModule(item);
     const asWritten = normalizeKey(blueprintSymbol, 'ShipLoadout.applyBlueprint: blueprintSymbol');
-    const resolved = resolveBlueprintForModule(item, blueprintSymbol).trim();
-    const wanted = resolved.toLowerCase();
-    if (offered.some((id) => id.toLowerCase() === wanted)) return true;
+    if (getMenuBlueprintForModule(item, blueprintSymbol) !== null) return true;
+    const resolved = resolveBlueprintForModule(item, blueprintSymbol).trim().toLowerCase();
     // Both spellings, so resolving cannot hide a sale recorded under the other one.
-    if (isSoldWithBlueprint(item, wanted) || isSoldWithBlueprint(item, asWritten)) return true;
-    if (!isGenericSpelling(wanted)) return false;
-    const signature = recipeSignature(resolved);
-    if (signature === null) return false;
-    // A generic spelling stands in for a family's id, never for another generic.
-    return offered.some((id) => recipeSignature(id) === signature && !isGenericSpelling(id));
+    return isSoldWithBlueprint(item, resolved) || isSoldWithBlueprint(item, asWritten);
 }
 
 /**

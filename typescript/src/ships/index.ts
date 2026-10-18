@@ -460,6 +460,7 @@ export {
     type EngineeringGroupId,
 } from './engineering-options.js';
 export { resolveBlueprintForModule } from './blueprint-journal.js';
+export { getMenuBlueprintForModule } from './blueprint-menu.js';
 export {
     PRE_ENGINEERED_MODULES,
     getPreEngineeredVariants,

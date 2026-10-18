@@ -42,7 +42,9 @@ import { requireString, requireStringIfPresent } from '../internal/argument-guar
  * menu and never out of one: a sensor suite's `Sensor_LongRange` comes back unchanged, as
  * does `Scanner_LongRange` asked of a suite — unchanged is not offered, and
  * `getBlueprintsForModule` still says a suite does not take it. A generic `Misc_*` id is
- * left alone too: that pair is one recipe under two published spellings. Materials are
+ * left alone too: that pair is one recipe under two published spellings, which can roll
+ * different magnitudes, and `getMenuBlueprintForModule` in `ships/blueprint-menu` finds the
+ * menu entry for it. Materials are
  * unaffected — both spellings of a pair bill the same at every grade, so
  * `getBlueprintCost` needs no module.
  *

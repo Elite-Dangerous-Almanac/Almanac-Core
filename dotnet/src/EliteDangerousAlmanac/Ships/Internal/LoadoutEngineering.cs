@@ -59,42 +59,6 @@ internal static class LoadoutEngineering
         return missing;
     }
 
-    /// <summary>What a recipe changes, without the magnitudes.</summary>
-    /// <remarks>
-    /// Two identifiers with the same signature are one modification written twice, which is how
-    /// a generic spelling is recognised as a family's own. It is deliberately blind to the
-    /// minimum and maximum, because the one published divergence between such a pair is a
-    /// magnitude: the shielded life-support recipe draws twelve percent more power at grade five
-    /// than the generic one. Comparing what a grade touches pairs them; comparing what it rolls
-    /// would not.
-    /// </remarks>
-    private static string? RecipeSignature(string blueprintSymbol)
-    {
-        Blueprint? blueprint = BlueprintCatalogue.Find(blueprintSymbol);
-        if (blueprint is null) return null;
-
-        List<string> grades = [];
-        foreach (KeyValuePair<int, BlueprintGrade> entry in blueprint.Grades)
-        {
-            List<string> legs = [];
-            foreach (BlueprintFeature feature in entry.Value.Features)
-            {
-                legs.Add(feature.Label + "/" + feature.Method);
-            }
-
-            legs.Sort(StringComparer.Ordinal);
-            grades.Add(entry.Key.ToString(System.Globalization.CultureInfo.InvariantCulture)
-                + ":" + string.Join(",", legs));
-        }
-
-        grades.Sort(StringComparer.Ordinal);
-        return blueprint.Name.ToLowerInvariant() + "|" + string.Join(";", grades);
-    }
-
-    /// <summary>Whether an identifier is Frontier's family-agnostic spelling of a modification.</summary>
-    private static bool IsGenericSpelling(string blueprintSymbol) =>
-        blueprintSymbol.StartsWith("Misc_", StringComparison.OrdinalIgnoreCase);
-
     /// <summary>
     /// Whether a module is sold carrying this recipe in a form that can still be engineered.
     /// </summary>
@@ -163,7 +127,7 @@ internal static class LoadoutEngineering
     /// <remarks>
     /// <para>
     /// The menu is the engineering options catalogue, so this answers what the game offers on
-    /// that module, with three accommodations applied in the order below.
+    /// that module, with three accommodations.
     /// </para>
     /// <para>
     /// The journal spelling comes first, because it is the one case where an identifier names a
@@ -173,47 +137,29 @@ internal static class LoadoutEngineering
     /// blueprint this module is offered declares that journal name.
     /// </para>
     /// <para>
-    /// A Mercenary sale comes second: a module with no menu, or a menu that leaves out its
+    /// A Mercenary sale is the second: a module with no menu, or a menu that leaves out its
     /// bespoke recipe, still accepts the grades above the grade 1 it is sold carrying. It is
     /// asked about the identifier as written and about the resolved one, so resolution cannot
     /// hide a sale recorded under the other spelling.
     /// </para>
     /// <para>
-    /// The generic spelling comes last. Where a modification applies to several module families
+    /// The generic spelling is the third. Where a modification applies to several module families
     /// the game writes a family-specific name and the menu lists that one, while a build
     /// authored elsewhere carries the generic spelling instead. So a generic identifier is
-    /// accepted where the menu offers a family-specific identifier of the same signature. That
-    /// the alias runs from the generic spelling to the menu's is what keeps it honest: a generic
-    /// identifier stands in for a family's own and never for another generic.
+    /// accepted where the menu offers a family-specific identifier of the same signature.
+    /// <see cref="BlueprintMenu.FindForModule"/> pairs the two, so the menu check and a
+    /// consumer's menu lookup cannot disagree. That the alias runs from the generic spelling to
+    /// the menu's is what keeps it honest: a generic identifier stands in for a family's own and
+    /// never for another generic.
     /// </para>
     /// </remarks>
     internal static bool BlueprintAvailableFor(string item, string blueprintSymbol)
     {
-        IReadOnlyList<string> offered = EngineeringOptions.BlueprintsFor(item);
-        string asWritten = blueprintSymbol.Trim();
+        if (BlueprintMenu.FindForModule(item, blueprintSymbol) is not null) return true;
+
+        // Both spellings, so resolving cannot hide a sale recorded under the other one.
         string resolved = BlueprintJournal.ResolveForModule(item, blueprintSymbol).Trim();
-
-        foreach (string id in offered)
-        {
-            if (RegistryIndex.KeyComparer.Equals(id, resolved)) return true;
-        }
-
-        if (IsSoldWithBlueprint(item, resolved) || IsSoldWithBlueprint(item, asWritten)) return true;
-        if (!IsGenericSpelling(resolved)) return false;
-
-        string? signature = RecipeSignature(resolved);
-        if (signature is null) return false;
-
-        foreach (string id in offered)
-        {
-            if (!IsGenericSpelling(id)
-                && string.Equals(RecipeSignature(id), signature, StringComparison.Ordinal))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return IsSoldWithBlueprint(item, resolved) || IsSoldWithBlueprint(item, blueprintSymbol.Trim());
     }
 
     /// <summary>Whether a module's engineering menu offers an experimental effect.</summary>
