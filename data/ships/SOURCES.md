@@ -35,8 +35,6 @@ Each hull is **one record** carrying its identity, its stats, and its slot layou
 identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
 
 - **File:** `ships.jsonc` (the player-flyable hulls).
-- **Unreleased hulls:** `DRAFTS.md` holds partial drafts of announced hulls that
-  the game has not released. A draft is not catalogue data.
 - **Identity source:** FDevIDs `shipyard.csv`, columns `id,symbol,name,entitlement`.
 - **Identity derivation:** records are carried over in shipyard order (roughly the
   order hulls were introduced): internal `symbol` and display `name`. The CSV's
