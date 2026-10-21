@@ -31,7 +31,7 @@
  *
  * // Read a build:
  * const build = ShipLoadout.fromSlef(slefJsonString);
- * BuildMetrics.of(build).maxJumpRange(); // -> 89.41  (best single jump, one jump's fuel, no cargo)
+ * BuildMetrics.of(build).maxJumpRange(); // -> 97.45  (best single jump, one jump's fuel, no cargo)
  *
  * // Assemble one:
  * import { getModuleBySymbol } from '@elite-dangerous-almanac/core/ships/modules';
@@ -1096,9 +1096,9 @@ export class ShipLoadout {
      * paid.hullValue; // -> 189326510, as captured
      * getSourceModuleValue(paid, 'powerplant')?.value; // -> what that plant cost its owner
      *
-     * build.removeModule('Slot05_Size4');
+     * build.removeModule('Slot05_Size5');
      * build.modulesValue;                 // -> null   unavailable after the edit
-     * paid.modulesValue;                  // -> 192625195, the captured figure
+     * paid.modulesValue;                  // -> 193541647, the captured figure
      * ```
      */
     get sourcePurchase(): SourcePurchaseRecord | null {
@@ -2604,7 +2604,7 @@ export class ShipLoadout {
      * fitted module's catalogue list price, with `Rebuy` 5% of the two. A source's own
      * `HullValue` / `ModulesValue` / `Value` figures are deliberately not quoted here,
      * because they record one commander's purchase history — the Deep Black's modules
-     * are all 12.25% off list — and purchase discounts are not a property of the build.
+     * are all about 12.25% off list — and purchase discounts are not a property of the build.
      * They are not lost either: pass `credits: 'source'` to export the
      * {@link sourcePurchase} record instead, as provenance rather than as a price.
      * @example

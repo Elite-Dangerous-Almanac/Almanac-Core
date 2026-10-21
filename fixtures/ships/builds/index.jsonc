@@ -20,7 +20,7 @@
  * compatible slot on its hull, and fills all seven core internals. Near-duplicates (>85% identical
  * fit) are excluded, and each hull's selections span the roles represented by the corpus. The
  * corpus covers every hull in the shipyard with 2 to 5 builds; 4271 fitted modules over 558
- * distinct module symbols, and 64 of the 1294 non-cargo-hatch slots are never occupied.
+ * distinct module symbols, and 70 of the 1300 non-cargo-hatch slots are never occupied.
  *
  * What a build file records: what is fitted where (journal slot key + module symbol), the module's
  * power priority when it is not 0, `on: false` when the author left a module unpowered, and the

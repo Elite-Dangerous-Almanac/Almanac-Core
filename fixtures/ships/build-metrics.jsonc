@@ -14,8 +14,8 @@
  * Anaconda assembled from the catalogues, plus the pure functions each metric is built from.
  * Cross-language validation.
  *
- * The in-game statistics- and outfitting-panel figures here were read 2026-08-10 UTC. A panel
- * exposes no immutable revision and no export, so the values are transcribed by hand at the game's
+ * The in-game statistics- and outfitting-panel figures here were read 2026-08-10 UTC, except
+ * The Deep Black's in `inGame.deepBlack`, read 2026-10-21 UTC. A panel exposes no immutable revision and no export, so the values are transcribed by hand at the game's
  * displayed precision, with no correction applied — where a display and this library disagree
  * beyond rounding, the fixture records what the game showed.
  */
@@ -168,14 +168,14 @@
       "build": "fixtures/ships/journal-the-deep-black.jsonc",
       "note": "Calculated values read from Elite Dangerous's ship statistics display alongside a fresh complete Loadout capture, at the precision the game shows. These are external ground truth rather than this library's output. The power figures include every fitted module regardless of its powered-on state; the 24.0014 MW installed draw is displayed to the nearest whole MW. Damage comes from the hardpoints, while distributor draw and thermal load sum both hardpoints and utility mounts: this weaponless fit's two heat-sink launchers account for its 4 MW distributor draw. The displayed full-tank jump range counts the 1.14 t reserve tank as ship mass even though that fuel is unavailable to the FSD. `mass.current` includes both fuel tanks and no cargo; `mass.maximum` is the engineered thrusters' maximum supported mass. All calculated metrics reproduce at displayed precision.",
       "jumpRange": {
-        "fullTank": 81.83
+        "fullTank": 88.95
       },
       "speed": {
-        "top": 238,
-        "boost": 328,
-        "pitch": 33.98,
-        "roll": 84.95,
-        "yaw": 15.86
+        "top": 246,
+        "boost": 339,
+        "pitch": 35.09,
+        "roll": 87.73,
+        "yaw": 16.38
       },
       "power": {
         "available": 22.85,
@@ -189,7 +189,7 @@
         "thermalLoad": 0
       },
       "shields": {
-        "strength": 230.7,
+        "strength": 241.7,
         "resistances": {
           "kinetic": 0.4,
           "thermal": -0.2,
@@ -201,7 +201,7 @@
         }
       },
       "mass": {
-        "current": 1376.4,
+        "current": 1251.4,
         "maximum": 1490.4
       },
       "armour": {
@@ -503,14 +503,14 @@
     "build": "fixtures/ships/slef-the-deep-black.jsonc",
     "power": {
       "available": 22.848,
-      "retracted": 19.4959,
-      "deployed": 19.4959,
-      "headroom": 3.3521,
+      "retracted": 19.9459,
+      "deployed": 19.9459,
+      "headroom": 2.9021,
       "withinBudget": true
     },
     "shields": {
-      "strength": 230.652918,
-      "massCurveMultiplier": 0.461306,
+      "strength": 241.700038,
+      "massCurveMultiplier": 0.4834,
       "resistances": {
         "kinetic": 0.4,
         "thermal": -0.2,
@@ -518,10 +518,10 @@
         "caustic": 0
       },
       "effectiveHitPoints": {
-        "kinetic": 384.42153,
-        "thermal": 192.210765,
-        "explosive": 461.305836,
-        "caustic": 230.652918
+        "kinetic": 402.833396,
+        "thermal": 201.416698,
+        "explosive": 483.400076,
+        "caustic": 241.700038
       }
     },
     "armour": {
@@ -844,10 +844,10 @@
       "Int_DroneControl_Collection_Size3_Class3"
     ],
     "journalReadings": {
-      "note": "Every non-zero AmmoInClip / AmmoInHopper across the nineteen journal captures — the only external readings of what a module had *loaded* that this repository holds. They are not the only external check on `clipSize` and `ammoMaximum`: the `AmmoClipSize` and `AmmoMaximum` modifiers a capture states on an engineered module are a second and stronger one, joined by `fixtures/ships/module-stats.jsonc` `capturedBaseStats`, and in-game verification does not reach a *hardpoint's* reserve ammo. All ninety-two sit exactly at capacity, on twenty-six distinct modules, several of which appear in more than one capture. A reading is still only a lower bound on what a module holds and must never be read straight back as a catalogue figure: a journal's ammunition is the ship's rearm state at the instant of capture, so a partly spent launcher would report less than its capacity and say nothing about the catalogue. What does settle a capacity is the `AmmoMaximum` modifier a capture states on an engineered module, which gives the base and the engineered figure together — the Lynx Highliner's heat-sink launcher reports 3 in reserve under a grade-1 Heat Sink Capacity against a base of 2, so the reading alone would have been the engineered value. Spire Ops and Slapaconda add three Caustic Sink launcher readings at 1/7 and six pre-engineered Heat Sink launcher readings at 1/4, all with their base and fitted reserves stated. On the Corsair the capacity is likewise the engineered one, since three of its five ammunition-bearing weapons carry an `AmmoClipSize` or `AmmoMaximum` modifier; the two plasma accelerators take Long Range, which charges neither. The Corvette's large gimballed cannon sits at capacity under a grade-5 Overcharged, which is Frontier's own reading that the recipe does not cut a cannon's clip — a 15% penalty would have loaded four rounds. The plasma Corvette's medium fragment cannon sits at its magazine of 3 under a grade-4 Overcharged, which is consistent with that group's absent clip leg without being evidence of it: a −12% cut leaves 3 × 0.88 = 2.64, which rounds back to 3, so there the modifier list is what says the leg is absent and the loaded count says nothing. The Caspian Explorer's medium plasma accelerator says the same again at grade 1, where the cut would be −3% and 5 × 0.97 = 4.85 rounds back to 5. That reading is evidence and not a guard: a build parsed from a journal folds the modifiers the journal states, so adding a clip leg to the recipe would not move these counts. What fails on such a change is the engineering suite, which folds the recipe itself.",
-      "readings": 92,
-      "distinctModules": 26,
-      "atCapacity": 92,
+      "note": "Every non-zero AmmoInClip / AmmoInHopper across the journal captures — the only external readings of what a module had *loaded* that this repository holds. They are not the only external check on `clipSize` and `ammoMaximum`: the `AmmoClipSize` and `AmmoMaximum` modifiers a capture states on an engineered module are a second and stronger one, joined by `fixtures/ships/module-stats.jsonc` `capturedBaseStats`, and in-game verification does not reach a *hardpoint's* reserve ammo. Every one sits exactly at capacity, and several of the modules appear in more than one capture. A reading is still only a lower bound on what a module holds and must never be read straight back as a catalogue figure: a journal's ammunition is the ship's rearm state at the instant of capture, so a partly spent launcher would report less than its capacity and say nothing about the catalogue. What does settle a capacity is the `AmmoMaximum` modifier a capture states on an engineered module, which gives the base and the engineered figure together — the Lynx Highliner's heat-sink launcher reports 3 in reserve under a grade-1 Heat Sink Capacity against a base of 2, so the reading alone would have been the engineered value. Spire Ops and Slapaconda add three Caustic Sink launcher readings at 1/7 and six pre-engineered Heat Sink launcher readings at 1/4, all with their base and fitted reserves stated. On the Corsair the capacity is likewise the engineered one, since three of its five ammunition-bearing weapons carry an `AmmoClipSize` or `AmmoMaximum` modifier; the two plasma accelerators take Long Range, which charges neither. The Corvette's large gimballed cannon sits at capacity under a grade-5 Overcharged, which is Frontier's own reading that the recipe does not cut a cannon's clip — a 15% penalty would have loaded four rounds. The plasma Corvette's medium fragment cannon sits at its magazine of 3 under a grade-4 Overcharged, which is consistent with that group's absent clip leg without being evidence of it: a −12% cut leaves 3 × 0.88 = 2.64, which rounds back to 3, so there the modifier list is what says the leg is absent and the loaded count says nothing. These readings are evidence and not a guard: a build parsed from a journal folds the modifiers the journal states, so adding a clip leg to the recipe would not move these counts. What fails on such a change is the engineering suite, which folds the recipe itself.",
+      "readings": 89,
+      "distinctModules": 25,
+      "atCapacity": 89,
       "belowCapacity": []
     },
     "engineered": {
@@ -965,7 +965,7 @@
       ]
     },
     "engineeredGroundTruth": {
-      "note": "Every engineered clip or reserve Frontier states across the nineteen journal captures — thirty-seven readings on eleven of them. `game` is the modifier the journal states and what the weapon had loaded; `simulated` is what `computeModifiers` produces for the same recipe, grade and corrected quality, or what the fixed pre-engineered variant supplies when `preEngineered` is true; an imported build uses the stated modifier verbatim and therefore always equals `game`. Thirty-six agree exactly, including a fragment cannon's Corrosive Shell reserve at quality 0.826, where the leg is the experimental's flat −20% rather than a quality-rolled one, and the Spire Ops and Slapaconda Caustic Sink rolls and tech-broker Heat Sink variants. The two multi-cannon captures report stale fractional qualities even though the modules are fully engineered, so `reportedQuality` preserves the verbatim journal value while `quality` records the manually verified value used for simulation. Nearest-integer reserve rounding reproduces the Corsair's 87 rounds and the Lynx Highliners' and Panther's 3 heat sinks. The Corsair dumbfire rack is the deliberate exception: it was engineered under the legacy system, where attributes advanced independently, so its one reported `Quality` cannot reproduce both per-leg values through the current shared-quality model. `clipSize` is omitted from `game` and `simulated` where the recipe carries no clip leg and the magazine stands at its catalogue figure.",
+      "note": "Every engineered clip or reserve Frontier states across the journal captures — thirty-seven readings on eleven of them. `game` is the modifier the journal states and what the weapon had loaded; `simulated` is what `computeModifiers` produces for the same recipe, grade and corrected quality, or what the fixed pre-engineered variant supplies when `preEngineered` is true; an imported build uses the stated modifier verbatim and therefore always equals `game`. Thirty-six agree exactly, including a fragment cannon's Corrosive Shell reserve at quality 0.826, where the leg is the experimental's flat −20% rather than a quality-rolled one, and the Spire Ops and Slapaconda Caustic Sink rolls and tech-broker Heat Sink variants. The two multi-cannon captures report stale fractional qualities even though the modules are fully engineered, so `reportedQuality` preserves the verbatim journal value while `quality` records the manually verified value used for simulation. Nearest-integer reserve rounding reproduces the Corsair's 87 rounds and the Lynx Highliners' and Panther's 3 heat sinks. The Corsair dumbfire rack is the deliberate exception: it was engineered under the legacy system, where attributes advanced independently, so its one reported `Quality` cannot reproduce both per-leg values through the current shared-quality model. `clipSize` is omitted from `game` and `simulated` where the recipe carries no clip leg and the magazine stands at its catalogue figure.",
       "cases": [
         {
           "capture": "journal-anaconda-slapaconda.jsonc",

@@ -2,13 +2,12 @@
  * Shared test fixture — not shipped in any package.
  *
  * A real Frontier journal `Loadout` event for the current fit of an exploration Caspian Explorer
- * (34 `Modules` entries, two heat-sink launchers). The EDSY export of an earlier fit of the same
- * ship is `slef-the-deep-black.jsonc`.
+ * (34 `Modules` entries, two heat-sink launchers).
  *
- * Contributed 2026-08-10 UTC by the repository owner from their own fleet, with no upstream
+ * Contributed 2026-10-21 UTC by the repository owner from their own fleet, with no upstream
  * project. The pasted source line has SHA-256
- * `dc6ead5c6fbd0ceea835770f6056fd59f6dc5db470c823fef527a93b29ba3398`; the stored, re-indented
- * fixture has SHA-256 `c4c4734b4bb332d235115666842939fb4a38743d4573ad25cb731c3a3c022dc8`.
+ * `2e0eb08910a510fab5170c98378b3035e221e1452cd9e6a00f9cb7f3af3765cb`; the stored, re-indented
+ * fixture has SHA-256 `358c0c6ab20065e141835c685d5728236c73a1e4906691cf292124a1e360e794`.
  *
  * `ShipName`, `ShipIdent`, `ShipID` and `timestamp` are kept — they describe a ship, and nothing
  * in the event names a person. The engineer names are the game's own NPCs.
@@ -20,7 +19,7 @@
  * checksum is of the upstream file as it was received.
  */
 {
-  "timestamp": "2026-08-10T06:57:33Z",
+  "timestamp": "2026-10-21T21:15:26Z",
   "event": "Loadout",
   "Ship": "explorer_nx",
   "ShipID": 200,
@@ -28,9 +27,9 @@
   "ShipIdent": "ISAR",
   "ModulesValue": 192206494,
   "HullHealth": 1,
-  "UnladenMass": 1247.299927,
+  "UnladenMass": 1122.299927,
   "CargoCapacity": 16,
-  "MaxJumpRange": 88.7854,
+  "MaxJumpRange": 97.452194,
   "FuelCapacity": {
     "Main": 128,
     "Reserve": 1.14
@@ -601,7 +600,7 @@
     {
       "Slot": "Slot13_Size1",
       "Item": "int_supercruiseassist",
-      "On": true,
+      "On": false,
       "Priority": 4,
       "Health": 1
     },

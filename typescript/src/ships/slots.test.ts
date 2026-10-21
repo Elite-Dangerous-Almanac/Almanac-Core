@@ -281,10 +281,11 @@ test('the slot keys real captures use are mounts the hull actually has', async (
     // These are the game's own keys, so every one of them must name a mount
     // `enumerateSlots` produces — case-insensitively, since a SLEF producer may
     // lower-case them. Note what this does and does not prove: the corpus has captures
-    // for four of the 13 named hulls, and none exercises an overridden name. The
-    // Caspian one is still load-bearing — its optionals read Slot01…Slot10, Slot13,
-    // Slot14, which is what the plain rules give, so it is the evidence for *not*
-    // overriding that hull's optionals. The other 9 hulls' names rest on EDSY alone.
+    // for only some of the named hulls, and none exercises an overridden name. The
+    // Caspian one is still load-bearing — its optionals read Slot01…Slot10, Slot12,
+    // Slot13, Slot14, which is what the plain rules give, so it is the evidence for *not*
+    // overriding that hull's optionals. The other named hulls rest on EDSY or on the
+    // in-game hull observation alone.
     const captures: [string, { Ship: string; Modules: { Slot: string }[] }][] = [
         [
             'the-deep-black',
@@ -350,7 +351,7 @@ test("a hull's own slot names win over the numbering rules", () => {
     assert.equal(keyAt('Anaconda', 'Slot11_Size2'), undefined);
     assert.equal(keyAt('Anaconda', 'Slot12_Size1'), undefined);
 
-    // The Type-9 Heavy is the only hull that starts at zero, and it jumps 08 → 11.
+    // The Type-9 Heavy starts at zero, and it jumps 08 → 11.
     const type9 = enumerateSlots(getShipSlots('Type9')!).filter(
         (s) => s.kind === 'optional' && !s.restriction,
     );

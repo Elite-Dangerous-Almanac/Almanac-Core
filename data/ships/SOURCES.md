@@ -9,8 +9,9 @@ Referred to throughout by source name; the pin is here, once.
 | EDCD FDevIDs — `shipyard.csv`, `outfitting.csv`                                                 | no immutable revision recorded                                                                                                                                              | 2026-07-24 UTC |
 | EDCD/coriolis-data — `ships/*.json`, `modules/**`, `modifications/*`                            | commit `0db9234b5b9ce8c939ea84133d7ce336eea88e27`                                                                                                                           | 2026-07-24 UTC |
 | coriolis-data `modifications/modules.json`                                                      | SHA-256 `09b6427c86bc3cfb578a246f7c6be1791429bb67009b7adaa7909e30aadc160f` — read from the branch tip, so pinned by digest                                                  | 2026-08-05 UTC |
-| EDSY `eddb.js`                                                                                  | commit `cd68edfba665719958ce038b6e5d9eb02d0d2b02`, SHA-256 `967834d65a75ab1dea4bbaa7e1d6674cbe4083dca03f770d058497e9f7693071`, internal `db 20260428` / `version 423039901` | 2026-08-02 UTC |
+| EDSY `eddb.js` — baseline                                                                       | commit `cd68edfba665719958ce038b6e5d9eb02d0d2b02`, SHA-256 `967834d65a75ab1dea4bbaa7e1d6674cbe4083dca03f770d058497e9f7693071`, internal `db 20260428` / `version 423039901` | 2026-08-02 UTC |
 | EDSY `eddb.js` — Vessel Hangar variants                                                         | commit `510468167e0ef3b895e39391a8c56b5cdd5c3282`, SHA-256 `0574db06f796cdf7dfbe20a5f89f8a378e692873ae49133e9b49557fe8d8cba3`                                               | 2026-08-09 UTC |
+| EDSY `eddb.js` — Imperial Clipper stock fuel tank                                               | commit `ea787cf805f2c38f72c8d5f168fa1063341ebd9a`, SHA-256 `071f3c63bab630b0db33e7d77061c1dcd7c0d06426c507ab52bf87e9a1c99da2`, internal `version 424029901`                 | 2026-10-21 UTC |
 | EDSY `edsy.js`                                                                                  | SHA-256 `a40e9bbe65d482a029527d6dc2abdbd1819672e5a5d4a3a4d88ea411f02575f5` — read from the branch tip, so pinned by digest                                                  | 2026-08-06 UTC |
 | Odyssey Materials Helper CAPI fixture `application/src/test/resources/parser/capifc/test9.json` | commit `2c652a2349b754f1dde1a58b6daaac5a04e421a6`                                                                                                                           | 2026-08-09 UTC |
 | EDCD/Coriolis — the application, for its formulas                                               | commit `68c042ca6e3db62372cbbb2077cf972345511712`                                                                                                                           | 2026-08-01 UTC |
@@ -22,8 +23,9 @@ Referred to throughout by source name; the pin is here, once.
 | Elite Dangerous in-game hull observation                                                        | no game version recorded; direct in-game observation of hull stats, slot layouts and journal slot keys                                                                      | 2026-10-21 UTC |
 | Elite Dangerous Large Planetary Vehicle Hangar readings                                         | **unreleased** — observation of the modules an unreleased update adds, plus outfitting and journal `ModuleBuy` readings at a 10% and 2.5% discount                          | 2026-09-02 UTC |
 
-Every `eddb.js` derivation uses the baseline snapshot unless its catalogue note names
-the Vessel Hangar snapshot.
+Every `eddb.js` derivation uses the baseline snapshot unless its catalogue note or its
+entry in this file names another snapshot: the Vessel Hangar snapshot or the Imperial
+Clipper stock fuel tank snapshot.
 
 **Some values come from no registry at all** — readings taken from the live game's own
 outfitting, module and engineering panels, and captures contributed by the repository
@@ -133,10 +135,11 @@ identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
 - **`heatDissipation` is the hull's audited maximum cooling rate.** Coriolis-data carries no
   dissipation figure at all, and the game shows a player none: it is a community
   measurement of Frontier's game rather than a stat the game displays. The baseline is
-  EDSY `eddb.js` `ship[…].heatdismax` from the pinned snapshot, joined by
+  EDSY `eddb.js` `ship[…].heatdismax` from the baseline snapshot, joined by
   case-insensitive `fdname` / `symbol`. A complete maintainer-supplied thermal audit
-  from Elite Dangerous `4.4.0.3`, recorded 2026-08-14 UTC, governs every value and
-  supplies the nine corrections and omissions listed above. Every other value agrees
+  from Elite Dangerous `4.4.0.3`, recorded 2026-08-14 UTC, governs every value except the
+  Type-7 Transporter's and supplies the corrections and omissions listed above. The
+  Type-7's `34.8` comes from the in-game hull observation above. Every other value agrees
   with EDSY exactly.
   Each value is the load in thermal-load units per second shed at heat level 1. The
   stored catalogue range is Hauler `16.2` through Cutter `72.58`.
@@ -182,7 +185,8 @@ identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
 ### Default loadouts
 
 - **File:** `default-loadouts.jsonc` (every hull's stock modules).
-- **Primary source:** EDSY `eddb.js` `ship[*].stock`, from the baseline pinned snapshot.
+- **Primary source:** EDSY `eddb.js` `ship[*].stock`, from the baseline pinned snapshot,
+  except the Imperial Clipper fuel tank (below).
   It carries every current hull, including the Lynx Highliner absent from the pinned
   coriolis-data revision, and distinguishes current stock modules such as SCO frame
   shift drives, Supercruise Assist and Advanced Docking Computer.
@@ -210,6 +214,9 @@ identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
   source. They stop at 47 hulls, omit several current stock assists, and predate some SCO
   stock fits. They corroborate the older core, weapon and internal identities where both
   sources cover the same ship.
+- **Imperial Clipper fuel tank:** the stock tank is `Int_FuelTank_Size5_Class3`, which
+  fills the hull's size-5 fuel-tank mount. EDSY's Imperial Clipper stock fuel tank
+  snapshot carries it; the baseline snapshot carries the size-4 tank of the smaller mount.
 
 ### `restriction` — a mount that takes one family of modules
 
@@ -270,17 +277,20 @@ mounts in the same capture.
 
 ### `name` — the journal's own key for a mount
 
-Thirteen hulls carry explicit journal slot names from EDSY. Ten depart from the game's
-regular numbering; the Panther Clipper Mk II, Type-11 Prospector and Lynx Highliner are
-included because EDSY publishes their otherwise-regular names. Non-derivable names are
-stored on the mount, for example `{ "size": 1, "name": "Slot14_Size1" }`.
+Some hulls carry explicit journal slot names. Most depart from the game's regular
+numbering; the Panther Clipper Mk II, Type-11 Prospector and Lynx Highliner are included
+because EDSY publishes their otherwise-regular names. Non-derivable names are stored on
+the mount, for example `{ "size": 1, "name": "Slot14_Size1" }`.
 
-**Source:** EDSY `eddb.js` `ship[…].slotnames`. These are **journal** names rather than
-EDSY's own — `edsy.js` reads them in `Build.fromJournal()` and writes them in
-`exportJournal()`. Only EDSY carries them; coriolis-data does not model journal slot
-names at all, so the corroborating source has to be captures, and five are in hand —
-four SLEF exports and one journal — covering four of the hulls with names of their
-own (below). One is a journal rather
+**Source:** EDSY `eddb.js` `ship[…].slotnames`, except for the `Slot00` mounts that the
+in-game hull observation (§Ships) adds. That observation supplies the `Slot00` names of
+the Federal Dropship, Imperial Clipper, Type-6 Transporter and Type-7 Transporter, and the
+Clipper's and Type-6's other optional names. EDSY's names are **journal** names rather
+than EDSY's own — `edsy.js` reads them in `Build.fromJournal()` and writes them in
+`exportJournal()`. Coriolis-data does not model journal slot names at all, so the
+corroborating source has to be captures, and five are in hand — four SLEF exports and
+one journal — covering four of the hulls with names of their own (below). One is a
+journal rather
 than an export: `journal-lynx-highliner.jsonc` gives Frontier's own casing for a hull the
 Inara export already covers in lower case, and one thing that export does not — its
 `PlanetaryApproachSuite` mount. All 29 outfitting keys bind to the stored layout; its
@@ -291,9 +301,9 @@ seven cosmetic slots (`WeaponColour`, `Decal1`–`3`, `EngineColour`, `VesselVoi
 the planetary approach suite; this catalogue keeps both inline in `optional`. The two
 lists are therefore walked in parallel: every mount consumes the next EDSY name except a
 `military` one (which takes `Military01`, `Military02`) and the `planetaryApproachSuite`
-one. EDSY's `slots` sizes equal this catalogue's mount-for-mount, and its name list is
-exactly consumed. This is a naming difference alone: no hull's layout, mount count or
-size differs from coriolis's.
+one. Outside the hulls that the in-game hull observation revises, EDSY's `slots` sizes
+equal this catalogue's mount-for-mount, its name list is exactly consumed, and no
+layout, mount count or size differs from coriolis's.
 
 - **Anaconda** `…Slot10_Size4`, then **`Slot13_Size2`, `Slot14_Size1`** — no 11 or 12.
 - **Type-9 Heavy** starts at **`Slot00_Size8`**, then runs `Slot01`…`Slot08` and jumps
@@ -307,7 +317,7 @@ size differs from coriolis's.
   **`Slot09_Size2`, `Slot10_Size1`**.
 - **Vulture** `Slot01`, `Slot02`, `Slot03`, **`Slot05`**, `Slot06`, `Slot07`, `Slot08`.
 - **Type-7 Transporter** uses the number **`09` twice** (`Slot09_Size2` and
-  `Slot09_Size1` — distinct keys), and five of its ten suffixes misreport the size.
+  `Slot09_Size1` — distinct keys), and five of its suffixes misreport the size.
 - **Keelback** `Slot03_Size3` on a size-**4** mount; **Asp Scout** `Slot01_Size4` on a
   size-**5** one.
 - **Type-8 Transporter** _hardpoints_ `…SmallHardpoint2`, **`SmallHardpoint4`**,
@@ -348,10 +358,10 @@ hull's enumerated layout: `slef-the-deep-black.jsonc` (Caspian
 Explorer), `slef-inara-type-11.jsonc`, `slef-inara-lynx-highliner.jsonc`,
 `slef-inara-panther-mkii.jsonc` and `slef-inara-cutter-antixeno.jsonc`. The Caspian
 capture is the load-bearing one: its internals read `Slot01_Size7`…`Slot10_Size3`,
-`Slot13_Size1`, `Slot14_Size1`, all of which the plain numbering produces — evidence for
-leaving that hull's optionals alone rather than assuming EDSY omitted them. The Lynx
-journal also supplies 29 outfitting keys, including its approach suite; its cosmetic
-slots are outside the hull layout.
+`Slot12_Size1`, `Slot13_Size1`, `Slot14_Size1`, all of which the plain numbering produces —
+evidence for leaving that hull's optionals alone rather than assuming EDSY omitted them.
+The Lynx journal also supplies 29 outfitting keys, including its approach suite; its
+cosmetic slots are outside the hull layout.
 
 ### Per-hull source exceptions
 
@@ -490,9 +500,9 @@ FDevIDs, stats from coriolis-data and EDSY, joined on `symbol`.
   - **Source:** coriolis-data
     `modules/internal/{economy,business,first,luxury}_passenger_cabin.json` (`passengers`)
     and EDSY `eddb.js` (`cabincap`, whose `fdattr` is the journal's `CabinCapacity`), from
-    the snapshots pinned above. The two agree on every Mk I cabin, so
-    neither is preferred; the Mk II cabins rest on EDSY alone, which is where their
-    masses come from as well. FDevIDs publishes no capacity column.
+    the coriolis-data revision and the baseline EDSY snapshot pinned above. The two agree
+    on every Mk I cabin, so neither is preferred; the Mk II cabins rest on EDSY alone,
+    which is where their masses come from as well. FDevIDs publishes no capacity column.
   - **Values:** Mk I economy 2/4/8/16/32 by size 2–6, business 3/6/10/16 by size 3–6,
     first 3/6/12 by size 4–6 and luxury 4/8 by size 5–6. Mk II economy 3/6/12/24/48 by
     size 2–6 and Mk II business 4/9/15/24 by size 3–6 — half again the Mk I cabin of the
@@ -586,7 +596,7 @@ FDevIDs, stats from coriolis-data and EDSY, joined on `symbol`.
   EDSY's `agzresist` enum supplies `guardianZoneResistance: true` on
   `Hpt_ATVentDisruptorPylon_Fixed_Medium` and
   `Hpt_ATVentDisruptorPylon_Fixed_Large`, the two Guardian Nanite Torpedo Pylons and the
-  only stock records whose value is `Active` in the pinned snapshot; the empty value on
+  only stock records whose value is `Active` in the baseline snapshot; the empty value on
   every other record remains an omitted sparse field.
   - **`rateOfFire` is derived, not copied.** Upstream stores the fire interval; the
     journal (and this catalogue) report the combined shots per second, so it is
@@ -640,7 +650,7 @@ FDevIDs, stats from coriolis-data and EDSY, joined on `symbol`.
   `ModularCargoBayDoor`, `Int_DroneControl_ResourceSiphon`) say so outright, matching
   upstream's own `"mass": 0` on `Int_DetailedSurfaceScanner_Tiny`. **Verified, not
   assumed:** summing the Deep Black's module masses with these families excluded gives
-  exactly the 1237.3 t its journal reports. The Resource Siphon was also observed in-game
+  exactly the 1122.3 t its journal reports. The Resource Siphon was also observed in-game
   at zero mass.
 
 ### Engineering base stats — the values a recipe scales
@@ -783,10 +793,10 @@ the modified one, so a capture reads base stats straight out of Frontier's own
 arithmetic — including a hardpoint's reserve ammo and projectile speed, which the
 in-game audit above lists as unreached, the shield-generator and shield-booster
 resistances, which it lists as unsettled, and the ship-specific armour modules, which it
-excludes from numeric verification altogether. Of the nineteen journal captures and the
-EDSY export stored here, **eighteen state base values**; between them they state **1,070**
-that name a field this catalogue holds, and every one agrees — 936 to the stored decimal
-and 134 to within the game's own float noise.
+excludes from numeric verification altogether. Every base value the stored captures
+state that names a field this catalogue holds agrees: most to the stored decimal, the
+rest to within the game's own float noise. `fixtures/ships/module-stats.jsonc`
+`capturedBaseStats` pins the counts per capture.
 
 Counted as distinct (module, label) pairs rather than per capture, that reaches 21
 modules on their resistances (seven shield generators, two shield boosters, four hull
@@ -806,9 +816,9 @@ above lists as unreached, which is why a capture is the source here.
 resolved per record; `DamageFalloffRange` is the
 `falloffRange` a blueprint recipe calls `FalloffRange`, the same pairing as
 `ProbeRadius` / `DSS_PatchRadius`; and `FuelScoopRate` is the `refuelRate` the
-`FuelScoop_Efficiency` recipe calls `RefuelRate`. The nineteen readings behind the three
-agree. The Caspian Explorer's grade-5 scoop roll reads 1.245 → 1.8675, the recipe's ×1.5,
-and its `PowerDraw` leg reads ×1.15 in the same block.
+`FuelScoop_Efficiency` recipe calls `RefuelRate`. The readings behind the three agree.
+The grade-5 scoop roll in `journal-the-deep-black.jsonc` reads 1.245 → 1.8675, the
+recipe's ×1.5, and its `PowerDraw` leg reads ×1.15 in the same block.
 
 A fourth label, `Jitter`, already resolved to `jitter`. A capture states it as
 `OriginalValue: 0` on a missile rack whose record holds no such field — a weapon that
@@ -817,7 +827,8 @@ carries no jitter fires true. That zero is a value rather than an absence, so it
 its multi-cannon spelling, or Inertial Impact (`special_distortion_field`) that hold no
 jitter of their own.
 
-**Eighteen weapons have a `DamagePerSecond` a capture states outright.** These are the only
+**The weapons in `module-stats.jsonc` `weapons` have a `DamagePerSecond` a capture states
+outright.** These are the only
 external readings of an unmodified weapon's folded figure. On a beam laser the fold is
 trivial because `damage` is already per second; the huge and medium gimballed beams have
 no separate journal `Damage` reading.
@@ -988,8 +999,8 @@ and bulkhead name because those records carry no symbol upstream.
   holds a symbol twice, the "first occurrence wins" rule that governs `mass` governs
   `cost` too; taking the _second_, unpriced record would leave them at `0`. The sixteen:
   `Hpt_HeatSinkLauncher_Turret_Tiny` 3500 — confirmed independently against Frontier's
-  own journals, which price the fitted module at 3072 at a 12.25% discount
-  (`journal-the-deep-black.jsonc` and `journal-caspian-explorer.jsonc`, twice each). The
+  own journal, which prices the fitted module at 3072 at a 12.25% discount
+  (`journal-the-deep-black.jsonc`, twice). The
   **3071** in `slef-the-deep-black.jsonc` is an EDSY export's own arithmetic over its own
   cost table, not a game reading, and the two disagree by a credit here; §Prices read from
   an in-game purchase capture turns on the difference; `Int_Hyperdrive_Size5_Class5` 5 103 953;
@@ -1115,19 +1126,19 @@ and size-6 racks): here the discount is stated rather than solved for.
   `paid = ceil(ceil(list x 0.9) x 0.975)`, and the two orders give the same answer for
   every row here. This is measured, not assumed: scored against **every** `Loadout`
   `Value` in `fixtures/ships/journal-*.jsonc` that a catalogue price and a standard
-  discount can reproduce (455 readings), the step-wise rule matches 304, a single
-  `ceil(list x 0.8775)` 275, `round` 230 and `floor` 92. Restricting to 2.5%-only
+  discount can reproduce, the step-wise rule matches the most readings, then a single
+  `ceil(list x 0.8775)`, then `round`, and `floor` the fewest. Restricting to 2.5%-only
   readings gives the same ordering. **Do not derive a price from a single control**: two
   readings were originally used here and both were unrepresentative, which is how an
   earlier revision of this section published a truncation rule and eight wrong figures.
 - **`Hpt_HeatSinkLauncher_Turret_Tiny` is the reading that settles the last credit.** Its
   list price is 3500, both registries agree, and `3500 x 0.8775 = 3071.25`. Frontier's own
-  journals read **3072** — `fixtures/ships/journal-the-deep-black.jsonc` and
-  `journal-caspian-explorer.jsonc`, twice each — which excludes truncation and
-  round-to-nearest alike. The **3071** quoted elsewhere in this file is not a game reading:
+  journal reads **3072** — `fixtures/ships/journal-the-deep-black.jsonc`, twice — which
+  excludes truncation and round-to-nearest alike. The **3071** quoted elsewhere in this
+  file is not a game reading:
   it comes from `fixtures/ships/slef-the-deep-black.jsonc`, an EDSY SLEF export whose
-  `Value`s are EDSY's own arithmetic. The two documents disagree wherever they overlap
-  (3071/3072, 82 775/82 774, 195 191/195 195), so a third-party export is not admissible
+  `Value`s are EDSY's own arithmetic. The two documents disagree on several modules they
+  share (3071/3072, 82 775/82 774, 195 191/195 195), so a third-party export is not admissible
   as evidence of what the game charged.
 
 | Symbol                                   | Paid       | List price | Was                   |
@@ -1147,8 +1158,8 @@ and size-6 racks): here the discount is stated rather than solved for.
   so a reading admits one or two candidates.
   - `Int_FighterBayMk2_Size5_Class1` is pinned at 794 387 by the capture **and**
     independently by a second reading this repository already held: `Value: 774 528` at
-    2.5%, in both `journal-the-deep-black.jsonc` and `journal-caspian-explorer.jsonc`. Two
-    captures at different discounts, one answer.
+    2.5%, in `journal-the-deep-black.jsonc`. Two captures at different discounts, one
+    answer.
   - `Int_FighterBayMk2_Size6_Class1` admits 2 579 689 and 2 579 690. It takes **2 579 689**
     from the family rule below, which is a derivation and not a reading.
   - `Int_FighterBay_Size7_Class1` admits 2 369 319 and 2 369 320, and **keeps coriolis's
@@ -1169,7 +1180,7 @@ and size-6 racks): here the discount is stated rather than solved for.
   82 775 under this rule where `journal-the-deep-black.jsonc` reads **82 774**. It is one
   of a minority of records whose catalogue list price appears to sit a credit or two above
   the game's, and it is recorded here rather than explained away — it is not evidence for
-  truncation, which the corpus rejects 304 to 92.
+  truncation, which the corpus rejects.
 - **What would supersede these figures:** a purchase or outfitting reading at 0% discount,
   which needs no model at all. Until then they are readings through one measured
   arithmetic rule, which is a weaker claim than a direct quote and a stronger one than a
@@ -1386,7 +1397,7 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     lists `Int_FighterBay{,Mk2}_Size{5,6,7}_Class1_Free` as modules with `bundle: true`
     and the grant tokens `ELITE_V_MKIFIGHTERBAY_FREE` / `ELITE_V_MKIIFIGHTERBAY_FREE`.
     That is direct player-facing evidence that they are obtainable, so they pass the
-    inclusion rule below despite remaining absent from FDevIDs. The later EDSY snapshot
+    inclusion rule below despite remaining absent from FDevIDs. The Vessel Hangar snapshot
     independently lists all six and supplies the same mass, integrity, power draw and
     boot time as their ordinary twins. The Mk II grant variants retain the ordinary Mk
     II restriction to `Explorer_NX`, `PantherMkII` and `LakonMiner`; the Mk I variants
@@ -2087,10 +2098,10 @@ up straight through with no disambiguation at all. Both paths are evidence that
     multi-cannon group.
   - Frontier journal captures independently show `Weapon_Overcharged` without an
     `AmmoClipSize` modifier on a large gimballed cannon
-    (`journal-federation-corvette.jsonc`), a medium fixed fragment cannon
-    (`journal-federation-corvette-plasma.jsonc`) and a medium fixed plasma accelerator
-    (`journal-caspian-explorer.jsonc`). Their recorded grades, qualities and other
-    modifier legs reproduce the published recipe values. EDEngineer's
+    (`journal-federation-corvette.jsonc`) and a medium fixed fragment cannon
+    (`journal-federation-corvette-plasma.jsonc`). Their recorded grades, qualities and other
+    modifier legs reproduce the published recipe values. No capture holds a plasma
+    accelerator under this id (#81). EDEngineer's
     `blueprints.json` likewise assigns the clip reduction to multi-cannon types and not
     to cannon, fragment-cannon or plasma-accelerator types.
 - **An ordinary recipe on a Guardian weapon identifies a final purchase, not an engineer

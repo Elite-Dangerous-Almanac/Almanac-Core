@@ -576,7 +576,7 @@ export function enumerateSlots(layout: ShipSlots): BuildSlot[] {
  * **A `_SizeN` suffix is what the name says, not what the mount is.** On some hulls
  * the game's own key disagrees with the mount it names — the Keelback's
  * `Slot03_Size3` is a size-4 mount, the Asp Scout's `Slot01_Size4` a size-5 one, and
- * five of the Type-7 Transporter's ten are off. To size a mount, find it in the hull's
+ * five of the Type-7 Transporter's suffixes are off. To size a mount, find it in the hull's
  * layout ({@link enumerateSlots}) rather than trusting the number returned here.
  * @throws {TypeError} If `slot` is present and not a string. A nullish `slot` is a miss,
  * answered the way an unrecognised key is.

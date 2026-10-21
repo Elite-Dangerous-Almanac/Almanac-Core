@@ -16,21 +16,21 @@ import expected from '../../../fixtures/ships/source-purchase.jsonc' with { type
 import exportFixture from '../../../fixtures/ships/slef-export.jsonc' with { type: 'json' };
 import deepBlackSlef from '../../../fixtures/ships/slef-the-deep-black.jsonc' with { type: 'json' };
 import viperJournal from '../../../fixtures/ships/journal-viper-mkiv.jsonc' with { type: 'json' };
-import caspianJournal from '../../../fixtures/ships/journal-caspian-explorer.jsonc' with { type: 'json' };
+import deepBlackJournal from '../../../fixtures/ships/journal-the-deep-black.jsonc' with { type: 'json' };
 import kraitJournal from '../../../fixtures/ships/journal-krait-phantom.jsonc' with { type: 'json' };
 
 const module = (symbol: string) => getModuleBySymbol(symbol, ALL_MODULES)!;
 
 const deepBlackEvent = deepBlackSlef[0]!.data as unknown as LoadoutEvent;
 const viperEvent = viperJournal as unknown as LoadoutEvent;
-const caspianEvent = caspianJournal as unknown as LoadoutEvent;
+const deepBlackJournalEvent = deepBlackJournal as unknown as LoadoutEvent;
 const kraitEvent = kraitJournal as unknown as LoadoutEvent;
 
 /** The captures the fixture pins, by its own key. */
 const CAPTURES: Record<string, LoadoutEvent> = {
     deepBlack: deepBlackEvent,
     viperMkIV: viperEvent,
-    caspianExplorer: caspianEvent,
+    deepBlackJournal: deepBlackJournalEvent,
     kraitPhantom: kraitEvent,
 };
 
@@ -225,8 +225,8 @@ test('a slot is priced by either spelling of its key', () => {
 });
 
 test('a slot the source left unpriced is null, and so is a slot it never named', () => {
-    const record = ShipLoadout.fromLoadout(caspianEvent).sourcePurchase!;
-    const unpriced = caspianEvent.Modules.find((m) => m.Value === undefined)!;
+    const record = ShipLoadout.fromLoadout(deepBlackJournalEvent).sourcePurchase!;
+    const unpriced = deepBlackJournalEvent.Modules.find((m) => m.Value === undefined)!;
     // Unpriced is not free: a decoration never costs credits, but a journal also omits
     // `Value` on modules that came with the hull and on some that were bought.
     assert.equal(getSourceModuleValue(record, unpriced.Slot), null);
@@ -304,20 +304,25 @@ for (const [name, event] of Object.entries(CAPTURES)) {
 }
 
 test('a partially priced capture fills in neither the missing total nor the missing slots', () => {
-    // 16 of the Caspian Explorer's 35 entries carry no `Value`, and it states no
-    // `HullValue`. The catalogue could price both, and deliberately does not.
-    const exported = ShipLoadout.fromLoadout(caspianEvent).toLoadoutEvent({ credits: 'source' });
+    // Some of the journal's entries carry no `Value`, and it states no `HullValue`. The
+    // catalogue could price both, and deliberately does not.
+    const stated = deepBlackJournalEvent.Modules.filter((m) => m.Value === undefined).length;
+    assert.ok(stated > 0);
+    const exported = ShipLoadout.fromLoadout(deepBlackJournalEvent).toLoadoutEvent({
+        credits: 'source',
+    });
     assert.equal('HullValue' in exported, false);
-    assert.equal(exported.Modules.filter((m) => m.Value === undefined).length, 16);
+    assert.equal(exported.Modules.filter((m) => m.Value === undefined).length, stated);
     assert.notEqual(
-        ShipLoadout.fromLoadout(caspianEvent).toLoadoutEvent().HullValue,
+        ShipLoadout.fromLoadout(deepBlackJournalEvent).toLoadoutEvent().HullValue,
         undefined,
         'the retail export does price the hull',
     );
 });
 
 test('a discounted capture exports what it paid, not what the catalogue charges', () => {
-    // Every priced module on this build sits at 0.8775 of list, and no source says so.
+    // Every priced module on this build sits within a few credits of 0.8775 of list,
+    // and no source says so.
     const build = ShipLoadout.fromLoadout(deepBlackEvent);
     const paid = build.toLoadoutEvent({ credits: 'source' });
     const retail = build.toLoadoutEvent();

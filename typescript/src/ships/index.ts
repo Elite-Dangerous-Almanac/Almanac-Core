@@ -135,13 +135,13 @@
  * ```ts
  * import { singleJumpRange } from '@elite-dangerous-almanac/core/ships/jump-range';
  *
- * singleJumpRange(1237.3, 6.8, {
+ * singleJumpRange(1122.3, 6.8, {
  *     optMass: 7528.04,
  *     maxFuel: 6.8,
  *     fuelMul: 0.011,
  *     fuelPower: 2.5025,
  *     jumpBoost: 10.5, // Guardian FSD Booster
- * }); // -> 89.4147  (ly)
+ * }); // -> 97.4522  (ly)
  * ```
  *
  * @packageDocumentation

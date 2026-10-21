@@ -259,7 +259,6 @@
       "definition": "shipsJournalLoadout",
       "files": [
         "ships/journal-anaconda-slapaconda.jsonc",
-        "ships/journal-caspian-explorer.jsonc",
         "ships/journal-cobra-mkv.jsonc",
         "ships/journal-corsair.jsonc",
         "ships/journal-federation-corvette-beams.jsonc",
@@ -9692,7 +9691,80 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "caspianExplorer": {
+            "deepBlack": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "build": { "type": "string" },
+                "note": { "type": "string" },
+                "record": { "$ref": "#/definitions/shared1540a7ca579a" },
+                "sourceExport": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "note": { "type": "string" },
+                    "pricedSlots": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "Armour": { "type": "integer" },
+                        "FrameShiftDrive": { "type": "integer" },
+                        "FuelTank": { "type": "integer" },
+                        "LifeSupport": { "type": "integer" },
+                        "MainEngines": { "type": "integer" },
+                        "PowerDistributor": { "type": "integer" },
+                        "PowerPlant": { "type": "integer" },
+                        "Radar": { "type": "integer" },
+                        "Slot01_Size7": { "type": "integer" },
+                        "Slot02_Size6": { "type": "integer" },
+                        "Slot03_Size6": { "type": "integer" },
+                        "Slot05_Size5": { "type": "integer" },
+                        "Slot06_Size5": { "type": "integer" },
+                        "Slot07_Size5": { "type": "integer" },
+                        "Slot08_Size4": { "type": "integer" },
+                        "Slot09_Size4": { "type": "integer" },
+                        "Slot10_Size3": { "type": "integer" },
+                        "Slot12_Size1": { "type": "integer" },
+                        "Slot13_Size1": { "type": "integer" },
+                        "Slot14_Size1": { "type": "integer" },
+                        "TinyHardpoint5": { "type": "integer" },
+                        "TinyHardpoint6": { "type": "integer" }
+                      },
+                      "required": [
+                        "Armour",
+                        "FrameShiftDrive",
+                        "FuelTank",
+                        "LifeSupport",
+                        "MainEngines",
+                        "PowerDistributor",
+                        "PowerPlant",
+                        "Radar",
+                        "Slot01_Size7",
+                        "Slot02_Size6",
+                        "Slot03_Size6",
+                        "Slot05_Size5",
+                        "Slot06_Size5",
+                        "Slot07_Size5",
+                        "Slot08_Size4",
+                        "Slot09_Size4",
+                        "Slot10_Size3",
+                        "Slot12_Size1",
+                        "Slot13_Size1",
+                        "Slot14_Size1",
+                        "TinyHardpoint5",
+                        "TinyHardpoint6"
+                      ]
+                    },
+                    "topLevelCredits": {
+                      "$ref": "#/definitions/shared592a90501bba"
+                    }
+                  },
+                  "required": ["note", "pricedSlots", "topLevelCredits"]
+                }
+              },
+              "required": ["build", "note", "record", "sourceExport"]
+            },
+            "deepBlackJournal": {
               "type": "object",
               "additionalProperties": false,
               "properties": {
@@ -9732,7 +9804,6 @@
                         "FrameShiftDrive": { "type": "integer" },
                         "LifeSupport": { "type": "integer" },
                         "MainEngines": { "type": "integer" },
-                        "MediumHardpoint6": { "type": "integer" },
                         "PowerDistributor": { "type": "integer" },
                         "PowerPlant": { "type": "integer" },
                         "Radar": { "type": "integer" },
@@ -9753,7 +9824,6 @@
                         "FrameShiftDrive",
                         "LifeSupport",
                         "MainEngines",
-                        "MediumHardpoint6",
                         "PowerDistributor",
                         "PowerPlant",
                         "Radar",
@@ -9779,75 +9849,6 @@
                         "Rebuy": { "type": "integer" }
                       },
                       "required": ["ModulesValue", "Rebuy"]
-                    }
-                  },
-                  "required": ["note", "pricedSlots", "topLevelCredits"]
-                }
-              },
-              "required": ["build", "note", "record", "sourceExport"]
-            },
-            "deepBlack": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "build": { "type": "string" },
-                "note": { "type": "string" },
-                "record": { "$ref": "#/definitions/shared1540a7ca579a" },
-                "sourceExport": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "note": { "type": "string" },
-                    "pricedSlots": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "Armour": { "type": "integer" },
-                        "FrameShiftDrive": { "type": "integer" },
-                        "FuelTank": { "type": "integer" },
-                        "LifeSupport": { "type": "integer" },
-                        "MainEngines": { "type": "integer" },
-                        "PowerDistributor": { "type": "integer" },
-                        "PowerPlant": { "type": "integer" },
-                        "Radar": { "type": "integer" },
-                        "Slot01_Size7": { "type": "integer" },
-                        "Slot02_Size6": { "type": "integer" },
-                        "Slot03_Size6": { "type": "integer" },
-                        "Slot06_Size5": { "type": "integer" },
-                        "Slot07_Size5": { "type": "integer" },
-                        "Slot08_Size4": { "type": "integer" },
-                        "Slot09_Size4": { "type": "integer" },
-                        "Slot10_Size3": { "type": "integer" },
-                        "Slot13_Size1": { "type": "integer" },
-                        "Slot14_Size1": { "type": "integer" },
-                        "TinyHardpoint5": { "type": "integer" },
-                        "TinyHardpoint6": { "type": "integer" }
-                      },
-                      "required": [
-                        "Armour",
-                        "FrameShiftDrive",
-                        "FuelTank",
-                        "LifeSupport",
-                        "MainEngines",
-                        "PowerDistributor",
-                        "PowerPlant",
-                        "Radar",
-                        "Slot01_Size7",
-                        "Slot02_Size6",
-                        "Slot03_Size6",
-                        "Slot06_Size5",
-                        "Slot07_Size5",
-                        "Slot08_Size4",
-                        "Slot09_Size4",
-                        "Slot10_Size3",
-                        "Slot13_Size1",
-                        "Slot14_Size1",
-                        "TinyHardpoint5",
-                        "TinyHardpoint6"
-                      ]
-                    },
-                    "topLevelCredits": {
-                      "$ref": "#/definitions/shared592a90501bba"
                     }
                   },
                   "required": ["note", "pricedSlots", "topLevelCredits"]
@@ -9995,8 +9996,8 @@
             }
           },
           "required": [
-            "caspianExplorer",
             "deepBlack",
+            "deepBlackJournal",
             "kraitPhantom",
             "viperMkIV"
           ]
@@ -10009,46 +10010,6 @@
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "caspianExplorer": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": {
-                    "note": { "type": "string" },
-                    "scenarios": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "properties": {
-                        "swapAPricedModule": {
-                          "type": "object",
-                          "additionalProperties": false,
-                          "properties": {
-                            "edits": {
-                              "$ref": "#/definitions/shareda11919c7d0b2"
-                            },
-                            "topLevelCredits": {
-                              "type": "object",
-                              "additionalProperties": false,
-                              "properties": {}
-                            },
-                            "unpricedSlots": {
-                              "type": "array",
-                              "items": { "type": "string" }
-                            },
-                            "why": { "type": "string" }
-                          },
-                          "required": [
-                            "edits",
-                            "topLevelCredits",
-                            "unpricedSlots",
-                            "why"
-                          ]
-                        }
-                      },
-                      "required": ["swapAPricedModule"]
-                    }
-                  },
-                  "required": ["note", "scenarios"]
-                },
                 "deepBlack": {
                   "type": "object",
                   "additionalProperties": false,
@@ -10246,6 +10207,46 @@
                   },
                   "required": ["note", "scenarios"]
                 },
+                "deepBlackJournal": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "note": { "type": "string" },
+                    "scenarios": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "swapAPricedModule": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "edits": {
+                              "$ref": "#/definitions/shareda11919c7d0b2"
+                            },
+                            "topLevelCredits": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {}
+                            },
+                            "unpricedSlots": {
+                              "type": "array",
+                              "items": { "type": "string" }
+                            },
+                            "why": { "type": "string" }
+                          },
+                          "required": [
+                            "edits",
+                            "topLevelCredits",
+                            "unpricedSlots",
+                            "why"
+                          ]
+                        }
+                      },
+                      "required": ["swapAPricedModule"]
+                    }
+                  },
+                  "required": ["note", "scenarios"]
+                },
                 "partsDoNotAddUp": {
                   "type": "object",
                   "additionalProperties": false,
@@ -10291,7 +10292,7 @@
                   "required": ["note", "scenarios"]
                 }
               },
-              "required": ["caspianExplorer", "deepBlack", "partsDoNotAddUp"]
+              "required": ["deepBlack", "deepBlackJournal", "partsDoNotAddUp"]
             },
             "note": { "type": "string" }
           },

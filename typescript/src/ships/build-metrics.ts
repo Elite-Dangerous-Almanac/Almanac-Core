@@ -656,7 +656,7 @@ export class BuildMetrics {
      * declare const metrics: BuildMetrics;
      *
      * const jumps = metrics.jumpRangeSummary();
-     * jumps.max; // -> 89.41  (one jump's fuel, empty hold)
+     * jumps.max; // -> 97.45  (one jump's fuel, empty hold)
      * jumps.laden; // -> the range with the hold full
      * jumps.totalMax.jumps; // the best jump expressed as a total
      * ```
