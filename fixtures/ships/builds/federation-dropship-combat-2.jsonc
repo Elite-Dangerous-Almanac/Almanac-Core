@@ -34,13 +34,13 @@
     { "slot": "Slot09_Size2", "item": "Int_DockingComputer_Standard", "priority": 1 }
   ],
   "metrics": {
-    "unladenMass": 834,
+    "unladenMass": 754,
     "cargoCapacity": 64,
     "passengerCapacity": 0,
     "fuelCapacity": 16,
-    "maxJumpRange": 14.680095,
+    "maxJumpRange": 16.227404,
     "power": { "available": 25.2, "retracted": 15.86, "deployed": 22.28, "withinBudget": true },
-    "shields": { "strength": 153.803012, "resistances": { "kinetic": 0.4, "thermal": -0.2, "explosive": 0.5 } },
+    "shields": { "strength": 181.448837, "resistances": { "kinetic": 0.4, "thermal": -0.2, "explosive": 0.5 } },
     "armour": { "hitPoints": 1380, "resistances": { "kinetic": -0.176, "thermal": 0.02, "explosive": -0.372 } },
     "weapons": { "count": 5, "damagePerSecond": 125.78, "sustainedDamagePerSecond": 114.668889 }
   }

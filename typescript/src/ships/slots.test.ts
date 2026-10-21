@@ -462,9 +462,9 @@ test('the numbering rules still derive the three hulls whose names they already 
     }
 });
 
-test('exactly ten hulls need a name the numbering rules cannot derive', () => {
+test('exactly twelve hulls need a name the numbering rules cannot derive', () => {
     // Three other hulls carry explicit names that agree with the derived keys; only these
-    // ten diverge from the numbering rules.
+    // twelve diverge from the numbering rules.
     const diverging = SHIPS.filter((ship) => {
         const layout = getShipSlots(ship.symbol);
         if (!layout) return false;
@@ -474,9 +474,11 @@ test('exactly ten hulls need a name the numbering rules cannot derive', () => {
     assert.deepEqual(diverging.sort(), [
         'Anaconda',
         'Asp_Scout',
+        'Empire_Trader',
         'Explorer_NX',
         'Federation_Dropship',
         'Independant_Trader',
+        'Type6',
         'Type7',
         'Type8',
         'Type9',

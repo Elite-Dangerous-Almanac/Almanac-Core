@@ -56,7 +56,7 @@
     "minimumSpeed": 100,
     "maximumSpeed": 220,
     "boost": 320,
-    "baseShieldStrength": 40,
+    "baseShieldStrength": 55,
     "baseArmour": 60,
     "hardness": 20,
     "masslock": 6,
@@ -64,12 +64,12 @@
     "heatCapacity": 140,
     "heatDissipation": 18.15,
     "reserveFuelCapacity": 0.3,
-    "minPitch": 34,
-    "pitch": 42,
+    "minPitch": 35,
+    "pitch": 43,
     "minRoll": 110,
     "roll": 110,
-    "minYaw": 16,
-    "yaw": 16,
+    "minYaw": 17,
+    "yaw": 17,
     "core": {
       "powerPlant": 2,
       "thrusters": 2,
@@ -124,7 +124,7 @@
     "minimumSpeed": 180,
     "maximumSpeed": 240,
     "boost": 350,
-    "baseShieldStrength": 60,
+    "baseShieldStrength": 80,
     "baseArmour": 40,
     "hardness": 28,
     "masslock": 6,
@@ -496,7 +496,7 @@
     "minimumSpeed": 90,
     "maximumSpeed": 220,
     "boost": 350,
-    "baseShieldStrength": 90,
+    "baseShieldStrength": 125,
     "baseArmour": 180,
     "hardness": 35,
     "masslock": 8,
@@ -530,32 +530,45 @@
     "utility": 3,
     "optional": [
       {
-        "size": 5
+        "size": 6,
+        "name": "Slot00_Size6"
       },
       {
-        "size": 5
+        "size": 5,
+        "name": "Slot01_Size5"
       },
       {
-        "size": 4
+        "size": 5,
+        "name": "Slot02_Size5"
       },
       {
-        "size": 4
+        "size": 4,
+        "name": "Slot03_Size4"
       },
       {
-        "size": 3
+        "size": 4,
+        "name": "Slot04_Size4"
       },
       {
-        "size": 2
+        "size": 3,
+        "name": "Slot05_Size3"
       },
       {
-        "size": 2
+        "size": 2,
+        "name": "Slot06_Size2"
       },
       {
-        "size": 1
+        "size": 2,
+        "name": "Slot07_Size2"
       },
       {
         "size": 1,
-        "restriction": "planetaryApproachSuite"
+        "name": "Slot08_Size1"
+      },
+      {
+        "size": 1,
+        "restriction": "planetaryApproachSuite",
+        "name": "PlanetaryApproachSuite"
       }
     ],
     "hullCost": 866622,
@@ -644,7 +657,7 @@
     "name": "Type-7 Transporter",
     "manufacturer": "Lakon Spaceways",
     "size": "large",
-    "hullMass": 350,
+    "hullMass": 300,
     "minimumSpeed": 60,
     "maximumSpeed": 180,
     "boost": 300,
@@ -653,8 +666,8 @@
     "hardness": 54,
     "masslock": 10,
     "crew": 1,
-    "heatCapacity": 226,
-    "heatDissipation": 32.45,
+    "heatCapacity": 232,
+    "heatDissipation": 34.8,
     "reserveFuelCapacity": 0.52,
     "minPitch": 16,
     "pitch": 22,
@@ -687,6 +700,14 @@
     ],
     "utility": 4,
     "optional": [
+      {
+        "size": 7,
+        "name": "Slot00_Size7"
+      },
+      {
+        "size": 6,
+        "name": "Slot00_Size6"
+      },
       {
         "size": 6,
         "name": "Slot01_Size6"
@@ -911,11 +932,11 @@
     "name": "Imperial Clipper",
     "manufacturer": "Gutamaya",
     "size": "large",
-    "hullMass": 400,
+    "hullMass": 350,
     "minimumSpeed": 180,
     "maximumSpeed": 300,
     "boost": 380,
-    "baseShieldStrength": 180,
+    "baseShieldStrength": 200,
     "baseArmour": 270,
     "hardness": 60,
     "masslock": 12,
@@ -936,7 +957,7 @@
       "lifeSupport": 5,
       "powerDistributor": 6,
       "sensors": 5,
-      "fuelTank": 4
+      "fuelTank": 5
     },
     "hardpoints": [
       {
@@ -955,35 +976,49 @@
     "utility": 4,
     "optional": [
       {
-        "size": 7
+        "size": 7,
+        "name": "Slot00_Size7"
       },
       {
-        "size": 6
+        "size": 7,
+        "name": "Slot01_Size7"
       },
       {
-        "size": 4
+        "size": 6,
+        "name": "Slot02_Size6"
       },
       {
-        "size": 4
+        "size": 4,
+        "name": "Slot03_Size4"
       },
       {
-        "size": 3
+        "size": 4,
+        "name": "Slot04_Size4"
       },
       {
-        "size": 3
+        "size": 3,
+        "name": "Slot05_Size3"
       },
       {
-        "size": 2
+        "size": 3,
+        "name": "Slot06_Size3"
       },
       {
-        "size": 2
+        "size": 2,
+        "name": "Slot07_Size2"
       },
       {
-        "size": 1
+        "size": 2,
+        "name": "Slot08_Size2"
       },
       {
         "size": 1,
-        "restriction": "planetaryApproachSuite"
+        "name": "Slot09_Size1"
+      },
+      {
+        "size": 1,
+        "restriction": "planetaryApproachSuite",
+        "name": "PlanetaryApproachSuite"
       }
     ],
     "hullCost": 21116895,
@@ -994,9 +1029,9 @@
     "name": "Federal Dropship",
     "manufacturer": "Core Dynamics",
     "size": "medium",
-    "hullMass": 580,
-    "minimumSpeed": 100,
-    "maximumSpeed": 180,
+    "hullMass": 500,
+    "minimumSpeed": 160,
+    "maximumSpeed": 200,
     "boost": 300,
     "baseShieldStrength": 200,
     "baseArmour": 300,
@@ -1040,6 +1075,10 @@
     ],
     "utility": 4,
     "optional": [
+      {
+        "size": 6,
+        "name": "Slot00_Size6"
+      },
       {
         "size": 6,
         "name": "Slot01_Size6"
@@ -2357,10 +2396,10 @@
     "manufacturer": "Faulcon DeLacy",
     "size": "small",
     "hullMass": 190,
-    "minimumSpeed": 175,
-    "maximumSpeed": 270,
-    "boost": 340,
-    "baseShieldStrength": 150,
+    "minimumSpeed": 180,
+    "maximumSpeed": 280,
+    "boost": 360,
+    "baseShieldStrength": 160,
     "baseArmour": 150,
     "hardness": 35,
     "masslock": 8,
@@ -2368,12 +2407,12 @@
     "heatCapacity": 209,
     "heatDissipation": 28.98,
     "reserveFuelCapacity": 0.46,
-    "minPitch": 25,
-    "pitch": 30,
+    "minPitch": 28,
+    "pitch": 33,
     "minRoll": 90,
     "roll": 90,
-    "minYaw": 12,
-    "yaw": 12,
+    "minYaw": 13,
+    "yaw": 13,
     "core": {
       "powerPlant": 4,
       "thrusters": 4,
@@ -2615,10 +2654,10 @@
     "name": "Asp Scout",
     "manufacturer": "Lakon Spaceways",
     "size": "medium",
-    "hullMass": 150,
-    "minimumSpeed": 110,
-    "maximumSpeed": 220,
-    "boost": 300,
+    "hullMass": 140,
+    "minimumSpeed": 220,
+    "maximumSpeed": 270,
+    "boost": 360,
     "baseShieldStrength": 120,
     "baseArmour": 180,
     "hardness": 52,
@@ -2628,11 +2667,11 @@
     "heatDissipation": 29.65,
     "reserveFuelCapacity": 0.47,
     "minPitch": 35,
-    "pitch": 40,
+    "pitch": 42,
     "minRoll": 110,
     "roll": 110,
-    "minYaw": 15,
-    "yaw": 15,
+    "minYaw": 18,
+    "yaw": 18,
     "core": {
       "powerPlant": 4,
       "thrusters": 4,
@@ -2656,7 +2695,7 @@
         "size": 1
       }
     ],
-    "utility": 2,
+    "utility": 3,
     "optional": [
       {
         "size": 5,
@@ -3538,7 +3577,7 @@
     "manufacturer": "Zorgon Peterson",
     "size": "medium",
     "entitlement": "ELITE_V_MANDALAY",
-    "hullMass": 230,
+    "hullMass": 190,
     "minimumSpeed": 200,
     "maximumSpeed": 280,
     "boost": 350,
@@ -4069,7 +4108,7 @@
     "manufacturer": "Zorgon Peterson",
     "size": "large",
     "entitlement": "ELITE_V_EXPLORER_NX",
-    "hullMass": 950,
+    "hullMass": 825,
     "minimumSpeed": 160,
     "maximumSpeed": 210,
     "boost": 290,

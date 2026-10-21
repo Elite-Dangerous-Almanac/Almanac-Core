@@ -45,13 +45,13 @@
     { "slot": "Slot14_Size1", "item": "Int_SupercruiseAssist" }
   ],
   "metrics": {
-    "unladenMass": 1657.4,
+    "unladenMass": 1532.4,
     "cargoCapacity": 64,
     "passengerCapacity": 0,
     "fuelCapacity": 128,
-    "maxJumpRange": 47.09675,
+    "maxJumpRange": 50.06881,
     "power": { "available": 36, "retracted": 30.42, "deployed": 34.86, "withinBudget": true },
-    "shields": { "strength": 742.111507, "resistances": { "kinetic": 0.4, "thermal": -0.2, "explosive": 0.5 } },
+    "shields": { "strength": 799.597751, "resistances": { "kinetic": 0.4, "thermal": -0.2, "explosive": 0.5 } },
     "armour": { "hitPoints": 1587.5, "resistances": { "kinetic": 0.264925, "thermal": -0.37214, "explosive": 0.21592 } },
     "weapons": { "count": 7, "damagePerSecond": 184.518139, "sustainedDamagePerSecond": 119.200528 }
   }

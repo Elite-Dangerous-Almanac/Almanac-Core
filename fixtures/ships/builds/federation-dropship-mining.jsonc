@@ -34,13 +34,13 @@
     { "slot": "Slot09_Size2", "item": "Int_CargoRack_Size2_Class1" }
   ],
   "metrics": {
-    "unladenMass": 785,
+    "unladenMass": 705,
     "cargoCapacity": 108,
     "passengerCapacity": 0,
     "fuelCapacity": 16,
-    "maxJumpRange": 15.590633,
+    "maxJumpRange": 17.347324,
     "power": { "available": 25.2, "retracted": 20.17, "deployed": 23.72, "withinBudget": true },
-    "shields": { "strength": 331.262437, "resistances": { "kinetic": 0.4, "thermal": -0.2, "explosive": 0.5 } },
+    "shields": { "strength": 371.393474, "resistances": { "kinetic": 0.4, "thermal": -0.2, "explosive": 0.5 } },
     "armour": { "hitPoints": 540, "resistances": { "kinetic": -0.2, "thermal": 0, "explosive": -0.4 } },
     "weapons": { "count": 5, "damagePerSecond": 53.576391, "sustainedDamagePerSecond": 46.160951 }
   }

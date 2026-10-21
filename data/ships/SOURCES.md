@@ -19,6 +19,7 @@ Referred to throughout by source name; the pin is here, once.
 | Elite Dangerous in-game purchase capture                                                        | no game version recorded; nine `ModuleBuyAndStore` journal entries from market `128666762`, 17:34-17:37, at a 10% and a 2.5% outfitting discount                            | 2026-08-30 UTC |
 | Elite Dangerous in-game outfitting observation                                                  | no game version recorded; direct in-game observation that outfitting offers no non-SCO size-8 frame shift drive                                                             | 2026-08-30 UTC |
 | Elite Dangerous in-game SCO outfitting observation                                              | no game version recorded; direct in-game observation that outfitting offers no SCO frame shift drive below the size of the mount being outfitted                    | 2026-09-17 UTC |
+| Elite Dangerous in-game hull observation                                                        | no game version recorded; direct in-game observation of hull stats, slot layouts and journal slot keys                                                                      | 2026-10-21 UTC |
 | Elite Dangerous Large Planetary Vehicle Hangar readings                                         | **unreleased** — observation of the modules an unreleased update adds, plus outfitting and journal `ModuleBuy` readings at a 10% and 2.5% discount                          | 2026-09-02 UTC |
 
 Every `eddb.js` derivation uses the baseline snapshot unless its catalogue note names
@@ -107,6 +108,27 @@ identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
   | `pitch`               | `Type9_Military` 20→22; `Krait_MkII` 26→31; `TypeX` 39→38; `TypeX_3` 32→35; `Krait_Light` 26→31; `Mamba` 27→30; `Python_NX` 37.72→37; `CobraMkV` 45.61→45; `SmallCombat01_NX` 51.4→50                                               |
   | `roll`                | `Type9_Military` 20→40; `TypeX` 92→90; `Mamba` 80→75; `Python_NX` 92.76→91; `CobraMkV` 121.62→120; `SmallCombat01_NX` 123.36→120                                                                                                    |
   | `yaw`                 | `Python_NX` 12.74→12.5; `CobraMkV` 33.45→33; `SmallCombat01_NX` 24.67→24                                                                                                                                                            |
+
+- **In-game hull observation.** The Elite Dangerous in-game hull observation, pinned
+  above, gives the values below. Where it and the audit above give the same field, the
+  observation governs.
+
+  | Symbol                | Stored game values                                                                                           |
+  | --------------------- | ------------------------------------------------------------------------------------------------------------ |
+  | `SideWinder`          | `baseShieldStrength` 55; `minPitch`/`pitch` 35/43; `minYaw`/`yaw` 17/17                                      |
+  | `Eagle`               | `baseShieldStrength` 80                                                                                      |
+  | `Viper_MkIV`          | `baseShieldStrength` 160; speeds 180/280/360; `minPitch`/`pitch` 28/33; `minYaw`/`yaw` 13/13                 |
+  | `Asp_Scout`           | `hullMass` 140; speeds 220/270/360; `pitch` 42; `minYaw`/`yaw` 18/18; `utility` 3                            |
+  | `Federation_Dropship` | `hullMass` 500; `minimumSpeed`/`maximumSpeed` 160/200; `Slot00_Size6` (size 6)                               |
+  | `Empire_Trader`       | `hullMass` 350; `baseShieldStrength` 200; `core.fuelTank` 5; `Slot00_Size7` (size 7)                         |
+  | `Type6`               | `baseShieldStrength` 125; `Slot00_Size6` (size 6)                                                            |
+  | `Type7`               | `hullMass` 300; `heatCapacity` 232; `heatDissipation` 34.8; `Slot00_Size7` (size 7), `Slot00_Size6` (size 6) |
+  | `Mandalay`            | `hullMass` 190                                                                                               |
+  | `Explorer_NX`         | `hullMass` 825                                                                                               |
+
+  Speeds are `minimumSpeed`/`maximumSpeed`/`boost`. Every `Slot00` mount is
+  unrestricted. Because `Slot00` is a key the numbering rules do not produce, the Type-6
+  and the Imperial Clipper name every optional mount.
 
 - **`heatDissipation` is the hull's audited maximum cooling rate.** Coriolis-data carries no
   dissipation figure at all, and the game shows a player none: it is a community
@@ -274,11 +296,15 @@ exactly consumed. This is a naming difference alone: no hull's layout, mount cou
 size differs from coriolis's.
 
 - **Anaconda** `…Slot10_Size4`, then **`Slot13_Size2`, `Slot14_Size1`** — no 11 or 12.
-- **Type-9 Heavy** starts at **`Slot00_Size8`**, the only hull that does, then runs
-  `Slot01`…`Slot08` and jumps to **`Slot11_Size2`, `Slot12_Size1`**.
+- **Type-9 Heavy** starts at **`Slot00_Size8`**, then runs `Slot01`…`Slot08` and jumps
+  to **`Slot11_Size2`, `Slot12_Size1`**.
+- **Type-6 Transporter**, **Imperial Clipper**, **Federal Dropship** and **Type-7
+  Transporter** each have a largest mount, or two on the Type-7, named **`Slot00`**
+  (the in-game hull observation, under §Ships). Their other mounts keep their keys.
 - **Type-10 Defender** (`Type9_Military`) `Slot01`…`Slot08`, then the same
   **`Slot11`/`Slot12`** jump.
-- **Federal Dropship** `…Slot06_Size3`, then **`Slot09_Size2`, `Slot10_Size1`**.
+- **Federal Dropship** `Slot00_Size6`, `Slot01_Size6`, …, `Slot06_Size3`, then
+  **`Slot09_Size2`, `Slot10_Size1`**.
 - **Vulture** `Slot01`, `Slot02`, `Slot03`, **`Slot05`**, `Slot06`, `Slot07`, `Slot08`.
 - **Type-7 Transporter** uses the number **`09` twice** (`Slot09_Size2` and
   `Slot09_Size1` — distinct keys), and five of its ten suffixes misreport the size.
