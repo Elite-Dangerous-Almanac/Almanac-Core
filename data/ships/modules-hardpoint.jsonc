@@ -22,7 +22,9 @@
  * Identity fields are always present; every stat field is optional, present only
  * where the module has it (masses in tonnes, power in MW, jump ranges in LY).
  * `restrictedToShips` lists the hull(s) a non-armour module is limited to; armour's
- * hull restriction is its `ship` field.
+ * hull restriction is its `ship` field. `restrictedToSlot` names the mount restriction a
+ * module requires: the Mining Volley Repeater fits only a `mining` mount, or a hardpoint
+ * whose `alsoTakes` is `mining` (data/ships/ships.jsonc).
  * `limitGroup` marks a per-ship count allowance this module consumes; the AX and
  * Guardian weapons carrying `experimentalWeapon` share the base allowance of four.
  *
@@ -4708,8 +4710,10 @@
     "integrity": 61,
     "powerDraw": 1.5,
     "restrictedToShips": [
-      "LakonMiner"
+      "LakonMiner",
+      "AnacondaMkII"
     ],
+    "restrictedToSlot": "mining",
     "bootTime": 0,
     "damage": 0.3,
     "damageDistribution": {

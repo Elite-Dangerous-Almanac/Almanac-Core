@@ -98,6 +98,7 @@ function restrictionProblem(slot: BuildSlot, symbol: string): ModuleFitProblem |
 function moduleSlotProblem(slot: BuildSlot, module: OutfittingModule): ModuleFitProblem | null {
     const required = module.restrictedToSlot;
     if (!required || slot.restriction === required) return null;
+    if (slot.alsoTakes === required) return null;
     return problem(
         'restrictedMount',
         `module only fits a mount that takes ${SLOT_RESTRICTION_LABELS[required]}`,

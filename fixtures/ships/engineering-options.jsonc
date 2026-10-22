@@ -20,7 +20,7 @@
 {
   "counts": {
     "groups": 48,
-    "modules": 1000,
+    "modules": 1006,
     "exclusions": 23,
     "modulesWithoutExperimental": 368,
     "blueprintsOffered": 85
@@ -49,7 +49,7 @@
     "mines": 3,
     "torpedoes": 3,
     "shieldBoosters": 5,
-    "bulkheads": 241,
+    "bulkheads": 247,
     "lifeSupports": 41,
     "sensors": 41,
     "autoFieldMaintenanceUnits": 40,

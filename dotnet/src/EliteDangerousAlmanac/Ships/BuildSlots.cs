@@ -118,7 +118,11 @@ public static class BuildSlots
             string derived = string.Format(
                 CultureInfo.InvariantCulture, "{0}{1}Hardpoint{2}", sizeClass, infix, used);
             slots.Add(new BuildSlot(
-                spec.Name ?? derived, SlotKind.Hardpoint, spec.Size, Restriction: spec.Restriction));
+                spec.Name ?? derived,
+                SlotKind.Hardpoint,
+                spec.Size,
+                Restriction: spec.Restriction,
+                AlsoTakes: spec.AlsoTakes));
         }
 
         for (int index = 1; index <= layout.Utility; index++)

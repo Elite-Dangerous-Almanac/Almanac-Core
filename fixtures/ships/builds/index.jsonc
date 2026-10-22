@@ -19,8 +19,11 @@
  * Validation: every stored build resolves all modules in the catalogues, fits each module into a
  * compatible slot on its hull, and fills all seven core internals. Near-duplicates (>85% identical
  * fit) are excluded, and each hull's selections span the roles represented by the corpus. The
- * corpus covers every hull in the shipyard with 2 to 5 builds; 4271 fitted modules over 558
- * distinct module symbols, and 70 of the 1300 non-cargo-hatch slots are never occupied.
+ * corpus covers every released hull in the shipyard with 2 to 5 builds. The unreleased Anaconda
+ * Mk II has no published build:
+ * https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/83
+ * The corpus has 4271 fitted modules over 558 distinct module symbols, and 70 of the 1300
+ * non-cargo-hatch slots on the released hulls are never occupied.
  *
  * What a build file records: what is fitted where (journal slot key + module symbol), the module's
  * power priority when it is not 0, `on: false` when the author left a module unpowered, and the

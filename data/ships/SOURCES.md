@@ -11,7 +11,7 @@ Referred to throughout by source name; the pin is here, once.
 | coriolis-data `modifications/modules.json`                                                      | SHA-256 `09b6427c86bc3cfb578a246f7c6be1791429bb67009b7adaa7909e30aadc160f` — read from the branch tip, so pinned by digest                                                  | 2026-08-05 UTC |
 | EDSY `eddb.js` — baseline                                                                       | commit `cd68edfba665719958ce038b6e5d9eb02d0d2b02`, SHA-256 `967834d65a75ab1dea4bbaa7e1d6674cbe4083dca03f770d058497e9f7693071`, internal `db 20260428` / `version 423039901` | 2026-08-02 UTC |
 | EDSY `eddb.js` — Vessel Hangar variants                                                         | commit `510468167e0ef3b895e39391a8c56b5cdd5c3282`, SHA-256 `0574db06f796cdf7dfbe20a5f89f8a378e692873ae49133e9b49557fe8d8cba3`                                               | 2026-08-09 UTC |
-| EDSY `eddb.js` — Imperial Clipper stock fuel tank                                               | commit `ea787cf805f2c38f72c8d5f168fa1063341ebd9a`, SHA-256 `071f3c63bab630b0db33e7d77061c1dcd7c0d06426c507ab52bf87e9a1c99da2`, internal `version 424029901`                 | 2026-10-21 UTC |
+| EDSY `eddb.js` — 2026-10-21 snapshot                                                            | commit `ea787cf805f2c38f72c8d5f168fa1063341ebd9a`, SHA-256 `071f3c63bab630b0db33e7d77061c1dcd7c0d06426c507ab52bf87e9a1c99da2`, internal `version 424029901`                 | 2026-10-21 UTC |
 | EDSY `edsy.js`                                                                                  | SHA-256 `a40e9bbe65d482a029527d6dc2abdbd1819672e5a5d4a3a4d88ea411f02575f5` — read from the branch tip, so pinned by digest                                                  | 2026-08-06 UTC |
 | Odyssey Materials Helper CAPI fixture `application/src/test/resources/parser/capifc/test9.json` | commit `2c652a2349b754f1dde1a58b6daaac5a04e421a6`                                                                                                                           | 2026-08-09 UTC |
 | EDCD/Coriolis — the application, for its formulas                                               | commit `68c042ca6e3db62372cbbb2077cf972345511712`                                                                                                                           | 2026-08-01 UTC |
@@ -21,11 +21,12 @@ Referred to throughout by source name; the pin is here, once.
 | Elite Dangerous in-game outfitting observation                                                  | no game version recorded; direct in-game observation that outfitting offers no non-SCO size-8 frame shift drive                                                             | 2026-08-30 UTC |
 | Elite Dangerous in-game SCO outfitting observation                                              | no game version recorded; direct in-game observation that outfitting offers no SCO frame shift drive below the size of the mount being outfitted                    | 2026-09-17 UTC |
 | Elite Dangerous in-game hull observation                                                        | no game version recorded; direct in-game observation of hull stats, slot layouts and journal slot keys                                                                      | 2026-10-21 UTC |
+| Elite Dangerous Anaconda Mk II observation                                                      | **unreleased** — direct in-game observation of the Anaconda Mk II: stats, slot layout, armour, the Mk II Cargo Rack, names, default fit and gunsights                 | 2026-10-21 UTC |
 | Elite Dangerous Large Planetary Vehicle Hangar readings                                         | **unreleased** — observation of the modules an unreleased update adds, plus outfitting and journal `ModuleBuy` readings at a 10% and 2.5% discount                          | 2026-09-02 UTC |
 
 Every `eddb.js` derivation uses the baseline snapshot unless its catalogue note or its
-entry in this file names another snapshot: the Vessel Hangar snapshot or the Imperial
-Clipper stock fuel tank snapshot.
+entry in this file names another snapshot: the Vessel Hangar snapshot or the 2026-10-21
+snapshot.
 
 **Some values come from no registry at all** — readings taken from the live game's own
 outfitting, module and engineering panels, and captures contributed by the repository
@@ -138,9 +139,10 @@ identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
   EDSY `eddb.js` `ship[…].heatdismax` from the baseline snapshot, joined by
   case-insensitive `fdname` / `symbol`. A complete maintainer-supplied thermal audit
   from Elite Dangerous `4.4.0.3`, recorded 2026-08-14 UTC, governs every value except the
-  Type-7 Transporter's and supplies the corrections and omissions listed above. The
-  Type-7's `34.8` comes from the in-game hull observation above. Every other value agrees
-  with EDSY exactly.
+  Type-7 Transporter's and the Anaconda Mk II's, and supplies the corrections and
+  omissions listed above. The Type-7's `34.8` and the Anaconda Mk II's `68.55` are
+  measured in game during the hull observations above, as the audit's values are.
+  Every other value agrees with EDSY exactly.
   Each value is the load in thermal-load units per second shed at heat level 1. The
   stored catalogue range is Hauler `16.2` through Cutter `72.58`.
 
@@ -179,6 +181,9 @@ identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
   `48.7663916349` written `48.76639`. Exact zero and tiny near-zero values both describe
   centerline mounts; the residuals are numeric precision, not meaningful sub-millimetre
   displacements to interpret or normalize.
+- **Anaconda Mk II:** its offsets come from the Anaconda Mk II observation, pinned above,
+  and follow the same derivation and precision rule. The counts above describe the
+  observation of the other hulls.
 - **Manual corrections:** none. Every hull and every hardpoint slot key joins
   one-to-one without correction.
 
@@ -186,7 +191,7 @@ identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
 
 - **File:** `default-loadouts.jsonc` (every hull's stock modules).
 - **Primary source:** EDSY `eddb.js` `ship[*].stock`, from the baseline pinned snapshot,
-  except the Imperial Clipper fuel tank (below).
+  except the Anaconda Mk II and the Imperial Clipper fuel tank (below).
   It carries every current hull, including the Lynx Highliner absent from the pinned
   coriolis-data revision, and distinguishes current stock modules such as SCO frame
   shift drives, Supercruise Assist and Advanced Docking Computer.
@@ -210,13 +215,18 @@ identity from FDevIDs, stats and slots from coriolis-data, joined on `symbol`.
   Highliner loadouts show the same symbol, so those two hulls carry it and every other
   hull carries `ModularCargoBayDoor`. The hull-specific variant resolves through the
   standard hatch's known stats in `ShipLoadout`.
+- **Anaconda Mk II:** the baseline snapshot has no record for the hull. Its stock fit is
+  the shipyard default fit in the Anaconda Mk II observation, pinned above. EDSY's
+  2026-10-21 snapshot gives the same fit and supplies the two values the observation
+  does not: the size-4 rack sits in `Slot04_Size5`, and the fuel tank is
+  `Int_FuelTank_Size6_Class3`.
 - **Source disagreement:** coriolis-data's `defaults` arrays are not used as the primary
   source. They stop at 47 hulls, omit several current stock assists, and predate some SCO
   stock fits. They corroborate the older core, weapon and internal identities where both
   sources cover the same ship.
 - **Imperial Clipper fuel tank:** the stock tank is `Int_FuelTank_Size5_Class3`, which
-  fills the hull's size-5 fuel-tank mount. EDSY's Imperial Clipper stock fuel tank
-  snapshot carries it; the baseline snapshot carries the size-4 tank of the smaller mount.
+  fills the hull's size-5 fuel-tank mount. EDSY's 2026-10-21 snapshot
+  carries it; the baseline snapshot carries the size-4 tank of the smaller mount.
 
 ### `restriction` — a mount that takes one family of modules
 
@@ -261,9 +271,9 @@ modules.
 
 **Neither Large Planetary Vehicle Hangar line carries `restrictedToSlot`.** Fitting one
 mount does not reserve a module to that kind of mount, and neither line could be reserved
-to `vesselHangar` anyway: of the thirteen hulls the Mk II line is restricted to, only the
-Type-11 has such a mount, so on the other twelve it must be fitting ordinary optionals,
-and the plain line carries no hull restriction at all. Those thirteen are exactly the hulls that can carry a
+to `vesselHangar` anyway: of the hulls the Mk II line is restricted to, only the
+Type-11 has such a mount, so on the others it must be fitting ordinary optionals,
+and the plain line carries no hull restriction at all. Those hulls are exactly the ones that can carry a
 ship-launched vessel, which is what makes the hull list and the mount reading one fact
 rather than two.
 
@@ -274,6 +284,22 @@ spelling. `fixtures/ships/slef-inara-lynx-highliner.jsonc` settles it: its `pass
 `passenger02` and `passenger03` each hold an `int_mkii_passengercabin_*`, spelled
 exactly as the stored names give them. The Lynx's `Slot02_Size5` follows the three cabin
 mounts in the same capture.
+
+### `alsoTakes` — an unrestricted hardpoint that also takes a reserved module
+
+One value, `mining`, on the Anaconda Mk II's `LargeHardpoint3` and `LargeHardpoint4`
+alone. Each mount takes every weapon, like any unrestricted hardpoint, and also the
+Mining Volley Repeater (`Hpt_MiningToolV2_Fixed_Large`), whose `restrictedToSlot` is
+`mining`. The repeater fits no other Mk II hardpoint.
+
+- **Source:** the Anaconda Mk II observation, pinned above, names the two mounts. An
+  in-game check of the outfitting screen on 2026-10-22 UTC shows the repeater on two
+  large hardpoints.
+- **Rejected alternative:** adding the Mk II to the repeater's `restrictedToShips`
+  alone lets it fit all four large mounts and the huge mount. A `restriction` of
+  `mining` on the two mounts is wrong too, because it refuses every weapon there.
+- **Source disagreement:** EDSY's 2026-10-21 snapshot reserves the repeater to the Mk II
+  as well, but offers it on one large hardpoint only. The in-game check wins.
 
 ### `name` — the journal's own key for a mount
 
@@ -370,9 +396,8 @@ cosmetic slots are outside the hull layout.
   rather than a bare size and the Type-11 is the only hull in coriolis-data that has
   any, so acquisition's "non-zero numbers are weapon mounts" rule silently dropped its
   3/2/2/1 mining mounts — leaving the game's dedicated mining hull with nowhere to fit a
-  mining tool, and no large mount at all for `Hpt_MiningToolV2_Fixed_Large`, which is
-  itself `restrictedToShips: ["LakonMiner"]` and so unfittable on the only hull that may
-  carry it. Stored as `[3, 2, 2, 2, 1, 1, 1, 1]`, which three sources agree on:
+  mining tool, and no large mount at all for `Hpt_MiningToolV2_Fixed_Large`, which
+  only the Type-11 and the Anaconda Mk II may carry (`restrictedToShips`). Stored as `[3, 2, 2, 2, 1, 1, 1, 1]`, which three sources agree on:
   coriolis-data, EDSY `eddb.js` (`ship[…].slots.hardpoint = [3,2,2,2,1,1,1,1]`) and
   Inara's ship page 68, read 2026-08-02 UTC, listing
   1 Large Mining, 1 Medium, 2 Medium Mining, 3 Small and 1 Small Mining. The four
@@ -397,6 +422,24 @@ cosmetic slots are outside the hull layout.
   `fixtures/ships/journal-lynx-highliner.jsonc`, which fits
   `int_planetapproachsuite_advanced` there; that capture carries its own provenance in
   its file header.
+- **Anaconda Mk II (`AnacondaMkII`) — UNRELEASED, from the Anaconda Mk II observation
+  pinned above:** the baseline registries do not carry the hull. The observation gives
+  every stat and the slot layout. Its `Cargo01` mount takes `cargo` modules only, and
+  its `Military01`–`02` mounts take `military` modules only. Its `LargeHardpoint3` and
+  `LargeHardpoint4` also take the Mining Volley Repeater (§`alsoTakes`). Every slot key
+  is one the numbering rules derive, so no mount carries a `name`. The manufacturer is
+  the Anaconda's, Faulcon DeLacy, read from the shipyard. The record carries no
+  `entitlement` because no acquired source states the token. The absence does not say
+  that the hull is ungated (#84). EDSY's 2026-10-21 snapshot,
+  pinned above, agrees with every stat and mount it carries, except the repeater's
+  mounts, and supplies `hullCost` and `retailCost`. The shipyard reading of
+  the retail price at a 10% and a 2.5% discount is 337,801,391 cr, which the stored
+  `retailCost` reproduces under the discount rule in §"Prices read from an in-game
+  purchase capture". A journal capture of a fitted Mk II
+  (`fixtures/ships/journal-anaconda-mk-ii.jsonc`) and the statistics-panel readings beside
+  it (`build-metrics.jsonc` `inGame.anacondaMkII`) reproduce the stored hull mass, speeds,
+  rotation rates, armour, hardness and reserve fuel. A reading on release replaces every
+  value here.
 
 ## Modules (outfitting)
 
@@ -753,17 +796,20 @@ Two starter capacities are derived rather than read:
 2^size across all eight sizes of both families, with no exception.
 
 **In-game coverage, stated separately from registry coverage.** In-game verification
-covers every catalogue identity except two sets. The six bundle-granted Vessel Hangars
+covers every catalogue identity except three sets. The six bundle-granted Vessel Hangars
 rely on the public registry and CAPI evidence below — their stats match their ordinary
-twins, but they have not been independently checked in the module panel. The six
+twins, but they have not been independently checked in the module panel. The
 **unreleased** Large Planetary Vehicle Hangars sit outside it altogether: the game does
 not offer them yet, so nothing about them can be read from a panel until the update
-ships. Numeric verification covers the non-armour modules; the ship-specific armour
-modules' class, mass, hull boost and resistances retain their registry provenance rather
-than being described as game-verified.
+ships. The size-6 Mk II Cargo Rack is outside the module-panel audit: its identity and
+stats come from the Anaconda Mk II observation, pinned above. Numeric verification covers the
+non-armour modules; the ship-specific armour modules' class, mass, hull boost and
+resistances retain their registry provenance rather than being described as
+game-verified. The Anaconda Mk II armour is the exception: its values come from the
+Anaconda Mk II observation, pinned above.
 
 Every numeric field available through in-game verification was compared, and the
-comparison reached every record carrying the field, apart from the two sets named above,
+comparison reached every record carrying the field, apart from the sets named above,
 which sit outside in-game verification of `powerDraw` and
 `bootTime`. The fields compared are `powerDraw`, `bootTime`, power-plant output and
 efficiency, every FSD field, thruster heat rate, all six distributor fields, sensor
@@ -987,6 +1033,8 @@ coriolis does not price (the newer hulls' armour and Operations additions) and s
 the Lynx Highliner, which has no coriolis entry.
 Ship-specific **armour** is priced from each hull's `bulkheads` upstream, joined on hull
 and bulkhead name because those records carry no symbol upstream.
+The Anaconda Mk II, its armour and the size-6 Mk II Cargo Rack are priced from EDSY's
+2026-10-21 snapshot, which carries each by symbol.
 
 - **Every hull is priced, and nearly every module.** The ones without a price are the
   grant/starter `*_free` variants, the two unsold Corrosion Resistant Cargo Racks
@@ -1197,25 +1245,39 @@ and size-6 racks): here the discount is stated rather than solved for.
   live with every other module's rather than being duplicated on the hull. The Lynx
   Highliner has no coriolis hull entry, so its options take the per-grade hull boost and
   resistances that all 47 hulls coriolis does carry share, with the masses from EDSY.
+  The unreleased Anaconda Mk II has no coriolis hull entry either. Its options
+  (`AnacondaMkII_Armour_*`) take their identity, names, masses, hull boosts and
+  resistances from the Anaconda Mk II observation, pinned above. They match the Caspian
+  Explorer's `Mk II Ablative` set field for field, except the prices and the
+  entitlement: the Caspian Explorer's carry `ELITE_V_EXPLORER_NX`, and the Mk II's carry
+  none (#84).
 - **Deliberate stat fields:**
   - **`restrictedToShips`** carries the hull symbol(s) a non-armour module is limited
     to (coriolis's `ship` field: the MkII Gravity Optimised thrusters → `Explorer_NX`,
     the MkII Agile Boost thrusters → `SmallCombat01_NX` "Kestrel", the MkII Mining
-    controller and Mining Volley Repeater → `LakonMiner`), plus the two Mk II Cargo Racks
-    → `["PantherMkII"]` (EDSY marks them `reserved:{63:1}`, ship 63 being the Panther
-    Clipper Mk II, and coriolis-data describes them as a "Panther Clipper storage rack")
-    and the three Mk II Vessel Hangars → `["Explorer_NX", "PantherMkII", "LakonMiner"]`
-    (EDSY has no record for the Mk II bays at all, so their restriction rests on
-    Frontier's update notes and Inara), plus the three **unreleased** Mk II Large
-    Planetary Vehicle Hangars → the thirteen hulls listed under "Records sourced outside
+    controller → `LakonMiner`, and the Mining Volley Repeater → `["LakonMiner",
+    "AnacondaMkII"]`, the Anaconda Mk II from EDSY's 2026-10-21 snapshot and the
+    in-game check under §`alsoTakes`), plus the Mk II Cargo Racks
+    → `["PantherMkII", "AnacondaMkII"]` (EDSY's 2026-10-21 snapshot marks all three
+    `reserved:{63:1,18:1}`, ship 63 being the Panther Clipper Mk II and ship 18 the
+    Anaconda Mk II, and coriolis-data describes them as a "Panther Clipper storage rack")
+    and the Mk II Vessel Hangars → `["Explorer_NX", "PantherMkII", "LakonMiner",
+    "AnacondaMkII"]` (the baseline snapshot has no record for the Mk II bays, so the first
+    three rest on Frontier's update notes and Inara; the Anaconda Mk II comes from EDSY's
+    2026-10-21 snapshot), plus the three **unreleased** Mk II Large
+    Planetary Vehicle Hangars → the hulls listed under "Records sourced outside
     the baseline registries" below, where the plain Large hangars beside them carry no
     restriction. Armour records use the `ship` field instead.
   - **`restrictedToSlot`** is the same idea one axis over: the slot restriction a module
     requires, so it fits only mounts carrying it — the mirror of a mount's `restriction`,
-    and the half `restrictedToShips` cannot express. Five records have one: the two
-    planetary approach suites, the two Mk II Cargo Racks and the Mk II Mining
-    Multi-Limpet Controller. It composes with `restrictedToShips` rather than replacing
-    it — the racks name both the hull that can buy them and the mount they go in.
+    and the half `restrictedToShips` cannot express. The planetary approach suites,
+    the Mk II Cargo Racks, the Mk II Mining Multi-Limpet Controller and the Mining
+    Volley Repeater have one. A hardpoint's `alsoTakes` satisfies it as a `restriction`
+    does (§`alsoTakes`). It
+    composes with `restrictedToShips` rather than replacing it — the racks name both the
+    hulls that can buy them and the mount they go in. Each rack names both hulls, as
+    EDSY does, but the size still limits the fit: the size-7 and size-8 racks never fit
+    the Anaconda Mk II, whose only cargo mount is size 6.
     - **Sources.** EDSY refuses a reserved `icr` outside a slot named `CARGO*`, and
       coriolis-data carries `"restriction": "Cargo"` on the module; the same shape holds
       for the Mk II Mining Multi-Limpet Controller against `LIMPETCONTROLLER*`.
@@ -1227,7 +1289,7 @@ and size-6 racks): here the discount is stated rather than solved for.
     - **The field is deliberately narrow.** It says a module fits _only_ mounts with that
       restriction, so it is wrong on anything the game also sells for an ordinary
       optional: a plain cargo rack fits a `cargo` mount _and_ every unrestricted one, and
-      does not carry it. The set of five is pinned, so widening it is a deliberate act.
+      does not carry it. The set is pinned, so widening it is a deliberate act.
   - **`exclusionGroup`** carries EDSY's one-per-ship `limit` families, renamed from its
     compact ids to stable descriptive values. The stored set covers the internal and
     utility records in all but one of EDSY's one-per-ship source families: shield
@@ -1338,14 +1400,15 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
       Nothing turns on it: this catalogue matches symbols case-insensitively.
     - **The Mk II line has no observed `_Free` grant twin**, where the plain line has
       three. Whether that is a real asymmetry or a gap in what has been seen is open.
-  - **Only the Mk II records are ship-restricted**, to the thirteen hulls reported:
+  - **Only the Mk II records are ship-restricted**, to the hulls reported:
     `TypeX_2`, `Anaconda`, `BelugaLiner`, `Explorer_NX`, `Federation_Corvette`,
     `Federation_Gunship`, `Cutter`, `Independant_Trader`, `Krait_MkII`, `PantherMkII`,
-    `Type9`, `Type9_Military` and `LakonMiner` — stored in the order they were reported.
+    `Type9`, `Type9_Military` and `LakonMiner` — stored in the order they were reported —
+    and `AnacondaMkII`, from EDSY's 2026-10-21 snapshot.
     The plain line carries no restriction, and nothing read so far shows one. **How wide
     that line's hull coverage actually is has not been established**, so its absent
     restriction is the reading its silence supports rather than a positive fact.
-    - **The thirteen are exactly the hulls that can carry a ship-launched vessel**, and
+    - **They are exactly the hulls that can carry a ship-launched vessel**, and
       the journal reading is what makes that legible rather than coincidental: the Mk II
       hangar was bought into the Type-11's `FighterBay01`, the one vessel-hangar-restricted
       mount in the catalogue, over the Vessel Hangar it replaced. §`restriction` carries
@@ -1404,6 +1467,13 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     remain unrestricted like their ordinary twins. `cost` is omitted: the CAPI response's
     zero is the bundle charge, not a standard purchase price for a separately sold
     module.
+- **Size-6 Mk II Cargo Rack (`Int_LargeCargoRack_Size6_Class1`) — UNRELEASED.** The
+  identity, the name, the rating, the zero mass and the 96 t capacity come from the
+  Anaconda Mk II observation, pinned above, and the price from EDSY's 2026-10-21
+  snapshot. The restrictions follow the other Mk II Cargo Racks (§"Deliberate stat
+  fields"). The record is outside in-game verification, which the
+  `registryOnlyIdentities` count in `fixtures/ships/module-stats.jsonc` pins. A reading
+  on release replaces every value here.
 - **Mk II passenger cabins** (`Int_MkII_PassengerCabin_Size{2..6}_Class{1,2}`) — identity
   records from FDevIDs, with mass (2.5/5/10/20/40 t by size) and `cabinCapacity` added
   from EDSY, the only registry that publishes stats for them — coriolis-data carries no
@@ -1450,8 +1520,8 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     non-armour modules checked numerically, and "every FSD field 72/72" — figures that
     could not have been true of five records the game does not offer. Corrected, those
     five drop out of the identity, non-armour and FSD totals alike. They leave the
-    catalogue; they do not join the registry-only set, which stays limited to the
-    bundle-granted Vessel Hangars. The source capture itself has not changed.
+    catalogue; they do not join the registry-only set (`registryOnlyIdentities`). The
+    source capture itself has not changed.
 - **1B Shield Generator** (`Int_ShieldGenerator_Size1_Class4`) — a gap in FDevIDs, not
   in the game: every other shield-generator size carries all five ratings, and size 1
   ran E/D/C/A with **B missing**. The module is real, so the record is carried with the

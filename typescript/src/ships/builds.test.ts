@@ -128,7 +128,7 @@ test('the index names every build file, and only those', () => {
     }
 });
 
-test('the corpus covers every hull with 2-5 builds and unique ids', () => {
+test('the corpus covers every released hull with 2-5 builds and unique ids', () => {
     assert.equal(builds.length, index.count);
     const ids = new Set(builds.map((b) => b.id));
     assert.equal(ids.size, builds.length, 'build ids must be unique');
@@ -138,11 +138,19 @@ test('the corpus covers every hull with 2-5 builds and unique ids', () => {
         assert.ok(ROLES.has(build.role), `${build.id}: unknown role "${build.role}"`);
         perHull.set(build.ship, (perHull.get(build.ship) ?? 0) + 1);
     }
+    // No player has published a build for the unreleased Anaconda Mk II:
+    // https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/83
+    const unpublished = new Set(['AnacondaMkII']);
     for (const ship of SHIPS) {
+        if (unpublished.has(ship.symbol)) continue;
         const count = perHull.get(ship.symbol) ?? 0;
         assert.ok(count >= 2 && count <= 5, `${ship.symbol}: ${count} builds, expected 2-5`);
     }
-    assert.equal(perHull.size, SHIPS.length, 'every hull in the shipyard has builds');
+    assert.equal(
+        perHull.size,
+        SHIPS.length - unpublished.size,
+        'every released hull in the shipyard has builds',
+    );
 });
 
 test('every corpus module fits and import restores the mounts it omits', () => {

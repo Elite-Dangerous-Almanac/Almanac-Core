@@ -5,10 +5,11 @@ namespace EliteDangerousAlmanac.Ships;
 
 /// <summary>One mount on a hull — its stable key, its kind and its size.</summary>
 /// <remarks>
-/// <see cref="Kind"/> decides which of the two optional fields carries a value. A core
-/// mount names its <see cref="Core"/> function and carries no restriction; a hardpoint or
-/// an optional internal may carry a <see cref="Restriction"/> and never names a core
-/// function; a utility, armour or cargo-hatch mount carries neither.
+/// <see cref="Kind"/> decides which of the optional fields carries a value. A core mount
+/// names its <see cref="Core"/> function and carries no restriction; a hardpoint or an
+/// optional internal may carry a <see cref="Restriction"/> and never names a core function;
+/// only a hardpoint may carry <see cref="AlsoTakes"/>; a utility, armour or cargo-hatch mount
+/// carries none of them.
 /// </remarks>
 /// <param name="Key">
 /// The stable, journal-compatible slot key, such as <c>PowerPlant</c>,
@@ -25,12 +26,17 @@ namespace EliteDangerousAlmanac.Ships;
 /// </param>
 /// <param name="Core">The core function this mount accepts, on a core mount only.</param>
 /// <param name="Restriction">The module family this mount requires, when it is restricted.</param>
+/// <param name="AlsoTakes">
+/// A restriction whose reserved modules this unrestricted hardpoint takes in addition to every
+/// weapon, on a hardpoint only. See <see cref="HardpointSlotSpec.AlsoTakes"/>.
+/// </param>
 public sealed record BuildSlot(
     string Key,
     SlotKind Kind,
     int Size,
     CoreSlotType? Core = null,
-    SlotRestriction? Restriction = null);
+    SlotRestriction? Restriction = null,
+    SlotRestriction? AlsoTakes = null);
 
 /// <summary>What a journal slot key says about the mount it names.</summary>
 /// <param name="Kind">Which kind of mount the key names.</param>
@@ -104,7 +110,18 @@ public sealed record CoreSlots(
 /// Type-8 Transporter's <c>SmallHardpoint4</c>, the Caspian Explorer's out-of-order
 /// mediums. Absent when the rules are right.
 /// </param>
-public sealed record HardpointSlotSpec(int Size, SlotRestriction? Restriction = null, string? Name = null);
+/// <param name="AlsoTakes">
+/// A restriction whose reserved modules this unrestricted mount takes in addition to every
+/// weapon. A module whose <see cref="OutfittingModule.RestrictedToSlot"/> is
+/// <see cref="SlotRestriction.Mining"/> fits a mount with that value. Only the Anaconda Mk II
+/// has any: its <c>LargeHardpoint3</c> and <c>LargeHardpoint4</c> take the Mining Volley
+/// Repeater, and its other hardpoints do not.
+/// </param>
+public sealed record HardpointSlotSpec(
+    int Size,
+    SlotRestriction? Restriction = null,
+    string? Name = null,
+    SlotRestriction? AlsoTakes = null);
 
 /// <summary>One optional-internal mount in a hull's layout.</summary>
 /// <param name="Size">Mount class, 1 to 8.</param>

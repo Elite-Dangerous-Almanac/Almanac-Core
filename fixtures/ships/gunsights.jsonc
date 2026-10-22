@@ -7,8 +7,8 @@
  * catalogue's header and data/ships/SOURCES.md.
  */
 {
-  "shipCount": 48,
-  "hardpointCount": 234,
+  "shipCount": 49,
+  "hardpointCount": 241,
   "cases": [
     {
       "ship": "SideWinder",

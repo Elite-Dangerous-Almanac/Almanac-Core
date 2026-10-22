@@ -5,12 +5,13 @@
  * slot-key list, the `spot` layouts carry their mount names and sizes, and `restrictions` pins one
  * entry per restricted mount naming modules it must accept and modules it must refuse, plus
  * unrestricted mounts, which carry rules of their own: an article can reserve a mount, a hull, or
- * belong to the hull outright. Which modules a mount takes is a fact about the game rather than
- * about any implementation, which is why it lives here.
+ * belong to the hull outright. `alsoTakes` is present where an unrestricted hardpoint also takes
+ * the modules reserved for a restricted mount. Which modules a mount takes is a fact about the
+ * game rather than about any implementation, which is why it lives here.
  */
 {
-  "count": 48,
-  "planetaryApproachSuiteCount": 48,
+  "count": 49,
+  "planetaryApproachSuiteCount": 49,
   "spot": [
     {
       "symbol": "SideWinder",
@@ -971,6 +972,47 @@
       "Slot07_Size1",
       "PlanetaryApproachSuite",
       "CargoHatch"
+    ],
+    "AnacondaMkII": [
+      "HugeHardpoint1",
+      "LargeHardpoint1",
+      "LargeHardpoint2",
+      "LargeHardpoint3",
+      "LargeHardpoint4",
+      "SmallHardpoint1",
+      "SmallHardpoint2",
+      "TinyHardpoint1",
+      "TinyHardpoint2",
+      "TinyHardpoint3",
+      "TinyHardpoint4",
+      "TinyHardpoint5",
+      "TinyHardpoint6",
+      "TinyHardpoint7",
+      "TinyHardpoint8",
+      "Armour",
+      "PowerPlant",
+      "MainEngines",
+      "FrameShiftDrive",
+      "LifeSupport",
+      "PowerDistributor",
+      "Radar",
+      "FuelTank",
+      "Slot01_Size8",
+      "Slot02_Size7",
+      "Slot03_Size7",
+      "Cargo01",
+      "Slot04_Size5",
+      "Slot05_Size5",
+      "Slot06_Size5",
+      "Military01",
+      "Military02",
+      "Slot07_Size4",
+      "Slot08_Size4",
+      "Slot09_Size3",
+      "Slot10_Size2",
+      "Slot11_Size1",
+      "PlanetaryApproachSuite",
+      "CargoHatch"
     ]
   },
   "restrictions": [
@@ -989,6 +1031,52 @@
       "rejects": [
         "Hpt_PlasmaAccelerator_Fixed_Large",
         "Hpt_MultiCannon_Fixed_Medium"
+      ]
+    },
+    {
+      "ship": "AnacondaMkII",
+      "slot": "LargeHardpoint3",
+      "restriction": null,
+      "alsoTakes": "mining",
+      "accepts": [
+        "Hpt_MiningToolV2_Fixed_Large",
+        "Hpt_PlasmaAccelerator_Fixed_Large",
+        "Hpt_MiningLaser_Fixed_Medium"
+      ],
+      "rejects": []
+    },
+    {
+      "ship": "AnacondaMkII",
+      "slot": "LargeHardpoint4",
+      "restriction": null,
+      "alsoTakes": "mining",
+      "accepts": [
+        "Hpt_MiningToolV2_Fixed_Large",
+        "Hpt_PlasmaAccelerator_Fixed_Large"
+      ],
+      "rejects": []
+    },
+    {
+      "ship": "AnacondaMkII",
+      "slot": "LargeHardpoint1",
+      "restriction": null,
+      "accepts": [
+        "Hpt_PlasmaAccelerator_Fixed_Large",
+        "Hpt_MiningLaser_Fixed_Medium"
+      ],
+      "rejects": [
+        "Hpt_MiningToolV2_Fixed_Large"
+      ]
+    },
+    {
+      "ship": "AnacondaMkII",
+      "slot": "HugeHardpoint1",
+      "restriction": null,
+      "accepts": [
+        "Hpt_PlasmaAccelerator_Fixed_Large"
+      ],
+      "rejects": [
+        "Hpt_MiningToolV2_Fixed_Large"
       ]
     },
     {

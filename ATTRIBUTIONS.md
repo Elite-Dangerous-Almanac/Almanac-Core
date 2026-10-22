@@ -102,7 +102,10 @@ a verbatim copy produced at build time — edit this file, never the copy.
   recipes scale), the experimental-effect modifiers and their recipes, the module-group
   engineering menus, per-ship module-count limits and fitted stabiliser increases, the
   baseline per-hull maximum heat dissipation, the
-  Lynx Highliner's hull/slot figures and zero-pip minimum pitch, the journal slot names,
+  Lynx Highliner's hull/slot figures and zero-pip minimum pitch, the prices of the Anaconda
+  Mk II, its armour and the size-6 Mk II Cargo Rack, the hull restrictions that name the
+  Anaconda Mk II, two values of its stock fit and the Imperial Clipper's stock fuel tank,
+  the journal slot names,
   localized module, blueprint, experimental-effect and engineering option-group names, and the
   attribute-to-journal-Label mapping. The values are Elite Dangerous game data — see the
   Frontier notice below. Heat dissipation is the one entry the game never shows a player:

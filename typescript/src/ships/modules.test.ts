@@ -641,7 +641,7 @@ test('ship-restricted modules name real hulls, armour excepted', () => {
     assert.equal(armour?.ship, 'Anaconda');
 });
 
-test('exactly five modules reserve themselves to one kind of mount', () => {
+test('a pinned set of modules reserve themselves to one kind of mount', () => {
     // `restrictedToSlot` says a module fits *only* mounts carrying that restriction —
     // the narrow half of the rule, and wrong on any module the game sells for an
     // ordinary optional too (a plain cargo rack fits a `cargo` mount *and* every
@@ -651,9 +651,11 @@ test('exactly five modules reserve themselves to one kind of mount', () => {
         [
             ['Int_PlanetApproachSuite', 'planetaryApproachSuite'],
             ['Int_PlanetApproachSuite_Advanced', 'planetaryApproachSuite'],
+            ['Int_LargeCargoRack_Size6_Class1', 'cargo'],
             ['Int_LargeCargoRack_Size7_Class1', 'cargo'],
             ['Int_LargeCargoRack_Size8_class1', 'cargo'],
             ['Int_MultiDroneControl_MiningV2_Size5_Class5', 'limpetController'],
+            ['Hpt_MiningToolV2_Fixed_Large', 'mining'],
         ],
     );
     // Every value names a restriction some hull's mount actually carries, or the module
@@ -663,7 +665,10 @@ test('exactly five modules reserve themselves to one kind of mount', () => {
             ...(getShipSlots(s.symbol)?.optional ?? []),
             ...(getShipSlots(s.symbol)?.hardpoints ?? []),
         ])
-            .map((mount) => mount.restriction)
+            .flatMap((mount) => [
+                mount.restriction,
+                'alsoTakes' in mount ? mount.alsoTakes : undefined,
+            ])
             .filter((restriction) => restriction !== undefined),
     );
     for (const m of ALL_MODULES) {

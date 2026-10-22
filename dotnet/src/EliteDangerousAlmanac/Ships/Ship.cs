@@ -18,10 +18,17 @@ public enum ShipSize
 /// <summary>One ship hull: its identity, its stats and its slot layout in one record.</summary>
 /// <remarks>
 /// <para>
-/// The symbol and any entitlement come from Frontier's shipyard registry. The name is the
-/// installed English localisation string where in-game verification differs from that
-/// registry. The manufacturer, the size, the stats and the slot layout come primarily from
+/// The symbol and any entitlement come from Frontier's shipyard registry, except on the
+/// Anaconda Mk II (below). The name is the installed English localisation string where
+/// in-game verification differs from that registry. The manufacturer, the size, the stats and the slot layout come primarily from
 /// coriolis-data, with verified in-game readings governing disagreements and omissions.
+/// </para>
+/// <para>
+/// The Lynx Highliner (<c>MediumTransport01</c>), which is absent from the pinned
+/// coriolis-data revision, takes its stats and slot layout from EDSY, Frontier's update notes
+/// and in-game verification. The unreleased Anaconda Mk II (<c>AnacondaMkII</c>), which is
+/// absent from the pinned registries, takes its identity, stats and slot layout from an
+/// in-game observation and its prices from EDSY.
 /// </para>
 /// <para>
 /// Masses are tonnes, speeds are metres per second, and rotation rates are degrees per
@@ -37,7 +44,9 @@ public enum ShipSize
 /// <param name="Manufacturer">The hull manufacturer as the shipyard names it.</param>
 /// <param name="Size">The landing-pad size class the hull requires.</param>
 /// <param name="Entitlement">
-/// Frontier's purchase-grant token, present only when the hull is gated behind one.
+/// Frontier's purchase-grant token, present only when the hull is gated behind one. The
+/// Anaconda Mk II is the exception: its token is not known, so the field is absent
+/// (https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/84).
 /// </param>
 /// <param name="HullMass">
 /// Empty-hull mass, in tonnes. A build's unladen mass is this plus every fitted module.
@@ -79,7 +88,8 @@ public enum ShipSize
 /// <param name="Core">The seven core-internal mount sizes.</param>
 /// <param name="Hardpoints">
 /// Weapon hardpoints, largest first. A mount carries a restriction only when it takes one
-/// family of weapons and nothing else.
+/// family of weapons and nothing else. A mount carries <see cref="HardpointSlotSpec.AlsoTakes"/>
+/// when it takes every weapon and also a module reserved for a restricted mount.
 /// </param>
 /// <param name="Utility">Number of tiny utility mounts.</param>
 /// <param name="Optional">

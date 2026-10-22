@@ -12,12 +12,14 @@
  * records hold English alone — the unreleased Large Planetary Vehicle Hangars, which no
  * acquired localisation table names yet; see data/i18n/SOURCES.md.
  *
- * A record key is the English name it holds. A few names need more than one record,
- * because the game distinguishes in other locales what English spells the same way: a
- * `#2` suffix separates those. `Lightweight Alloy` and `Reinforced Alloy` are singular
- * on some hulls and plural on the rest, `Hatch Breaker Limpet Controller` is generic on
- * one symbol and specific on the others, and one Corrosion Resistant Cargo Rack differs
- * from its siblings. The suffix is part of the key only, never of a displayed name.
+ * A record key is the English name it holds, and each English name has one record. The
+ * game distinguishes in other locales a few names that English spells the same way:
+ * `Lightweight Alloy` and `Reinforced Alloy` are singular on some hulls and plural on the
+ * rest, `Hatch Breaker Limpet Controller` is generic on one symbol and specific on the
+ * others, one Corrosion Resistant Cargo Rack differs from its siblings, and the Anaconda
+ * Mk II's `Mk II Ablative` armour reads differently from the Caspian Explorer's. The
+ * record holds one of those readings; data/i18n/SOURCES.md records the rule that chooses
+ * it.
  */
 {
   "nameKeys": {
@@ -537,6 +539,12 @@
     "MediumTransport01_Armour_Grade3": "Military Grade Composite",
     "MediumTransport01_Armour_Mirrored": "Mirrored Surface Composite",
     "MediumTransport01_Armour_Reactive": "Reactive Surface Composite",
+    "AnacondaMkII_Armour_Grade1": "Mk II Ablative Lightweight Alloys",
+    "AnacondaMkII_Armour_Grade2": "Mk II Ablative Reinforced Alloys",
+    "AnacondaMkII_Armour_Grade3": "Mk II Ablative Military Grade Composite",
+    "AnacondaMkII_Armour_Mirrored": "Mk II Ablative Mirrored Surface Composite",
+    "AnacondaMkII_Armour_Reactive": "Mk II Ablative Reactive Surface Composite",
+    "AnacondaMkII_Armour_Grade1_Default": "Lightweight Alloy",
     "Int_DockingComputer_Standard": "Standard Docking Computer",
     "Int_ShieldGenerator_Size1_Class1": "Shield Generator",
     "Int_ShieldGenerator_Size1_Class2": "Shield Generator",
@@ -1018,6 +1026,7 @@
     "Int_MultiDroneControl_Universal_Size7_Class5": "Universal Multi Limpet Controller",
     "Int_ExpModuleStabiliser_Size3_Class3": "Experimental Weapon Stabiliser",
     "Int_ExpModuleStabiliser_Size5_Class3": "Experimental Weapon Stabiliser",
+    "Int_LargeCargoRack_Size6_Class1": "Mk II Cargo Rack",
     "Int_LargeCargoRack_Size7_Class1": "Mk II Cargo Rack",
     "Int_LargeCargoRack_Size8_class1": "Mk II Cargo Rack",
     "Int_MultiDroneControl_MiningV2_Size5_Class5": "Mk II Mining Multi-Limpet Controller",

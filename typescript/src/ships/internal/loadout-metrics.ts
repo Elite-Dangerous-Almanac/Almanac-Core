@@ -1108,8 +1108,8 @@ export function cellBankInputsFor(
  */
 function stockBulkhead(ship: Ship): OutfittingModule | null {
     const variants = getBulkheadsForShip(ship.name, CORE_MODULES);
-    // The Caspian Explorer's stock alloy is spelled `..._Grade1_Default`; every other
-    // hull's is the zero-mass first entry.
+    // Some hulls' stock alloy is spelled `..._Grade1_Default`; every other hull's is the
+    // zero-mass first entry.
     return (
         variants.find((v) => v.symbol.toLowerCase().endsWith('_default')) ??
         variants.find((v) => v.mass === 0) ??

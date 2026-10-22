@@ -1261,6 +1261,43 @@ type FixtureShipsBuildMetrics = {
         }[];
     };
     inGame: {
+        anacondaMkII: {
+            armour: {
+                hardness: number;
+                hitPoints: number;
+                resistances: {
+                    explosive: number;
+                    kinetic: number;
+                    thermal: number;
+                };
+            };
+            build: string;
+            jumpRange: {
+                fullTank: number;
+            };
+            mass: {
+                current: number;
+                maximum: number;
+            };
+            note: string;
+            observedShipName: string;
+            power: {
+                available: number;
+                deployed: number;
+                includesDisabledModules: boolean;
+                retracted: number;
+            };
+            shields: {
+                strength: number;
+            };
+            speed: {
+                boost: number;
+                pitch: number;
+                roll: number;
+                top: number;
+                yaw: number;
+            };
+        };
         cobraMkV: {
             armour: {
                 hitPoints: number;
@@ -2508,6 +2545,37 @@ type FixtureShipsHeat = {
 
 declare module '*/fixtures/ships/heat.jsonc' {
     const value: FixtureShipsHeat;
+    export default value;
+}
+
+type FixtureShipsJournalAnacondaMkIi = {
+    CargoCapacity: number;
+    FuelCapacity: {
+        Main: number;
+        Reserve: number;
+    };
+    HullHealth: number;
+    MaxJumpRange: number;
+    Modules: {
+        Health: number;
+        Item: string;
+        On: boolean;
+        Priority: number;
+        Slot: string;
+    }[];
+    ModulesValue: number;
+    Rebuy: number;
+    Ship: string;
+    ShipID: number;
+    ShipIdent: string;
+    ShipName: string;
+    UnladenMass: number;
+    event: string;
+    timestamp: string;
+};
+
+declare module '*/fixtures/ships/journal-anaconda-mk-ii.jsonc' {
+    const value: FixtureShipsJournalAnacondaMkIi;
     export default value;
 }
 
@@ -5692,6 +5760,7 @@ type FixtureShipsShipSlots = {
     count: number;
     keys: {
         Anaconda: string[];
+        AnacondaMkII: string[];
         Asp_Scout: string[];
         Explorer_NX: string[];
         Federation_Dropship: string[];
@@ -5708,6 +5777,7 @@ type FixtureShipsShipSlots = {
     planetaryApproachSuiteCount: number;
     restrictions: {
         accepts: string[];
+        alsoTakes?: string;
         rejects: string[];
         restriction: string | null;
         ship: string;

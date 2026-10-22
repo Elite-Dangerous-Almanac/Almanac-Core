@@ -92,6 +92,9 @@ internal sealed class SlotRestrictionFixture
 
     public string? Restriction { get; set; }
 
+    /// <summary>The restriction an unrestricted hardpoint also takes, where the case states one.</summary>
+    public string? AlsoTakes { get; set; }
+
     public List<string> Accepts { get; set; } = [];
 
     public List<string> Rejects { get; set; } = [];

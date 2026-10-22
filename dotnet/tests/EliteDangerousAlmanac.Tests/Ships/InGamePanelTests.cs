@@ -36,8 +36,8 @@ public class InGamePanelTests
 
     /// <summary>The three angular rates the panel shows, to a hundredth of a degree.</summary>
     /// <remarks>
-    /// Excluding the reserve tank puts every one of the thirty readings inside the panel's
-    /// own rounding interval. Carrying it puts most of them outside, which is what says the
+    /// Excluding the reserve tank puts every reading inside the panel's own rounding
+    /// interval. Carrying it puts most of them outside, which is what says the
     /// rotation figures are quoted at the lighter load.
     /// </remarks>
     [Theory]
@@ -126,6 +126,14 @@ public class InGamePanelTests
         InGameBuildFixture expected = Fixture[name];
         ShipLoadout build = Read(expected);
 
+        ArmourMetrics armour = BuildMetrics.Of(build).ArmourMetrics();
+        Assert.True(expected.Armour.HitPoints.Matches(armour.HitPoints), $"{name} hull points");
+        AssertResistances(expected.Armour.Resistances, armour.Resistances, $"{name} armour");
+        if (expected.Armour.Hardness is PanelReading hardness)
+        {
+            Assert.True(hardness.Matches(Hull(build).Hardness), $"{name} hardness");
+        }
+
         CalculationResult<ShieldMetrics> shielded = BuildMetrics.Of(build).ShieldMetricsResult();
 
         // A panel showing no shield at all is a ship with no generator fitted, which is a
@@ -155,10 +163,6 @@ public class InGamePanelTests
                     generator.Stats[ModuleStat.ShieldBrokenRegenRate]!.Value),
                 $"{name} broken shield regeneration");
         }
-
-        ArmourMetrics armour = BuildMetrics.Of(build).ArmourMetrics();
-        Assert.True(expected.Armour.HitPoints.Matches(armour.HitPoints), $"{name} hull points");
-        AssertResistances(expected.Armour.Resistances, armour.Resistances, $"{name} armour");
     }
 
     [Theory]
@@ -176,6 +180,15 @@ public class InGamePanelTests
             $"{name} rated mass");
     }
 
+    [Theory]
+    [MemberData(nameof(Builds))]
+    public void APanelAuditedCaptureStatesTheReserveTankItsHullCarries(string name)
+    {
+        LoadoutEvent capture = SharedFixtures.LoadCapture<LoadoutEvent>(Fixture[name].Build);
+        Ship hull = ShipCatalogue.FindBySymbol(capture.Ship)!;
+        Assert.Equal(hull.ReserveFuelCapacity, capture.FuelCapacity!.Reserve);
+    }
+
     /// <summary>A capture that lost its own ship name still names the build the panel showed.</summary>
     [Theory]
     [MemberData(nameof(Builds))]
@@ -184,11 +197,11 @@ public class InGamePanelTests
         InGameBuildFixture expected = Fixture[name];
         ShipLoadout build = Read(expected);
 
-        if (expected.ObservedShipName is string observed)
+        if (expected.ObservedShipName is not null)
         {
             // The capture states an empty name, so the observer's own reading is the record.
+            // An empty reading is a ship the game shows with no name either.
             Assert.True(string.IsNullOrEmpty(build.ShipName));
-            Assert.NotEmpty(observed);
             return;
         }
 
@@ -224,6 +237,8 @@ public class InGamePanelTests
         mounts.AddRange(build.Slots(SlotKind.Utility));
         return mounts;
     }
+
+    private static Ship Hull(ShipLoadout build) => ShipCatalogue.FindBySymbol(build.ShipSymbol)!;
 
     private static ShipLoadout Read(InGameBuildFixture expected) =>
         ShipLoadout.FromLoadout(SharedFixtures.LoadCapture<LoadoutEvent>(expected.Build));

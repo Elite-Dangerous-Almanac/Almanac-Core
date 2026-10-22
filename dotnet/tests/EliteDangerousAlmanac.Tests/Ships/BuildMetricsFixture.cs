@@ -147,6 +147,9 @@ internal sealed class InGameArmourFixture
 {
     public PanelReading HitPoints { get; set; }
 
+    /// <summary>The panel's armour rating, which is the hull hardness, where the case states one.</summary>
+    public PanelReading? Hardness { get; set; }
+
     public InGameResistancesFixture Resistances { get; set; } = new();
 }
 

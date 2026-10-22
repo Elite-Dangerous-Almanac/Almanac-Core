@@ -109,8 +109,9 @@ public static class ModuleCatalogue
     /// category answers an empty list.
     /// </param>
     /// <returns>
-    /// The hull's bulkheads — five variants, or six on the Caspian Explorer — or an empty list
-    /// when none are carried for that hull.
+    /// The hull's bulkheads — five variants, or six on a hull whose stock alloy has its own
+    /// <c>_Grade1_Default</c> record (the Caspian Explorer, the Anaconda Mk II) — or an empty
+    /// list when none are carried for that hull.
     /// </returns>
     public static IReadOnlyList<OutfittingModule> BulkheadsForShip(
         string? ship,
