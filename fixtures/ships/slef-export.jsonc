@@ -230,7 +230,7 @@
   },
   "deepBlack": {
     "build": "fixtures/ships/slef-the-deep-black.jsonc",
-    "note": "Round-trip of a real EDSY export. The physical figures reproduce the export's own exactly, which is what makes recomputation trustworthy. The credit figures do not, and should not: this export was taken at a 12.25% outfitting discount, and the export names no planetary approach suite, so import stocks the hull's own advanced suite and its 500 Cr joins the module total. That suite is the 22nd module and the last in `fittedOrder`, the export having listed the other 21.",
+    "note": "Round-trip of a real EDSY export. The physical figures reproduce the export's own exactly, which is what makes recomputation trustworthy. The credit figures do not, and should not: this export was taken at a 12.25% outfitting discount, and the export names no planetary approach suite, so import stocks the hull's own advanced suite and its 500 Cr joins the module total. That suite is the last module in `fittedOrder`, after every module the export lists.",
     "topLevelKeys": [
       "Ship",
       "ShipName",
@@ -244,19 +244,19 @@
       "Rebuy",
       "Modules"
     ],
-    "moduleCount": 22,
+    "moduleCount": 24,
     "recomputed": {
       "Ship": "explorer_nx",
       "HullValue": 189326510,
-      "ModulesValue": 219516404,
-      "UnladenMass": 1237.3,
+      "ModulesValue": 220560791,
+      "UnladenMass": 1122.3,
       "CargoCapacity": 16,
-      "MaxJumpRange": 89.414678,
+      "MaxJumpRange": 97.452219,
       "FuelCapacity": {
         "Main": 128,
         "Reserve": 1.14
       },
-      "Rebuy": 20442145
+      "Rebuy": 20494365
     },
     "physicalFiguresMatchSource": [
       "UnladenMass",
@@ -265,10 +265,10 @@
       "FuelCapacity"
     ],
     "discount": {
-      "note": "What the export reports, and how it relates to our retail figures. Its modules sit at a uniform 0.8775 of list — a 12.25% outfitting discount — while its hull is at full list price, so `HullValue` matches and `ModulesValue` does not.",
+      "note": "What the export reports, and how it relates to our retail figures. Its modules sit within a few credits of 0.8775 of list — a 12.25% outfitting discount — while its hull is at full list price, so `HullValue` matches and `ModulesValue` does not.",
       "sourceHullValue": 189326510,
-      "sourceModulesValue": 192625195,
-      "sourceRebuy": 19097585,
+      "sourceModulesValue": 193541647,
+      "sourceRebuy": 19143407,
       "moduleDiscount": 0.8775
     },
     "fittedOrder": [
@@ -286,11 +286,13 @@
       "Slot01_Size7",
       "Slot02_Size6",
       "Slot03_Size6",
+      "Slot05_Size5",
       "Slot06_Size5",
       "Slot07_Size5",
       "Slot08_Size4",
       "Slot09_Size4",
       "Slot10_Size3",
+      "Slot12_Size1",
       "Slot13_Size1",
       "Slot14_Size1",
       "PlanetaryApproachSuite"
@@ -309,19 +311,21 @@
       "Slot01_Size7",
       "Slot02_Size6",
       "Slot03_Size6",
+      "Slot05_Size5",
       "Slot06_Size5",
       "Slot07_Size5",
       "Slot08_Size4",
       "Slot09_Size4",
       "Slot10_Size3",
+      "Slot12_Size1",
       "Slot13_Size1",
       "Slot14_Size1",
       "PlanetaryApproachSuite",
       "CargoHatch"
     ],
     "afterEdit": {
-      "note": "Fitting a 5C fuel tank into Slot06_Size5, which held a 5D shield generator. Nothing is dropped, and nothing is adjusted in place: every figure is recomputed from the new fit, so ModulesValue swaps the generator's list price of 189035 for the tank's 97754.",
-      "slot": "Slot06_Size5",
+      "note": "Fitting a 5C fuel tank into Slot05_Size5, which held a 5D shield generator. Nothing is dropped, and nothing is adjusted in place: every figure is recomputed from the new fit, so ModulesValue swaps the generator's list price of 189035 for the tank's 97754.",
+      "slot": "Slot05_Size5",
       "item": "Int_FuelTank_Size5_Class3",
       "topLevelKeys": [
         "Ship",
@@ -337,15 +341,15 @@
         "Modules"
       ],
       "recomputed": {
-        "ModulesValue": 219425123,
-        "UnladenMass": 1233.7,
+        "ModulesValue": 220469510,
+        "UnladenMass": 1118.7,
         "CargoCapacity": 16,
-        "MaxJumpRange": 89.643693,
+        "MaxJumpRange": 97.730343,
         "FuelCapacity": {
           "Main": 160,
           "Reserve": 1.14
         },
-        "Rebuy": 20437581
+        "Rebuy": 20489801
       }
     }
   },

@@ -39,13 +39,13 @@
     { "slot": "PlanetaryApproachSuite", "item": "Int_PlanetApproachSuite_Advanced" }
   ],
   "metrics": {
-    "unladenMass": 369.9,
+    "unladenMass": 329.9,
     "cargoCapacity": 32,
     "passengerCapacity": 0,
     "fuelCapacity": 32,
-    "maxJumpRange": 46.637334,
+    "maxJumpRange": 50.950951,
     "power": { "available": 20.4, "retracted": 19.74, "deployed": 25.42, "withinBudget": false },
-    "shields": { "strength": 381.659508, "resistances": { "kinetic": 0.4, "thermal": -0.2, "explosive": 0.5 } },
+    "shields": { "strength": 427.000312, "resistances": { "kinetic": 0.4, "thermal": -0.2, "explosive": 0.5 } },
     "armour": { "hitPoints": 524, "resistances": { "kinetic": -0.194, "thermal": 0.005, "explosive": -0.393 } },
     "weapons": { "count": 6, "damagePerSecond": 94.342503, "sustainedDamagePerSecond": 63.677292 }
   }

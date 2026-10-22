@@ -15,13 +15,13 @@
   "captures": {
     "deepBlack": {
       "build": "fixtures/ships/slef-the-deep-black.jsonc",
-      "note": "Fully priced and uniformly discounted: every one of the 20 priced modules sits at 0.8775 of its catalogue list price -- a 12.25% outfitting discount -- while the hull is at full price. Nothing in the export says so, which is why the record is preserved as stated rather than reduced to one discount figure.",
+      "note": "Fully priced and uniformly discounted: every priced module sits within a few credits of 0.8775 of its catalogue list price -- a 12.25% outfitting discount -- while the hull is at full price. Nothing in the export says so, which is why the record is preserved as stated rather than reduced to one discount figure.",
       "record": {
         "hullValue": 189326510,
-        "modulesValue": 192625195,
-        "rebuy": 19097585,
-        "moduleCount": 21,
-        "pricedModulesValue": 192625195,
+        "modulesValue": 193541647,
+        "rebuy": 19143407,
+        "moduleCount": 23,
+        "pricedModulesValue": 193541647,
         "moduleValues": [
           {
             "slot": "TinyHardpoint5",
@@ -89,14 +89,19 @@
             "value": 13430576
           },
           {
-            "slot": "Slot06_Size5",
+            "slot": "Slot05_Size5",
             "item": "int_shieldgenerator_size5_class2",
             "value": 165883
           },
           {
-            "slot": "Slot07_Size5",
+            "slot": "Slot06_Size5",
             "item": "int_guardianfsdbooster_size5",
             "value": 5688920
+          },
+          {
+            "slot": "Slot07_Size5",
+            "item": "int_fighterbaymk2_size5_class1",
+            "value": 697077
           },
           {
             "slot": "Slot08_Size4",
@@ -114,6 +119,11 @@
             "value": 43875
           },
           {
+            "slot": "Slot12_Size1",
+            "item": "int_detailedsurfacescanner_tiny",
+            "value": 219375
+          },
+          {
             "slot": "Slot13_Size1",
             "item": "int_supercruiseassist",
             "value": 8003
@@ -129,8 +139,8 @@
         "note": "An unedited capture re-exports its own credits unchanged.",
         "topLevelCredits": {
           "HullValue": 189326510,
-          "ModulesValue": 192625195,
-          "Rebuy": 19097585
+          "ModulesValue": 193541647,
+          "Rebuy": 19143407
         },
         "pricedSlots": {
           "TinyHardpoint5": 3071,
@@ -146,11 +156,13 @@
           "Slot01_Size7": 80011012,
           "Slot02_Size6": 13430576,
           "Slot03_Size6": 13430576,
-          "Slot06_Size5": 165883,
-          "Slot07_Size5": 5688920,
+          "Slot05_Size5": 165883,
+          "Slot06_Size5": 5688920,
+          "Slot07_Size5": 697077,
           "Slot08_Size4": 75816,
           "Slot09_Size4": 82775,
           "Slot10_Size3": 43875,
+          "Slot12_Size1": 219375,
           "Slot13_Size1": 8003,
           "Slot14_Size1": 11855
         }
@@ -299,21 +311,16 @@
         }
       }
     },
-    "caspianExplorer": {
-      "build": "fixtures/ships/journal-caspian-explorer.jsonc",
-      "note": "The partially priced case: an EDSY export stating no HullValue at all, with only 19 of its 35 listed entries priced. A null total and a partial slot list is a normal record, not a defect.",
+    "deepBlackJournal": {
+      "build": "fixtures/ships/journal-the-deep-black.jsonc",
+      "note": "The partially priced case: a journal capture that states no HullValue at all and leaves some of its listed entries unpriced. A null total and a partial slot list is a normal record, not a defect.",
       "record": {
         "hullValue": null,
-        "modulesValue": 193019839,
-        "rebuy": 9650994,
-        "moduleCount": 35,
-        "pricedModulesValue": 193019839,
+        "modulesValue": 192206494,
+        "rebuy": 9610327,
+        "moduleCount": 34,
+        "pricedModulesValue": 192206494,
         "moduleValues": [
-          {
-            "slot": "MediumHardpoint6",
-            "item": "hpt_plasmaaccelerator_fixed_medium",
-            "value": 813345
-          },
           {
             "slot": "TinyHardpoint1",
             "item": "hpt_heatsinklauncher_turret_tiny",
@@ -409,11 +416,10 @@
       "sourceExport": {
         "note": "An unedited capture re-exports its own credits unchanged.",
         "topLevelCredits": {
-          "ModulesValue": 193019839,
-          "Rebuy": 9650994
+          "ModulesValue": 192206494,
+          "Rebuy": 9610327
         },
         "pricedSlots": {
-          "MediumHardpoint6": 813345,
           "TinyHardpoint1": 3072,
           "TinyHardpoint2": 3072,
           "PowerPlant": 3794047,
@@ -744,8 +750,8 @@
             "why": "The article the capture priced is back in the mount it was priced in, so its figure applies again and the totals hold.",
             "topLevelCredits": {
               "HullValue": 189326510,
-              "ModulesValue": 192625195,
-              "Rebuy": 19097585
+              "ModulesValue": 193541647,
+              "Rebuy": 19143407
             },
             "unpricedSlots": []
           },
@@ -762,8 +768,8 @@
             "why": "Engineering a module does not change what was paid for it, so nothing is dropped.",
             "topLevelCredits": {
               "HullValue": 189326510,
-              "ModulesValue": 192625195,
-              "Rebuy": 19097585
+              "ModulesValue": 193541647,
+              "Rebuy": 19143407
             },
             "unpricedSlots": []
           },
@@ -779,8 +785,8 @@
             "why": "The capture priced nothing in this mount and everything it did price is still fitted. The new module exports unpriced, which is the shape a partially priced capture has anyway.",
             "topLevelCredits": {
               "HullValue": 189326510,
-              "ModulesValue": 192625195,
-              "Rebuy": 19097585
+              "ModulesValue": 193541647,
+              "Rebuy": 19143407
             },
             "unpricedSlots": [],
             "unpricedNewSlots": [
@@ -864,6 +870,11 @@
               },
               {
                 "removeModule": {
+                  "slot": "Slot05_Size5"
+                }
+              },
+              {
+                "removeModule": {
                   "slot": "Slot06_Size5"
                 }
               },
@@ -885,6 +896,11 @@
               {
                 "removeModule": {
                   "slot": "Slot10_Size3"
+                }
+              },
+              {
+                "removeModule": {
+                  "slot": "Slot12_Size1"
                 }
               },
               {
@@ -916,18 +932,20 @@
               "Slot01_Size7",
               "Slot02_Size6",
               "Slot03_Size6",
+              "Slot05_Size5",
               "Slot06_Size5",
               "Slot07_Size5",
               "Slot08_Size4",
               "Slot09_Size4",
               "Slot10_Size3",
+              "Slot12_Size1",
               "Slot13_Size1",
               "Slot14_Size1"
             ]
           }
         }
       },
-      "caspianExplorer": {
+      "deepBlackJournal": {
         "note": "A capture that states no HullValue: once an edit drops the module totals there is no credit figure left to write, and the export says nothing about credits while still pricing every surviving article.",
         "scenarios": {
           "swapAPricedModule": {

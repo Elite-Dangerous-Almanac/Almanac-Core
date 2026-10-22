@@ -27,7 +27,6 @@ import corvetteBeamsJournal from '../../../fixtures/ships/journal-federation-cor
 import corvetteMultiroleJournal from '../../../fixtures/ships/journal-federation-corvette-multirole.jsonc' with { type: 'json' };
 import corvetteMixedJournal from '../../../fixtures/ships/journal-federation-corvette-mixed.jsonc' with { type: 'json' };
 import corvettePlasmaJournal from '../../../fixtures/ships/journal-federation-corvette-plasma.jsonc' with { type: 'json' };
-import caspianJournal from '../../../fixtures/ships/journal-caspian-explorer.jsonc' with { type: 'json' };
 import cobraJournal from '../../../fixtures/ships/journal-cobra-mkv.jsonc' with { type: 'json' };
 import kestrelJournal from '../../../fixtures/ships/journal-kestrel-mkii.jsonc' with { type: 'json' };
 import lynxRescueJournal from '../../../fixtures/ships/journal-lynx-highliner-rescue.jsonc' with { type: 'json' };
@@ -46,7 +45,6 @@ import edsyAnacondaSlef from '../../../fixtures/ships/slef-edsy-anaconda-funny-h
 // fixture names, so a new capture is joined here by adding it in both places.
 const CAPTURES: readonly { file: string; loadouts: readonly LoadoutEvent[] }[] = [
     { file: 'journal-anaconda-slapaconda.jsonc', loadouts: [slapacondaJournal as LoadoutEvent] },
-    { file: 'journal-caspian-explorer.jsonc', loadouts: [caspianJournal as LoadoutEvent] },
     { file: 'journal-cobra-mkv.jsonc', loadouts: [cobraJournal as LoadoutEvent] },
     { file: 'journal-corsair.jsonc', loadouts: [corsairJournal as LoadoutEvent] },
     {

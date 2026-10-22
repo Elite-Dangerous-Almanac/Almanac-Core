@@ -2564,56 +2564,6 @@ declare module '*/fixtures/ships/journal-anaconda-slapaconda.jsonc' {
     export default value;
 }
 
-type FixtureShipsJournalCaspianExplorer = {
-    CargoCapacity: number;
-    FuelCapacity: {
-        Main: number;
-        Reserve: number;
-    };
-    HullHealth: number;
-    MaxJumpRange: number;
-    Modules: {
-        AmmoInClip?: number;
-        AmmoInHopper?: number;
-        Engineering?: {
-            BlueprintID: number;
-            BlueprintName: string;
-            Engineer?: string;
-            EngineerID: number;
-            ExperimentalEffect?: string;
-            ExperimentalEffect_Localised?: string;
-            Level: number;
-            Modifiers: {
-                Label: string;
-                LessIsGood: number;
-                OriginalValue: number;
-                Value: number;
-            }[];
-            Quality: number;
-        };
-        Health: number;
-        Item: string;
-        On: boolean;
-        Priority: number;
-        Slot: string;
-        Value?: number;
-    }[];
-    ModulesValue: number;
-    Rebuy: number;
-    Ship: string;
-    ShipID: number;
-    ShipIdent: string;
-    ShipName: string;
-    UnladenMass: number;
-    event: string;
-    timestamp: string;
-};
-
-declare module '*/fixtures/ships/journal-caspian-explorer.jsonc' {
-    const value: FixtureShipsJournalCaspianExplorer;
-    export default value;
-}
-
 type FixtureShipsJournalCobraMkv = {
     CargoCapacity: number;
     FuelCapacity: {
@@ -6386,50 +6336,6 @@ declare module '*/fixtures/ships/slef-export.jsonc' {
 
 type FixtureShipsSourcePurchase = {
     captures: {
-        caspianExplorer: {
-            build: string;
-            note: string;
-            record: {
-                hullValue: null;
-                moduleCount: number;
-                moduleValues: {
-                    item: string;
-                    slot: string;
-                    value: number;
-                }[];
-                modulesValue: number;
-                pricedModulesValue: number;
-                rebuy: number;
-            };
-            sourceExport: {
-                note: string;
-                pricedSlots: {
-                    FrameShiftDrive: number;
-                    LifeSupport: number;
-                    MainEngines: number;
-                    MediumHardpoint6: number;
-                    PowerDistributor: number;
-                    PowerPlant: number;
-                    Radar: number;
-                    Slot01_Size7: number;
-                    Slot02_Size6: number;
-                    Slot03_Size6: number;
-                    Slot04_Size5: number;
-                    Slot05_Size5: number;
-                    Slot06_Size5: number;
-                    Slot08_Size4: number;
-                    Slot09_Size4: number;
-                    Slot10_Size3: number;
-                    Slot12_Size1: number;
-                    TinyHardpoint1: number;
-                    TinyHardpoint2: number;
-                };
-                topLevelCredits: {
-                    ModulesValue: number;
-                    Rebuy: number;
-                };
-            };
-        };
         deepBlack: {
             build: string;
             note: string;
@@ -6459,11 +6365,13 @@ type FixtureShipsSourcePurchase = {
                     Slot01_Size7: number;
                     Slot02_Size6: number;
                     Slot03_Size6: number;
+                    Slot05_Size5: number;
                     Slot06_Size5: number;
                     Slot07_Size5: number;
                     Slot08_Size4: number;
                     Slot09_Size4: number;
                     Slot10_Size3: number;
+                    Slot12_Size1: number;
                     Slot13_Size1: number;
                     Slot14_Size1: number;
                     TinyHardpoint5: number;
@@ -6471,6 +6379,49 @@ type FixtureShipsSourcePurchase = {
                 };
                 topLevelCredits: {
                     HullValue: number;
+                    ModulesValue: number;
+                    Rebuy: number;
+                };
+            };
+        };
+        deepBlackJournal: {
+            build: string;
+            note: string;
+            record: {
+                hullValue: null;
+                moduleCount: number;
+                moduleValues: {
+                    item: string;
+                    slot: string;
+                    value: number;
+                }[];
+                modulesValue: number;
+                pricedModulesValue: number;
+                rebuy: number;
+            };
+            sourceExport: {
+                note: string;
+                pricedSlots: {
+                    FrameShiftDrive: number;
+                    LifeSupport: number;
+                    MainEngines: number;
+                    PowerDistributor: number;
+                    PowerPlant: number;
+                    Radar: number;
+                    Slot01_Size7: number;
+                    Slot02_Size6: number;
+                    Slot03_Size6: number;
+                    Slot04_Size5: number;
+                    Slot05_Size5: number;
+                    Slot06_Size5: number;
+                    Slot08_Size4: number;
+                    Slot09_Size4: number;
+                    Slot10_Size3: number;
+                    Slot12_Size1: number;
+                    TinyHardpoint1: number;
+                    TinyHardpoint2: number;
+                };
+                topLevelCredits: {
                     ModulesValue: number;
                     Rebuy: number;
                 };
@@ -6571,22 +6522,6 @@ type FixtureShipsSourcePurchase = {
     };
     editedExports: {
         groups: {
-            caspianExplorer: {
-                note: string;
-                scenarios: {
-                    swapAPricedModule: {
-                        edits: {
-                            setModule: {
-                                slot: string;
-                                symbol: string;
-                            };
-                        }[];
-                        topLevelCredits: Record<string, never>;
-                        unpricedSlots: string[];
-                        why: string;
-                    };
-                };
-            };
             deepBlack: {
                 note: string;
                 scenarios: {
@@ -6675,6 +6610,22 @@ type FixtureShipsSourcePurchase = {
                         topLevelCredits: {
                             HullValue: number;
                         };
+                        unpricedSlots: string[];
+                        why: string;
+                    };
+                };
+            };
+            deepBlackJournal: {
+                note: string;
+                scenarios: {
+                    swapAPricedModule: {
+                        edits: {
+                            setModule: {
+                                slot: string;
+                                symbol: string;
+                            };
+                        }[];
+                        topLevelCredits: Record<string, never>;
                         unpricedSlots: string[];
                         why: string;
                     };

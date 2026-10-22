@@ -1,22 +1,29 @@
 /*
  * Shared test fixture — not shipped in any package.
  *
- * A real EDSY SLEF export of an exploration Caspian Explorer. Its acquisition date and
- * immutable source revision are not recorded.
+ * A real EDSY SLEF export of an exploration Caspian Explorer.
+ *
+ * Contributed 2026-10-21 UTC by the repository owner from their own commander's fleet. Source text
+ * SHA-256 `06401bf84d1e8650f39bd43263ccf8d2465af052290e51145a18dfcc546b8536`. Stored-form SHA-256
+ * `39ff3ad78f585f950a440332d39ce2b2238ca98cfaa40e6c6564fa30d949f249`. Its `ShipName`, `ShipIdent`
+ * and the `appURL` holding the same build are kept: they describe a ship, not a person.
  *
  * It has zero weapons, so it exercises jump range, fuel and power; the port reproduces EDSY's own
- * exported `MaxJumpRange` of 89.414678 ly for it. A later journal capture of the current fit is
+ * exported `MaxJumpRange` of 97.452219 ly for it. A journal capture of the same ship is
  * preserved separately as `journal-the-deep-black.jsonc`.
  *
  * The capture is Elite Dangerous game output and remains the property of Frontier Developments
  * plc, redistributed under Frontier's media-usage terms; see ATTRIBUTIONS.md.
+ *
+ * A stored checksum here is of the payload alone, taken with this header comment removed; a source
+ * checksum is of the upstream file as it was received.
  */
 [
   {
     "header": {
       "appName": "EDSY",
-      "appVersion": 423039902,
-      "appURL": "https://edsy.org/#/L=Jl00000H4C0S00,,mpWCjw35CjwB5,9p3H05G_W0A8cH56J_W0AQGG534s00AiaG55J_W0AtyH53G_W0B98H55K_W0BRuH53G_W0Bfo15,,53c450PAC50PA45mpU7TCJ53N_W034a151LU35073154k4B5mpU0nGC50nF45,The_0Deep_0Black,ISAR"
+      "appVersion": 424029901,
+      "appURL": "https://edsy.org/#/L=Kl00000H4C0S00,,mpWCjw35Cjw35,9p3H05G_W0A8cH56J_W0AQGG534s00AiaG55J_W0AtyH53G_W0B98H55K_W0BRuH53G_W0Bfo15,,53c450PAC50PA45mpT7TCJ53N_W034a151rs051LU35073154k4B5mpT2jw050nGC50nF45,The_0Deep_0Black,ISAR"
     },
     "data": {
       "event": "Loadout",
@@ -24,15 +31,15 @@
       "ShipName": "The Deep Black",
       "ShipIdent": "ISAR",
       "HullValue": 189326510,
-      "ModulesValue": 192625195,
-      "UnladenMass": 1237.3,
+      "ModulesValue": 193541647,
+      "UnladenMass": 1122.3,
       "CargoCapacity": 16,
-      "MaxJumpRange": 89.414678,
+      "MaxJumpRange": 97.452219,
       "FuelCapacity": {
         "Main": 128,
         "Reserve": 1.14
       },
-      "Rebuy": 19097585,
+      "Rebuy": 19143407,
       "Modules": [
         {
           "Slot": "CargoHatch",
@@ -50,7 +57,7 @@
         {
           "Slot": "TinyHardpoint6",
           "Item": "hpt_heatsinklauncher_turret_tiny",
-          "On": false,
+          "On": true,
           "Priority": 3,
           "Value": 3071
         },
@@ -335,7 +342,7 @@
           "Value": 13430576
         },
         {
-          "Slot": "Slot06_Size5",
+          "Slot": "Slot05_Size5",
           "Item": "int_shieldgenerator_size5_class2",
           "On": true,
           "Priority": 3,
@@ -375,11 +382,18 @@
           }
         },
         {
-          "Slot": "Slot07_Size5",
+          "Slot": "Slot06_Size5",
           "Item": "int_guardianfsdbooster_size5",
           "On": true,
           "Priority": 1,
           "Value": 5688920
+        },
+        {
+          "Slot": "Slot07_Size5",
+          "Item": "int_fighterbaymk2_size5_class1",
+          "On": true,
+          "Priority": 0,
+          "Value": 697077
         },
         {
           "Slot": "Slot08_Size4",
@@ -401,6 +415,13 @@
           "On": false,
           "Priority": 3,
           "Value": 43875
+        },
+        {
+          "Slot": "Slot12_Size1",
+          "Item": "int_detailedsurfacescanner_tiny",
+          "On": true,
+          "Priority": 0,
+          "Value": 219375
         },
         {
           "Slot": "Slot13_Size1",

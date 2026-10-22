@@ -89,7 +89,7 @@ public class SlefTests
 
         // The application wrote its version as a number, which reads back as its own digits
         // rather than as a floating-point rendering of them.
-        Assert.Equal("423039902", entry.Header.AppVersion);
+        Assert.Equal("424029901", entry.Header.AppVersion);
         Assert.StartsWith("https://edsy.org/", entry.Header.AppUrl, StringComparison.Ordinal);
     }
 

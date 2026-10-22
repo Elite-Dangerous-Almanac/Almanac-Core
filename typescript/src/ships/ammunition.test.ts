@@ -29,7 +29,6 @@ import lynxJournal from '../../../fixtures/ships/journal-lynx-highliner.jsonc' w
 import lynxCurrentJournal from '../../../fixtures/ships/journal-lynx-highliner-rescue01-current.jsonc' with { type: 'json' };
 import pantherJournal from '../../../fixtures/ships/journal-panther-mkii-fat-arse.jsonc' with { type: 'json' };
 import deepBlackJournal from '../../../fixtures/ships/journal-the-deep-black.jsonc' with { type: 'json' };
-import caspianJournal from '../../../fixtures/ships/journal-caspian-explorer.jsonc' with { type: 'json' };
 
 /** The shape this file reads off a capture — a journal states more than the library models. */
 interface JournalAmmoModule {
@@ -66,7 +65,6 @@ const JOURNALS = [
     ['journal-lynx-highliner-rescue01-current.jsonc', lynxCurrentJournal],
     ['journal-panther-mkii-fat-arse.jsonc', pantherJournal],
     ['journal-the-deep-black.jsonc', deepBlackJournal],
-    ['journal-caspian-explorer.jsonc', caspianJournal],
 ] as const;
 
 const module = (symbol: string) => {
@@ -240,10 +238,9 @@ test('a build reports the capacity of every weapon it carries', () => {
 });
 
 test('every ammo count a journal reports fits inside the capacity for that module', () => {
-    // A rearm state is a lower bound on a capacity, never a reading of one. All 92 counts
-    // across the nineteen captures happen to sit at capacity — that is what makes them a
-    // check on the catalogue — but a partly spent launcher would report less and say
-    // nothing.
+    // A rearm state is a lower bound on a capacity, never a reading of one. Every count
+    // across the captures happens to sit at capacity — that is what makes them a check on
+    // the catalogue — but a partly spent launcher would report less and say nothing.
     const pinned = fixture.ammunition.journalReadings;
     const below: Record<string, unknown>[] = [];
     let readings = 0;

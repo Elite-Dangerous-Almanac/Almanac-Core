@@ -27,7 +27,6 @@ import engineeringFixture from '../../../fixtures/ships/engineering.jsonc' with 
 import preEngineeredFixture from '../../../fixtures/ships/pre-engineered.jsonc' with { type: 'json' };
 import heatFixture from '../../../fixtures/ships/heat.jsonc' with { type: 'json' };
 import slapacondaJournal from '../../../fixtures/ships/journal-anaconda-slapaconda.jsonc' with { type: 'json' };
-import caspianJournal from '../../../fixtures/ships/journal-caspian-explorer.jsonc' with { type: 'json' };
 import inaraFixture from '../../../fixtures/ships/slef-inara-type-11.jsonc' with { type: 'json' };
 import lynxCapture from '../../../fixtures/ships/slef-inara-lynx-highliner.jsonc' with { type: 'json' };
 import lynxRescueJournal from '../../../fixtures/ships/journal-lynx-highliner-rescue.jsonc' with { type: 'json' };
@@ -280,11 +279,14 @@ test('a build too heavy for its own thrusters is an error, and the error follows
 test('a ship that only cannot move once fuelled is an error, not a footnote', () => {
     // A tank's own mass is in the fit, but the fuel it holds is not, so a build can sit
     // under its rating dry and still be immobile on the pad — where the tank is always
-    // full. This is a real capture with its main tank doubled.
-    const build = ShipLoadout.fromLoadout(caspianJournal as LoadoutEvent);
+    // full. This is a real capture with its fuel scoop and both repair units changed to
+    // fuel tanks.
+    const build = ShipLoadout.fromLoadout(deepBlackJournal as LoadoutEvent);
     assert.equal(build.validation().valid, true, 'the capture as flown is within its rating');
 
     build.setModule('Slot01_Size7', mod('Int_FuelTank_Size7_Class3'));
+    build.setModule('Slot02_Size6', mod('Int_FuelTank_Size6_Class3'));
+    build.setModule('Slot03_Size6', mod('Int_FuelTank_Size6_Class3'));
     const maxMass = BuildMetrics.of(build).thrusters()?.maxMass;
     assert.ok(maxMass !== undefined);
     assert.ok(build.unladenMass < maxMass, 'the fit alone still fits the rating');
@@ -1311,7 +1313,7 @@ test('fromSlef reads the ship identity and top-level figures', () => {
     assert.equal(build.shipSymbol, 'explorer_nx');
     assert.equal(build.shipName, 'The Deep Black');
     assert.equal(build.shipIdent, 'ISAR');
-    assert.equal(build.unladenMass, 1237.3);
+    assert.equal(build.unladenMass, 1122.3);
     assert.deepEqual(build.fuelCapacity, { main: 128, reserve: 1.14 });
     assert.equal(build.cargoCapacity, 16);
     assert.equal(build.hullValue, 189326510);
@@ -2758,7 +2760,7 @@ test('import stocks the approach suite for exactly the sources that model no suc
     // third-party export in the corpus names none, so what it fills is silence rather
     // than a suite anybody sold.
     const captures = readCaptureFixtures();
-    assert.ok(captures.journals.length >= 19, 'journal captures');
+    assert.ok(captures.journals.length >= 18, 'journal captures');
     assert.ok(captures.exports.length >= 6, 'third-party exports');
     for (const [name, event] of captures.journals) {
         assert.ok(

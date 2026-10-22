@@ -456,8 +456,10 @@ const pad2 = (n: number): string => String(n).padStart(2, '0');
  * | --- | --- |
  * | Anaconda | `Slot13_Size2`, `Slot14_Size1` — no 11 or 12 |
  * | Type-9 Heavy | starts at `Slot00_Size8`; then jumps `Slot08` → `Slot11` |
- * | Type-10 Defender, Federal Dropship, Vulture | a gap before the last mounts |
- * | Type-7 Transporter | the number `09` twice, and five suffixes misreport the size |
+ * | Type-6 Transporter, Imperial Clipper | starts at `Slot00` |
+ * | Federal Dropship | starts at `Slot00`, with a gap before the last mounts |
+ * | Type-10 Defender, Vulture | a gap before the last mounts |
+ * | Type-7 Transporter | two `Slot00` mounts, the number `09` twice, and five suffixes misreport the size |
  * | Keelback, Asp Scout | one suffix misreports the size |
  * | Type-8 Transporter | `SmallHardpoint2` then `SmallHardpoint4` |
  * | Caspian Explorer | mediums run `6, 5, 1, 2, 3, 4` — out of order, not just gapped |
@@ -574,7 +576,7 @@ export function enumerateSlots(layout: ShipSlots): BuildSlot[] {
  * **A `_SizeN` suffix is what the name says, not what the mount is.** On some hulls
  * the game's own key disagrees with the mount it names — the Keelback's
  * `Slot03_Size3` is a size-4 mount, the Asp Scout's `Slot01_Size4` a size-5 one, and
- * five of the Type-7 Transporter's ten are off. To size a mount, find it in the hull's
+ * five of the Type-7 Transporter's suffixes are off. To size a mount, find it in the hull's
  * layout ({@link enumerateSlots}) rather than trusting the number returned here.
  * @throws {TypeError} If `slot` is present and not a string. A nullish `slot` is a miss,
  * answered the way an unrecognised key is.

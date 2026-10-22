@@ -10,7 +10,7 @@
  * from Frontier's "mass effect on hyperspace range" description
  * (<https://forums.frontier.co.uk/threads/510879/>). The port is validated against
  * EDSY: for the sample "Deep Black" build these functions reproduce EDSY's exported
- * `MaxJumpRange` of 89.414678 LY.
+ * `MaxJumpRange` of 97.452219 LY.
  *
  * @remarks
  * Reference implementation: EDSY. The algorithm is ported as fact, not code; credit and
@@ -172,8 +172,8 @@ export function frameShiftDriveMassFactor(
  * ```ts
  * import { singleJumpRange } from '@elite-dangerous-almanac/core/ships/jump-range';
  *
- * singleJumpRange(1237.3, 6.8, { optMass: 7528.04, maxFuel: 6.8, fuelMul: 0.011,
- *   fuelPower: 2.5025, jumpBoost: 10.5 }); // -> 89.414678
+ * singleJumpRange(1122.3, 6.8, { optMass: 7528.04, maxFuel: 6.8, fuelMul: 0.011,
+ *   fuelPower: 2.5025, jumpBoost: 10.5 }); // -> 97.452219
  * ```
  */
 export function singleJumpRange(mass: number, fuel: number, fsd: FrameShiftDriveParams): number {

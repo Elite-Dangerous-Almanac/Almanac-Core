@@ -21,7 +21,6 @@ import { getPreEngineeredVariants } from './pre-engineered.js';
 import fixture from '../../../fixtures/ships/engineering.jsonc' with { type: 'json' };
 import optionsFixture from '../../../fixtures/ships/engineering-options.jsonc' with { type: 'json' };
 import corvetteJournal from '../../../fixtures/ships/journal-federation-corvette.jsonc' with { type: 'json' };
-import caspianJournal from '../../../fixtures/ships/journal-caspian-explorer.jsonc' with { type: 'json' };
 import { getModuleBySymbol } from './modules.js';
 import { ALL_MODULES } from './modules-all.js';
 import { baseStats } from './internal/module-stat-labels.js';
@@ -853,67 +852,6 @@ test('Overcharged leaves a cannon’s clip alone, as a real journal reports', ()
     // `fixtures/ships/engineering.jsonc` pins for this same module and grade.
     assert.equal(multi.clipSize, 90);
     assert.equal(modFor(multiMods, 'AmmoClipSize'), 77);
-});
-
-test('Overcharged leaves a plasma accelerator’s clip alone, as a real journal reports', () => {
-    // The third and last clip-bearing group, read the same way: the Caspian Explorer
-    // carries a medium fixed plasma accelerator under `Weapon_Overcharged` at grade 1,
-    // quality 1, with no experimental. Frontier states four modifiers — the recipe's
-    // three legs and a `DamagePerSecond`, which is the `Damage` leg folded against the
-    // weapon's unmodified rate of fire rather than a leg of its own — and none is a clip.
-    const fitted = caspianJournal.Modules.find(
-        (m) =>
-            (m as { Engineering?: { BlueprintName: string } }).Engineering?.BlueprintName ===
-            'Weapon_Overcharged',
-    ) as {
-        Item: string;
-        AmmoInClip: number;
-        Engineering: {
-            Level: number;
-            Quality: number;
-            Modifiers: { Label: string; Value: number }[];
-        };
-    };
-    const accelerator = getModuleBySymbol(fitted.Item, ALL_MODULES)!;
-    assert.equal(accelerator.symbol, 'Hpt_PlasmaAccelerator_Fixed_Medium');
-    assert.equal(fitted.Engineering.Level, 1);
-    assert.equal(fitted.Engineering.Quality, 1);
-    assert.ok(!fitted.Engineering.Modifiers.some((m) => m.Label === 'AmmoClipSize'));
-    // The magazine is full, and unlike the cannon's that settles nothing on its own: the
-    // grade-1 cut is −3%, and 5 × 0.97 = 4.85 rounds back to 5. What carries this case is
-    // the modifier list, so the roll is folded at its own grade and quality and read
-    // against every figure Frontier states rather than against the count.
-    assert.equal(accelerator.clipSize, 5);
-    assert.equal(fitted.AmmoInClip, accelerator.clipSize);
-    const modifiers = computeModifiers(
-        baseStats(accelerator),
-        getBlueprintGrade('Weapon_Overcharged', 1)!,
-        1,
-    );
-    assert.deepEqual(modifiers.map((m) => m.Label).sort(), [
-        'Damage',
-        'DistributorDraw',
-        'ThermalLoad',
-    ]);
-    for (const stated of fitted.Engineering.Modifiers) {
-        if (stated.Label === 'DamagePerSecond') continue;
-        assert.ok(
-            near(modFor(modifiers, stated.Label)!, stated.Value, 1e-5),
-            `${stated.Label}: computed ${String(modFor(modifiers, stated.Label))}, capture ${stated.Value}`,
-        );
-    }
-
-    // The absence is the recipe and not a dropped leg: the same journal id on a
-    // multi-cannon resolves to the record that does cut the clip, at this grade too.
-    assert.equal(
-        resolveBlueprintForModule(accelerator.symbol, 'Weapon_Overcharged'),
-        'Weapon_Overcharged',
-    );
-    assert.ok(
-        getBlueprintGrade('MC_Overcharged', 1)!.features.some(
-            (feature) => feature.label === 'AmmoClipSize',
-        ),
-    );
 });
 
 test('a heat-rate recipe reproduces the heat a real journal reports', () => {

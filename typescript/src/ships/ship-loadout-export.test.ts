@@ -216,9 +216,9 @@ test('credits are quoted at retail, so a discounted source does not match', () =
     assert.equal(discount.sourceModulesValue, source.ModulesValue);
     assert.equal(discount.sourceRebuy, source.Rebuy);
 
-    // The hull was bought at full list, so only the modules diverge — and by exactly
-    // the discount, which is what shows the retail figure is right rather than merely
-    // different.
+    // The hull was bought at full list, so only the modules diverge — and by the
+    // discount, to within 1e-4, which is what shows the retail figure is right rather
+    // than merely different.
     assert.equal(recomputed.HullValue, discount.sourceHullValue);
     assert.ok(
         Math.abs(discount.sourceModulesValue / recomputed.ModulesValue - discount.moduleDiscount) <
@@ -786,7 +786,7 @@ test('the anti-xeno build was bought at the same discount the Deep Black export 
 });
 
 test('every module is priced from the catalogue, whatever the source paid', () => {
-    // The Deep Black's modules were all bought 12.25% under list. The export quotes
+    // The Deep Black's modules were all bought about 12.25% under list. The export quotes
     // list for each one, so the same module costs the same in every build.
     const event = ShipLoadout.fromSlef(slefString).toLoadoutEvent();
     for (const exported of event.Modules) {

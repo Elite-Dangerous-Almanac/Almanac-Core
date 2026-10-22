@@ -64,6 +64,16 @@
         }
       ],
       "empty": ["LargeHardpoint1", "TinyHardpoint1"]
+    },
+    {
+      "ship": "Empire_Trader",
+      "modules": [
+        {
+          "slot": "FuelTank",
+          "symbol": "Int_FuelTank_Size5_Class3"
+        }
+      ],
+      "empty": []
     }
   ]
 }

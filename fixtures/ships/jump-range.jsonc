@@ -17,19 +17,19 @@
     "fuelPower": 2.5025,
     "jumpBoost": 10.5
   },
-  "unladenMass": 1237.3,
+  "unladenMass": 1122.3,
   "mainFuel": 128,
   "cargoCapacity": 16,
-  "maxJumpRange": 89.414678,
-  "totalMaxRange": 89.414678,
+  "maxJumpRange": 97.452219,
+  "totalMaxRange": 97.452219,
   "totalMaxJumps": 1,
-  "edsyMaxJumpRange": 89.414678,
-  "unladenJumpRange": 82.409288,
-  "ladenJumpRange": 81.576342,
-  "massFactor": 5.513835787006519,
-  "totalRange": 1625.166,
+  "edsyMaxJumpRange": 97.452219,
+  "unladenJumpRange": 89.023355,
+  "ladenJumpRange": 88.031194,
+  "massFactor": 6.020986963128849,
+  "totalRange": 1763.274,
   "totalJumps": 19,
-  "fuelPerJump50Ly": 1.9474,
+  "fuelPerJump50Ly": 1.6053,
   "explicitFuel": {
     // A Hauler, for the size-2 fuel mount that makes `fuel: 2` a partial load. A
     // Sidewinder's fuel mount is size 1, and import stocks a fixed mount the capture
