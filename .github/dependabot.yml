@@ -4,7 +4,7 @@ updates:
     directory: /typescript
     schedule:
       interval: weekly
-    # A release has to be seven days old before Dependabot will offer it, which is
+    # A release has to be six days old before Dependabot will offer it, which is
     # the same window `minimumReleaseAge` in typescript/pnpm-workspace.yaml applies
     # to resolution. Without it, a pull request could propose a version that pnpm
     # then refuses to install, and its own CI run would fail on the mismatch.
@@ -15,7 +15,7 @@ updates:
     # update in this file, not just the offending one. The npm entry is the one that
     # has to agree with pnpm; the others have no resolver to disagree with.
     cooldown:
-      default-days: 7
+      default-days: 6
     groups:
       development-dependencies:
         dependency-type: development
