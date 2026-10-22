@@ -632,7 +632,7 @@ test('ship-restricted modules name real hulls, armour excepted', () => {
             );
         }
     }
-    // The Python Mk II's MkII gravity thrusters are restricted to that hull.
+    // The Caspian Explorer's MkII gravity thrusters are restricted to that hull.
     const grav = getModuleBySymbol('Int_Engine_Size7_Class5_GravityOptimised_MkII', CORE_MODULES);
     assert.deepEqual(grav?.restrictedToShips, ['Explorer_NX']);
     // Ship-specific armour keeps its restriction in the registry, not restrictedToShips.

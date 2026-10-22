@@ -23,6 +23,7 @@ Referred to throughout by source name; the pin is here, once.
 | Elite Dangerous in-game hull observation                                                        | no game version recorded; direct in-game observation of hull stats, slot layouts and journal slot keys                                                                      | 2026-10-21 UTC |
 | Elite Dangerous Anaconda Mk II observation                                                      | **unreleased** — direct in-game observation of the Anaconda Mk II: stats, slot layout, armour, the Mk II Cargo Rack, names, default fit and gunsights                 | 2026-10-21 UTC |
 | Elite Dangerous Large Planetary Vehicle Hangar readings                                         | **unreleased** — observation of the modules an unreleased update adds, plus outfitting and journal `ModuleBuy` readings at a 10% and 2.5% discount                          | 2026-09-02 UTC |
+| Elite Dangerous in-game Mk II outfitting check                                                  | no game version recorded; direct in-game observation of where outfitting offers the Mining Volley Repeater and the Mk II SCO frame shift drive                              | 2026-10-22 UTC |
 
 Every `eddb.js` derivation uses the baseline snapshot unless its catalogue note or its
 entry in this file names another snapshot: the Vessel Hangar snapshot or the 2026-10-21
@@ -292,8 +293,8 @@ alone. Each mount takes every weapon, like any unrestricted hardpoint, and also 
 Mining Volley Repeater (`Hpt_MiningToolV2_Fixed_Large`), whose `restrictedToSlot` is
 `mining`. The repeater fits no other Mk II hardpoint.
 
-- **Source:** the Anaconda Mk II observation, pinned above, names the two mounts. An
-  in-game check of the outfitting screen on 2026-10-22 UTC shows the repeater on two
+- **Source:** the Anaconda Mk II observation, pinned above, names the two mounts. The
+  Elite Dangerous in-game Mk II outfitting check, pinned above, shows the repeater on two
   large hardpoints.
 - **Rejected alternative:** adding the Mk II to the repeater's `restrictedToShips`
   alone lets it fit all four large mounts and the huge mount. A `restriction` of
@@ -1264,10 +1265,15 @@ and size-6 racks): here the discount is stated rather than solved for.
     and the Mk II Vessel Hangars → `["Explorer_NX", "PantherMkII", "LakonMiner",
     "AnacondaMkII"]` (the baseline snapshot has no record for the Mk II bays, so the first
     three rest on Frontier's update notes and Inara; the Anaconda Mk II comes from EDSY's
-    2026-10-21 snapshot), plus the three **unreleased** Mk II Large
-    Planetary Vehicle Hangars → the hulls listed under "Records sourced outside
-    the baseline registries" below, where the plain Large hangars beside them carry no
-    restriction. Armour records use the `ship` field instead.
+    2026-10-21 snapshot). The **unreleased** Mk II Large Planetary Vehicle Hangars
+    are restricted to the hulls listed under "Records sourced outside the
+    baseline registries" below. The plain Large hangars beside them carry no restriction.
+    The Mk II Supercharge Optimised Frame Shift Drive
+    (`Int_Hyperdrive_Overcharge_Size8_Class5_OverchargeBooster_MkII`) carries
+    `["Explorer_NX"]`. The Elite Dangerous in-game Mk II outfitting check, pinned above,
+    shows it only on the Caspian Explorer. Outfitting does not offer it on the Anaconda
+    Mk II, which also has a size-8 frame-shift mount. Armour records use the `ship`
+    field instead.
   - **`restrictedToSlot`** is the same idea one axis over: the slot restriction a module
     requires, so it fits only mounts carrying it — the mirror of a mount's `restriction`,
     and the half `restrictedToShips` cannot express. The planetary approach suites,
@@ -1498,11 +1504,9 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
   `Int_Hyperdrive_Size8_Class{1..5}` are excluded on direct in-game observation
   (2026-08-30 UTC, §the pinned sources) that no non-SCO size-8 drive is offered. The five
   `Int_Hyperdrive_Overcharge_Size8_Class{1..5}` records are the size-8 drives the game
-  does sell. Only one hull in the catalogue carries a size-8 frame-shift mount at all —
-  the Caspian Explorer (`Explorer_NX`), every other size-8-capable hull including the
-  Panther Clipper Mk II mounting a size 7 — and `default-loadouts.jsonc` ships that hull
-  with `Int_Hyperdrive_Overcharge_Size8_Class1`, so the one stock size-8 drive in the
-  data is an SCO drive.
+  does sell. `default-loadouts.jsonc` fits `Int_Hyperdrive_Overcharge_Size8_Class1` to
+  every hull with a size-8 frame-shift mount, so every stock size-8 drive in the data is
+  an SCO drive.
   - **The case rests on the observation, not on the registries, and is weaker than the
     precedent it follows.** FDevIDs `outfitting.csv` does carry these five rows — which is
     why they were in the catalogue, and it means the Inclusion rule below, read literally,

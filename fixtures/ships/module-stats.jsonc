@@ -299,7 +299,8 @@
       "optMass": 4670,
       "maxFuel": 6.8,
       "fuelMul": 0.011,
-      "fuelPower": 2.5025
+      "fuelPower": 2.5025,
+      "restrictedToShips": ["Explorer_NX"]
     },
     {
       "symbol": "Int_GuardianFSDBooster_Size5",
