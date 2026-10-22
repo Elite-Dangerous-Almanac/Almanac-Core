@@ -724,7 +724,7 @@ internal static partial class LoadoutMetrics
         IReadOnlyList<OutfittingModule> variants =
             ModuleCatalogue.BulkheadsForShip(ship.Name, ModuleCatalogue.Core);
 
-        // One hull's stock alloy is spelled with a trailing default; every other hull's is the
+        // Some hulls' stock alloy is spelled with a trailing default; every other hull's is the
         // zero-mass first entry.
         foreach (OutfittingModule variant in variants)
         {

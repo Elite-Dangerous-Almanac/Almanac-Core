@@ -90,6 +90,11 @@ tag follows the rule above, so `pt-PT` resolves to Brazilian Portuguese.
   rest, and the singular is kept, which is also the number the English carries.
   `Hatch Breaker Limpet Controller` is specific on most symbols and generic on one, and
   the specific is kept.
+  The Anaconda Mk II's five `Mk II Ablative` armour names, read in the Anaconda Mk II
+  observation (data/ships/SOURCES.md), differ from the Caspian Explorer's in German,
+  Spanish and French. Each reading has one symbol, so no
+  reading has a majority, and the Caspian Explorer's record is kept. The Mk II armour
+  therefore shows the Caspian Explorer's names in those three locales.
 - **Coverage:** complete. Every symbol carries all six locales — but five of those
   values are **constructed rather than read**; see the manual correction below.
 - **Manual corrections:** the **Mk II** Large Planetary Vehicle Hangar's five non-English

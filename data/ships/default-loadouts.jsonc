@@ -3,7 +3,8 @@
  *
  * Source: EDSY stock ship builds, with EDCD/coriolis-data and captured Frontier
  * journal loadouts supplying or corroborating the advanced planetary approach suite
- * that EDSY does not model and the cargo-hatch symbols.
+ * that EDSY does not model and the cargo-hatch symbols. The unreleased Anaconda Mk II's
+ * stock fit comes from an in-game observation, which EDSY corroborates.
  *
  * Credit and licence terms: ATTRIBUTIONS.md. Acquisition, revisions, derivation and
  * corrections: data/ships/SOURCES.md.
@@ -3576,6 +3577,83 @@
       {
         "slot": "CargoHatch",
         "symbol": "ModularCargoBayDoorFDL"
+      }
+    ]
+  },
+  {
+    "symbol": "AnacondaMkII",
+    "modules": [
+      {
+        "slot": "SmallHardpoint1",
+        "symbol": "Hpt_PulseLaser_Fixed_Small"
+      },
+      {
+        "slot": "SmallHardpoint2",
+        "symbol": "Hpt_PulseLaser_Fixed_Small"
+      },
+      {
+        "slot": "Armour",
+        "symbol": "AnacondaMkII_Armour_Grade1_Default"
+      },
+      {
+        "slot": "PowerPlant",
+        "symbol": "Int_Powerplant_Size8_Class1"
+      },
+      {
+        "slot": "MainEngines",
+        "symbol": "Int_Engine_Size7_Class1"
+      },
+      {
+        "slot": "FrameShiftDrive",
+        "symbol": "Int_Hyperdrive_Overcharge_Size8_Class1"
+      },
+      {
+        "slot": "LifeSupport",
+        "symbol": "Int_LifeSupport_Size5_Class1"
+      },
+      {
+        "slot": "PowerDistributor",
+        "symbol": "Int_PowerDistributor_Size8_Class1"
+      },
+      {
+        "slot": "Radar",
+        "symbol": "Int_Sensors_Size8_Class1"
+      },
+      {
+        "slot": "FuelTank",
+        "symbol": "Int_FuelTank_Size6_Class3"
+      },
+      {
+        "slot": "Slot01_Size8",
+        "symbol": "Int_CargoRack_Size7_Class1"
+      },
+      {
+        "slot": "Slot02_Size7",
+        "symbol": "Int_CargoRack_Size6_Class1"
+      },
+      {
+        "slot": "Slot03_Size7",
+        "symbol": "Int_ShieldGenerator_Size7_Class1"
+      },
+      {
+        "slot": "Slot04_Size5",
+        "symbol": "Int_CargoRack_Size4_Class1"
+      },
+      {
+        "slot": "Slot10_Size2",
+        "symbol": "Int_SuperCruiseAssist"
+      },
+      {
+        "slot": "Slot11_Size1",
+        "symbol": "Int_DockingComputer_Advanced"
+      },
+      {
+        "slot": "PlanetaryApproachSuite",
+        "symbol": "int_planetapproachsuite_advanced"
+      },
+      {
+        "slot": "CargoHatch",
+        "symbol": "ModularCargoBayDoor"
       }
     ]
   }

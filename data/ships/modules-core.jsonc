@@ -5,7 +5,9 @@
  * AND its engineering/mechanical stats, joined on the Frontier `symbol`.
  *
  * Sources: EDCD FDevIDs (identity), EDCD/coriolis-data and EDSY (stats), and in-game
- * verification, which governs where a registry disagrees with it.
+ * verification, which governs where a registry disagrees with it. The unreleased Anaconda
+ * Mk II's armour takes its identity and stats from an in-game observation and its prices
+ * from EDSY.
  *
  * Credit and licence terms: ATTRIBUTIONS.md. Acquisition, revisions, derivation and
  * corrections: data/ships/SOURCES.md.
@@ -8544,5 +8546,101 @@
     "explosiveResistance": 0.2,
     "causticResistance": 0,
     "cost": 163315270
+  },
+  {
+    "symbol": "AnacondaMkII_Armour_Grade1",
+    "kind": "bulkheads",
+    "slot": "armour",
+    "name": "Mk II Ablative Lightweight Alloys",
+    "ship": "Anaconda Mk II",
+    "class": 1,
+    "rating": "C",
+    "mass": 15,
+    "hullBoost": 0.8,
+    "kineticResistance": -0.2,
+    "thermalResistance": 0,
+    "explosiveResistance": -0.4,
+    "causticResistance": 0,
+    "cost": 19247940
+  },
+  {
+    "symbol": "AnacondaMkII_Armour_Grade2",
+    "kind": "bulkheads",
+    "slot": "armour",
+    "name": "Mk II Ablative Reinforced Alloys",
+    "ship": "Anaconda Mk II",
+    "class": 1,
+    "rating": "B",
+    "mass": 30,
+    "hullBoost": 1.52,
+    "kineticResistance": -0.2,
+    "thermalResistance": 0,
+    "explosiveResistance": -0.4,
+    "causticResistance": 0,
+    "cost": 153983540
+  },
+  {
+    "symbol": "AnacondaMkII_Armour_Grade3",
+    "kind": "bulkheads",
+    "slot": "armour",
+    "name": "Mk II Ablative Military Grade Composite",
+    "ship": "Anaconda Mk II",
+    "class": 1,
+    "rating": "A",
+    "mass": 60,
+    "hullBoost": 2.5,
+    "kineticResistance": -0.2,
+    "thermalResistance": 0,
+    "explosiveResistance": -0.4,
+    "causticResistance": 0,
+    "cost": 346462970
+  },
+  {
+    "symbol": "AnacondaMkII_Armour_Mirrored",
+    "kind": "bulkheads",
+    "slot": "armour",
+    "name": "Mk II Ablative Mirrored Surface Composite",
+    "ship": "Anaconda Mk II",
+    "class": 1,
+    "rating": "A",
+    "mass": 60,
+    "hullBoost": 2.5,
+    "kineticResistance": -0.75,
+    "thermalResistance": 0.5,
+    "explosiveResistance": -0.5,
+    "causticResistance": 0,
+    "cost": 818807470
+  },
+  {
+    "symbol": "AnacondaMkII_Armour_Reactive",
+    "kind": "bulkheads",
+    "slot": "armour",
+    "name": "Mk II Ablative Reactive Surface Composite",
+    "ship": "Anaconda Mk II",
+    "class": 1,
+    "rating": "A",
+    "mass": 60,
+    "hullBoost": 2.5,
+    "kineticResistance": 0.25,
+    "thermalResistance": -0.4,
+    "explosiveResistance": 0.2,
+    "causticResistance": 0,
+    "cost": 907348010
+  },
+  {
+    "symbol": "AnacondaMkII_Armour_Grade1_Default",
+    "kind": "bulkheads",
+    "slot": "armour",
+    "name": "Lightweight Alloy",
+    "ship": "Anaconda Mk II",
+    "class": 1,
+    "rating": "C",
+    "mass": 0,
+    "hullBoost": 0.8,
+    "kineticResistance": -0.2,
+    "thermalResistance": 0,
+    "explosiveResistance": -0.4,
+    "causticResistance": 0,
+    "cost": 0
   }
 ]

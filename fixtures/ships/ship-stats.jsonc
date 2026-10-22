@@ -7,8 +7,8 @@
  * governs the hulls data/ships/SOURCES.md lists under it. Cross-language validation.
  */
 {
-  "count": 48,
-  "pricedCount": 48,
+  "count": 49,
+  "pricedCount": 49,
   "prices": [
     { "symbol": "SideWinder", "hullCost": 4588, "retailCost": 32000 },
     { "symbol": "Anaconda", "hullCost": 142456440, "retailCost": 146969451 },
@@ -146,7 +146,8 @@
       { "symbol": "LakonMiner", "heatDissipation": 52.05 },
       { "symbol": "Explorer_NX", "heatDissipation": 71.93 },
       { "symbol": "SmallCombat01_NX", "heatDissipation": 37.93 },
-      { "symbol": "MediumTransport01", "heatDissipation": 49.35 }
+      { "symbol": "MediumTransport01", "heatDissipation": 49.35 },
+      { "symbol": "AnacondaMkII", "heatDissipation": 68.55 }
     ]
   },
   "speedEndpoints": [

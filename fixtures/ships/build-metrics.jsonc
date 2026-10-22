@@ -3,7 +3,8 @@
  *
  * Parity fixture for the ship-build metrics: externally observed in-game totals, the power budget
  * and its priority groups, the shield and armour metrics with their stacked resistances, weapon
- * DPS, and ammunition capacity. Covers fixtures/ships/journal-anaconda-slapaconda.jsonc,
+ * DPS, and ammunition capacity. Covers fixtures/ships/journal-anaconda-mk-ii.jsonc,
+ * fixtures/ships/journal-anaconda-slapaconda.jsonc,
  * fixtures/ships/journal-federation-corvette-beams.jsonc, fixtures/ships/journal-cobra-mkv.jsonc,
  * fixtures/ships/journal-corsair.jsonc, fixtures/ships/journal-kestrel-mkii.jsonc,
  * fixtures/ships/journal-lynx-highliner-rescue01-current.jsonc,
@@ -15,8 +16,9 @@
  * Cross-language validation.
  *
  * The in-game statistics- and outfitting-panel figures here were read 2026-08-10 UTC, except
- * The Deep Black's in `inGame.deepBlack`, read 2026-10-21 UTC. A panel exposes no immutable revision and no export, so the values are transcribed by hand at the game's
- * displayed precision, with no correction applied — where a display and this library disagree
+ * The Deep Black's in `inGame.deepBlack`, read 2026-10-21 UTC, and the Anaconda Mk II's in
+ * `inGame.anacondaMkII`, read 2026-10-22 UTC. A panel exposes no immutable revision and no
+ * export, so the values are transcribed by hand at the game's displayed precision, with no correction applied — where a display and this library disagree
  * beyond rounding, the fixture records what the game showed.
  */
 {
@@ -495,6 +497,43 @@
           "kinetic": 0.515,
           "thermal": 0.537,
           "explosive": 0.492
+        }
+      }
+    },
+    "anacondaMkII": {
+      "build": "fixtures/ships/journal-anaconda-mk-ii.jsonc",
+      "note": "Calculated values read from Elite Dangerous's ship statistics display alongside the complete Loadout capture, at the precision the game shows. These are external ground truth rather than this library's output. The fit has no weapons, no shield generator and no ship name; the game shows no name either. `armour.hardness` is the panel's armour rating. The displayed full-tank jump range counts the 1.08 t reserve tank as ship mass even though that fuel is unavailable to the FSD. `mass.current` includes both fuel tanks and no cargo; `mass.maximum` is the thrusters' maximum supported mass.",
+      "observedShipName": "",
+      "jumpRange": {
+        "fullTank": 38.12
+      },
+      "speed": {
+        "top": 204,
+        "boost": 268,
+        "pitch": 28.95,
+        "roll": 69.69,
+        "yaw": 15.01
+      },
+      "power": {
+        "available": 36,
+        "retracted": 13.44,
+        "deployed": 13.44,
+        "includesDisabledModules": true
+      },
+      "shields": {
+        "strength": 0
+      },
+      "mass": {
+        "current": 1557.1,
+        "maximum": 3240
+      },
+      "armour": {
+        "hardness": 65,
+        "hitPoints": 1341,
+        "resistances": {
+          "kinetic": -0.2,
+          "thermal": 0,
+          "explosive": -0.4
         }
       }
     }

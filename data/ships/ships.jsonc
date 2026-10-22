@@ -3,8 +3,10 @@
  * per-hull stats, and its outfitting slot layout, in one record per hull.
  *
  * Sources: EDCD FDevIDs (identity), EDCD/coriolis-data (stats and slot layout), EDSY
- * (journal slot names, baseline `heatDissipation`, and the Lynx Highliner coriolis-data
- * does not carry), and in-game verification.
+ * (journal slot names, baseline `heatDissipation`, the Lynx Highliner coriolis-data
+ * does not carry, and the Anaconda Mk II's prices), and in-game verification. The
+ * unreleased Anaconda Mk II (`AnacondaMkII`) takes its identity, stats and slot layout
+ * from an in-game observation.
  *
  * Credit and licence terms: ATTRIBUTIONS.md. Acquisition, revisions, derivation and
  * corrections: data/ships/SOURCES.md.
@@ -20,9 +22,12 @@
  * `{ size }`, plus a
  * `restriction` when the mount only takes one family of modules — the Type-11
  * Prospector's four mining hardpoints and its limpet-controller and vessel-hangar
- * optionals, the Panther Clipper Mk II's two cargo-only optionals, the Lynx
- * Highliner's three passenger-cabin-only optionals, the military mounts some hulls
- * have, and the planetary-approach-suite mount every hull has.
+ * optionals, the Panther Clipper Mk II's two cargo-only optionals and the Anaconda
+ * Mk II's one, the Lynx Highliner's three passenger-cabin-only optionals, the military
+ * mounts some hulls have, and the planetary-approach-suite mount every hull has. An unrestricted hardpoint
+ * carries `alsoTakes` when it also takes the modules reserved for a restricted mount:
+ * the Anaconda Mk II's `LargeHardpoint3` and `LargeHardpoint4` take every weapon and the
+ * Mining Volley Repeater.
  *
  * A mount also carries a `name` where the game's journal slot key is not what the
  * ordinary numbering rules produce — the hulls whose names no rule derives, plus a few
@@ -40,8 +45,9 @@
  *
  * A hull's armour options are modules like any other: they live in
  * `modules-core.jsonc`, keyed to the hull by their `ship` field. Most come from coriolis-data; the Lynx Highliner
- * (`MediumTransport01`) instead uses EDSY and Frontier update-note values documented
- * in `SOURCES.md`. `hullCost` is the bare hull's standard price in credits and
+ * (`MediumTransport01`) instead uses EDSY and Frontier update-note values, and the
+ * Anaconda Mk II (`AnacondaMkII`) the in-game observation, both documented in
+ * `SOURCES.md`. `hullCost` is the bare hull's standard price in credits and
  * `retailCost` the hull with its default modules; both are present for every hull.
  * The modules behind that retail fit live separately in `default-loadouts.jsonc`, so a
  * consumer importing hull identity and geometry does not bundle fitted-module rows.
@@ -4405,5 +4411,117 @@
     ],
     "hullCost": 67992080,
     "retailCost": 69289470
+  },
+  {
+    "symbol": "AnacondaMkII",
+    "name": "Anaconda Mk II",
+    "manufacturer": "Faulcon DeLacy",
+    "size": "large",
+    "hullMass": 940,
+    "minimumSpeed": 90,
+    "maximumSpeed": 190,
+    "boost": 250,
+    "baseShieldStrength": 450,
+    "baseArmour": 745,
+    "hardness": 65,
+    "masslock": 24,
+    "crew": 4,
+    "heatCapacity": 337,
+    "heatDissipation": 68.55,
+    "reserveFuelCapacity": 1.08,
+    "minPitch": 22,
+    "pitch": 27,
+    "minRoll": 65,
+    "roll": 65,
+    "minYaw": 14,
+    "yaw": 14,
+    "core": {
+      "powerPlant": 8,
+      "thrusters": 7,
+      "frameShiftDrive": 8,
+      "lifeSupport": 5,
+      "powerDistributor": 8,
+      "sensors": 8,
+      "fuelTank": 6
+    },
+    "hardpoints": [
+      {
+        "size": 4
+      },
+      {
+        "size": 3
+      },
+      {
+        "size": 3
+      },
+      {
+        "size": 3,
+        "alsoTakes": "mining"
+      },
+      {
+        "size": 3,
+        "alsoTakes": "mining"
+      },
+      {
+        "size": 1
+      },
+      {
+        "size": 1
+      }
+    ],
+    "utility": 8,
+    "optional": [
+      {
+        "size": 8
+      },
+      {
+        "size": 7
+      },
+      {
+        "size": 7
+      },
+      {
+        "size": 6,
+        "restriction": "cargo"
+      },
+      {
+        "size": 5
+      },
+      {
+        "size": 5
+      },
+      {
+        "size": 5
+      },
+      {
+        "size": 5,
+        "restriction": "military"
+      },
+      {
+        "size": 5,
+        "restriction": "military"
+      },
+      {
+        "size": 4
+      },
+      {
+        "size": 4
+      },
+      {
+        "size": 3
+      },
+      {
+        "size": 2
+      },
+      {
+        "size": 1
+      },
+      {
+        "size": 1,
+        "restriction": "planetaryApproachSuite"
+      }
+    ],
+    "hullCost": 372041780,
+    "retailCost": 384958850
   }
 ]

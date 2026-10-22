@@ -56,7 +56,11 @@ namespace EliteDangerousAlmanac.Ships;
 /// The hull an armour variant belongs to. Present only on the armour modules, which are the
 /// one ship-specific module.
 /// </param>
-/// <param name="Entitlement">Frontier's purchase-grant token, on a gated module.</param>
+/// <param name="Entitlement">
+/// Frontier's purchase-grant token, on a gated module. The Anaconda Mk II armour
+/// (<c>AnacondaMkII_Armour_*</c>) is the exception: its token is not known, so the field is
+/// absent (https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/84).
+/// </param>
 /// <param name="GrantOnly">
 /// <see langword="true"/> on an article that arrives granted, with a hull or with a bundle,
 /// and that no outfitting screen sells. Each is a second identity for an article the game
@@ -70,10 +74,13 @@ namespace EliteDangerousAlmanac.Ships;
 /// </param>
 /// <param name="RestrictedToSlot">
 /// The slot restriction this module requires: it fits only mounts carrying that restriction,
-/// and no unrestricted mount at all. It is the mirror image of a mount's own restriction, and
-/// the other half of the same rule. Most restricted families bind one way only — a cargo rack
-/// fits a cargo mount and any unrestricted optional — so this is present on just the records
-/// the game sells for one kind of mount and nowhere else.
+/// either as their <see cref="BuildSlot.Restriction"/> or as a hardpoint's
+/// <see cref="BuildSlot.AlsoTakes"/>, and no other mount. It is the mirror image of a mount's
+/// own restriction, and the other half of the same rule. Most restricted families bind one way
+/// only — a cargo rack fits a cargo mount and any unrestricted optional — so this is present on
+/// just the records the game sells for one kind of mount and nowhere else. The Mining Volley
+/// Repeater is one: it fits the Type-11 Prospector's large mining mount
+/// (<c>LargeMiningHardpoint1</c>) and the two Anaconda Mk II hardpoints that also take it.
 /// </param>
 /// <param name="ExclusionGroup">
 /// The one-per-ship family, when the module has an exclusive fitting rule. Two fitted modules

@@ -379,6 +379,11 @@ export interface OutfittingModuleIdentity {
     /**
      * Frontier's DLC / purchase-grant entitlement token, e.g.
      * `"ELITE_HORIZONS_V_PLANETARY_LANDINGS"`. Present only on gated modules.
+     *
+     * @remarks
+     * The Anaconda Mk II armour (`AnacondaMkII_Armour_*`) is the exception: its token is
+     * not known, so the field is absent
+     * (https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/84).
      */
     readonly entitlement?: string;
     /**
@@ -415,7 +420,8 @@ export interface OutfittingModuleIdentity {
     readonly restrictedToShips?: readonly string[];
     /**
      * The slot restriction a module **requires** — it fits only mounts carrying this
-     * {@link SlotRestriction}, and no unrestricted mount at all.
+     * {@link SlotRestriction}, either as their `restriction` or as a hardpoint's
+     * `alsoTakes`, and no other mount.
      *
      * @remarks
      * Not to be confused with {@link OutfittingModule.slot}, which names *one* mount
@@ -431,11 +437,16 @@ export interface OutfittingModuleIdentity {
      * | Module | Requires |
      * | --- | --- |
      * | `Int_PlanetApproachSuite`, `Int_PlanetApproachSuite_Advanced` | `planetaryApproachSuite` |
-     * | `Int_LargeCargoRack_Size7_Class1`, `Int_LargeCargoRack_Size8_class1` (Mk II Cargo Rack) | `cargo` |
+     * | `Int_LargeCargoRack_Size6_Class1`, `Int_LargeCargoRack_Size7_Class1`, `Int_LargeCargoRack_Size8_class1` (Mk II Cargo Rack) | `cargo` |
      * | `Int_MultiDroneControl_MiningV2_Size5_Class5` (Mk II Mining Multi-Limpet Controller) | `limpetController` |
+     * | `Hpt_MiningToolV2_Fixed_Large` (Mining Volley Repeater) | `mining` |
+     *
+     * The Mining Volley Repeater fits the Type-11 Prospector's large mining mount
+     * (`LargeMiningHardpoint1`) and the two Anaconda Mk II hardpoints whose `alsoTakes`
+     * is `'mining'`, which take every weapon too.
      *
      * It composes with {@link OutfittingModule.restrictedToShips} rather than replacing
-     * it: the Mk II racks name both the hull that can buy them and the kind of mount they
+     * it: the Mk II racks name both the hulls that can buy them and the kind of mount they
      * go in, and a build must satisfy both. Where a module names a hull and nothing else
      * — the Mk II Vessel Hangars, say — it fits that hull's ordinary optionals like
      * anything else. As with {@link OutfittingModule.slot}, the rule is read off the
@@ -694,8 +705,8 @@ export interface OutfittingModuleStats {
      *
      * @remarks
      * Carried by the ship-specific armour modules, which are the `core`-category
-     * records with a {@link OutfittingModule.ship}. List a hull's five (or, on the
-     * Caspian Explorer, six) options with {@link getBulkheadsForShip}.
+     * records with a {@link OutfittingModule.ship}. List a hull's options with
+     * {@link getBulkheadsForShip}.
      */
     readonly hullBoost?: number;
     /** Hull reinforcement package: hull hit points added. */
@@ -947,7 +958,8 @@ export function getModulesByName(
  * otherwise exact.
  * @param modules - Optional subset to search (see {@link getModuleBySymbol}). Bulkheads
  * live in `CORE_MODULES`; narrowing to any other category returns an empty array.
- * @returns The hull's bulkhead modules — five variants, or six on the Caspian Explorer —
+ * @returns The hull's bulkhead modules — five variants, or six on a hull whose stock
+ * alloy has its own `_Grade1_Default` record (the Caspian Explorer, the Anaconda Mk II) —
  * or an empty array if none are carried for that hull. The input array is not modified.
  * @remarks
  * Bulkheads are the only hull-specific module; everything else fits by slot size, so

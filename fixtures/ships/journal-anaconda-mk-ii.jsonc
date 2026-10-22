@@ -1,0 +1,134 @@
+/*
+ * Shared test fixture — not shipped in any package.
+ *
+ * A real Frontier journal `Loadout` event for an unreleased Anaconda Mk II, with an A-rated
+ * power plant, thrusters, frame shift drive and power distributor, D-rated life support and
+ * sensors, the stock fuel tank, no weapons and no shield generator. The ship was unlocked for ARX, so no credits were
+ * paid for it: the event carries no `HullValue` and no module `Value`, and its `ModulesValue` and
+ * `Rebuy` do not record a credit purchase.
+ *
+ * Contributed 2026-10-22 UTC by the repository owner from their own fleet, with no upstream
+ * project. The pasted source line has SHA-256
+ * `fb06ace53c02a42b286cf8afc5268698f4eba5a0a0bf0577fc5bd683a6cac8a4`; the stored, re-indented
+ * fixture has SHA-256 `17cf99be64885369b56c69fec52eebaf1d4bd579ae8885364cff8a928152edc8`.
+ *
+ * `ShipName`, `ShipIdent`, `ShipID` and `timestamp` are kept — they describe a ship, and nothing
+ * in the event names a person. `ShipName` is empty in the event as received.
+ *
+ * The capture is Elite Dangerous game output and remains the property of Frontier Developments
+ * plc, redistributed under Frontier's media-usage terms; see ATTRIBUTIONS.md.
+ *
+ * A stored checksum here is of the payload alone, taken with this header comment removed; a source
+ * checksum is of the upstream file as it was received.
+ */
+{
+  "timestamp": "2026-10-22T06:07:13Z",
+  "event": "Loadout",
+  "Ship": "anacondamkii",
+  "ShipID": 224,
+  "ShipName": "",
+  "ShipIdent": "DA-21A",
+  "ModulesValue": 226964251,
+  "HullHealth": 1,
+  "UnladenMass": 1492,
+  "CargoCapacity": 0,
+  "MaxJumpRange": 39.2384,
+  "FuelCapacity": {
+    "Main": 64,
+    "Reserve": 1.08
+  },
+  "Rebuy": 11348213,
+  "Modules": [
+    {
+      "Slot": "Armour",
+      "Item": "anacondamkii_armour_grade1_default",
+      "On": true,
+      "Priority": 1,
+      "Health": 1
+    },
+    {
+      "Slot": "PowerPlant",
+      "Item": "int_powerplant_size8_class5",
+      "On": true,
+      "Priority": 1,
+      "Health": 1
+    },
+    {
+      "Slot": "MainEngines",
+      "Item": "int_engine_size7_class5",
+      "On": true,
+      "Priority": 0,
+      "Health": 1
+    },
+    {
+      "Slot": "FrameShiftDrive",
+      "Item": "int_hyperdrive_overcharge_size8_class5",
+      "On": true,
+      "Priority": 0,
+      "Health": 1
+    },
+    {
+      "Slot": "LifeSupport",
+      "Item": "int_lifesupport_size5_class2",
+      "On": true,
+      "Priority": 0,
+      "Health": 1
+    },
+    {
+      "Slot": "PowerDistributor",
+      "Item": "int_powerdistributor_size8_class5",
+      "On": true,
+      "Priority": 0,
+      "Health": 1
+    },
+    {
+      "Slot": "Radar",
+      "Item": "int_sensors_size8_class2",
+      "On": true,
+      "Priority": 0,
+      "Health": 1
+    },
+    {
+      "Slot": "FuelTank",
+      "Item": "int_fueltank_size6_class3",
+      "On": true,
+      "Priority": 1,
+      "Health": 1
+    },
+    {
+      "Slot": "Slot11_Size1",
+      "Item": "int_dockingcomputer_advanced",
+      "On": true,
+      "Priority": 2,
+      "Health": 1
+    },
+    {
+      "Slot": "PlanetaryApproachSuite",
+      "Item": "int_planetapproachsuite_advanced",
+      "On": true,
+      "Priority": 1,
+      "Health": 1
+    },
+    {
+      "Slot": "VesselVoice",
+      "Item": "voicepack_verity",
+      "On": true,
+      "Priority": 1,
+      "Health": 1
+    },
+    {
+      "Slot": "ShipCockpit",
+      "Item": "anacondamkii_cockpit",
+      "On": true,
+      "Priority": 1,
+      "Health": 1
+    },
+    {
+      "Slot": "CargoHatch",
+      "Item": "modularcargobaydoor",
+      "On": true,
+      "Priority": 2,
+      "Health": 1
+    }
+  ]
+}

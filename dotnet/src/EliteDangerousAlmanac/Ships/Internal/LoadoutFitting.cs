@@ -111,7 +111,9 @@ internal static class LoadoutFitting
 
         // The article's own reserved mount comes before the general kind rules, because it
         // holds even when the mount a caller offered is otherwise unrestricted.
-        if (module.RestrictedToSlot is SlotRestriction required && slot.Restriction != required)
+        if (module.RestrictedToSlot is SlotRestriction required
+            && slot.Restriction != required
+            && slot.AlsoTakes != required)
         {
             return new ModuleFitProblem(
                 ModuleFitConstraint.RestrictedMount,

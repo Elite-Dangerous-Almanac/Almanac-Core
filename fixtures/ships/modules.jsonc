@@ -17,18 +17,18 @@
  */
 {
   "counts": {
-    "core": 516,
-    "internal": 493,
+    "core": 522,
+    "internal": 494,
     "hardpoint": 159,
     "utility": 35,
-    "all": 1203
+    "all": 1210
   },
   "familyCounts": {
-    "core": 516,
-    "internal": 493,
+    "core": 522,
+    "internal": 494,
     "hardpoint": 159,
     "utility": 35,
-    "all": 1203
+    "all": 1210
   },
   "familyGroupCounts": {
     "core": 8,
@@ -41,7 +41,7 @@
     {
       "familyId": "cargoRacks",
       "category": "internal",
-      "count": 16,
+      "count": 17,
       "symbols": [
         "Int_CargoRack_Size1_Class1",
         "Int_CorrosionProofCargoRack_Size4_Class1",
@@ -77,7 +77,7 @@
   ],
   "exclusionGroupCount": 194,
   "slotCounts": {
-    "armour": 241,
+    "armour": 247,
     "powerPlant": 43,
     "thrusters": 40,
     "frameShiftDrive": 67,
@@ -85,7 +85,7 @@
     "powerDistributor": 49,
     "sensors": 41,
     "fuelTank": 9,
-    "none": 672
+    "none": 673
   },
   "records": [
     {
@@ -194,7 +194,8 @@
       "restrictedToShips": [
         "Explorer_NX",
         "PantherMkII",
-        "LakonMiner"
+        "LakonMiner",
+        "AnacondaMkII"
       ]
     },
     {
@@ -208,7 +209,8 @@
       "restrictedToShips": [
         "Explorer_NX",
         "PantherMkII",
-        "LakonMiner"
+        "LakonMiner",
+        "AnacondaMkII"
       ]
     },
     {
@@ -222,7 +224,8 @@
       "restrictedToShips": [
         "Explorer_NX",
         "PantherMkII",
-        "LakonMiner"
+        "LakonMiner",
+        "AnacondaMkII"
       ]
     },
     {
@@ -253,8 +256,22 @@
         "PantherMkII",
         "Type9",
         "Type9_Military",
-        "LakonMiner"
+        "LakonMiner",
+        "AnacondaMkII"
       ]
+    },
+    {
+      "symbol": "Int_LargeCargoRack_Size6_Class1",
+      "category": "internal",
+      "familyId": "cargoRacks",
+      "name": "Mk II Cargo Rack",
+      "class": 6,
+      "rating": "D",
+      "restrictedToShips": [
+        "PantherMkII",
+        "AnacondaMkII"
+      ],
+      "restrictedToSlot": "cargo"
     },
     {
       "symbol": "Int_LargeCargoRack_Size8_class1",
@@ -264,7 +281,8 @@
       "class": 8,
       "rating": "D",
       "restrictedToShips": [
-        "PantherMkII"
+        "PantherMkII",
+        "AnacondaMkII"
       ],
       "restrictedToSlot": "cargo"
     },

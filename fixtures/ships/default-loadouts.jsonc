@@ -8,8 +8,8 @@
  * recorded in that catalogue's header and data/ships/SOURCES.md.
  */
 {
-  "shipCount": 48,
-  "moduleCount": 831,
+  "shipCount": 49,
+  "moduleCount": 849,
   "spot": [
     {
       "ship": "SideWinder",

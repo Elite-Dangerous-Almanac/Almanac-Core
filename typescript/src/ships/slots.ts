@@ -48,7 +48,8 @@ export type HardpointRestriction = 'mining';
  *   else (journal `PlanetaryApproachSuite`).
  * - `cargo` — cargo racks (ordinary, Mk II and corrosion-resistant) and fuel tanks;
  *   the Panther Clipper Mk II's first size-8 and first size-7 optionals (journal
- *   `Cargo01` and `Cargo02`).
+ *   `Cargo01` and `Cargo02`) and the Anaconda Mk II's size-6 optional (journal
+ *   `Cargo01`).
  * - `limpetController` — any limpet controller, single-purpose or multi (the Type-11
  *   Prospector's size-5 optional; journal `LimpetController01`).
  * - `vesselHangar` — Mk I and Mk II vessel hangars (the Type-11 Prospector's other
@@ -205,6 +206,8 @@ export interface CoreBuildSlot extends BuildSlotBase {
     readonly core: CoreSlotType;
     /** Core mounts are never family-restricted. */
     readonly restriction?: never;
+    /** Only a hardpoint takes a reserved module beside its own kind. */
+    readonly alsoTakes?: never;
 }
 
 /** A weapon hardpoint, optionally restricted to a weapon family. */
@@ -213,6 +216,11 @@ export interface HardpointBuildSlot extends BuildSlotBase {
     readonly kind: 'hardpoint';
     /** The weapon family this hardpoint requires, when restricted. */
     readonly restriction?: HardpointRestriction;
+    /**
+     * A restriction whose reserved modules this unrestricted hardpoint takes in addition
+     * to every weapon. See {@link HardpointSlotSpec.alsoTakes}.
+     */
+    readonly alsoTakes?: HardpointRestriction;
     /** Hardpoints never name a core module function. */
     readonly core?: never;
 }
@@ -223,6 +231,8 @@ export interface OptionalBuildSlot extends BuildSlotBase {
     readonly kind: 'optional';
     /** The module family this optional mount requires, when restricted. */
     readonly restriction?: OptionalRestriction;
+    /** Only a hardpoint takes a reserved module beside its own kind. */
+    readonly alsoTakes?: never;
     /** Optional internals never name a core module function. */
     readonly core?: never;
 }
@@ -233,6 +243,8 @@ export interface SimpleBuildSlot extends BuildSlotBase {
     readonly kind: 'utility' | 'armour' | 'cargoHatch';
     /** These mounts are never family-restricted. */
     readonly restriction?: never;
+    /** Only a hardpoint takes a reserved module beside its own kind. */
+    readonly alsoTakes?: never;
     /** These mounts never name a core module function. */
     readonly core?: never;
 }
@@ -240,9 +252,10 @@ export interface SimpleBuildSlot extends BuildSlotBase {
 /**
  * One mount on a hull — its stable key, kind-specific fields, and size.
  *
- * Checking `kind` narrows `core` and `restriction`: core mounts always name their
- * {@link CoreSlotType}; hardpoint and optional restrictions cannot be mixed; utility,
- * armour, and cargo-hatch mounts carry neither field.
+ * Checking `kind` narrows `core`, `restriction` and `alsoTakes`: core mounts always name
+ * their {@link CoreSlotType}; hardpoint and optional restrictions cannot be mixed; only a
+ * hardpoint can carry `alsoTakes`; utility, armour, and cargo-hatch mounts carry none of
+ * the three fields.
  *
  * @example
  * ```ts
@@ -290,6 +303,14 @@ export interface HardpointSlotSpec {
      * Type-11 Prospector has any; see {@link HardpointRestriction}.
      */
     readonly restriction?: HardpointRestriction;
+    /**
+     * A restriction whose reserved modules this unrestricted mount takes in addition to
+     * every weapon. A module reserved for a `mining` mount (its
+     * `OutfittingModule.restrictedToSlot` is `'mining'`) fits a mount with this value.
+     * Only the Anaconda Mk II has any: its `LargeHardpoint3` and `LargeHardpoint4` take
+     * the Mining Volley Repeater, and its other hardpoints do not.
+     */
+    readonly alsoTakes?: HardpointRestriction;
     /**
      * The mount's own journal slot key, when the numbering rules do not reproduce it
      * — the Type-8 Transporter's `SmallHardpoint4`, the Caspian Explorer's
@@ -499,6 +520,7 @@ export function enumerateSlots(layout: ShipSlots): BuildSlot[] {
             kind: 'hardpoint',
             size: spec.size,
             ...(spec.restriction ? { restriction: spec.restriction } : {}),
+            ...(spec.alsoTakes ? { alsoTakes: spec.alsoTakes } : {}),
         };
         slots.push(slot);
     }

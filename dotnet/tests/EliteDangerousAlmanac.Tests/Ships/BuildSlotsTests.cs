@@ -120,6 +120,7 @@ public class BuildSlotsTests
                 .Enumerate(ShipCatalogue.FindSlots(expected.Ship)!)
                 .Single(candidate => candidate.Key == expected.Slot);
             AssertRestriction(expected.Restriction, slot.Restriction);
+            AssertRestriction(expected.AlsoTakes, slot.AlsoTakes);
         }
     }
 

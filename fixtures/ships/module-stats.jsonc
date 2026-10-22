@@ -12,18 +12,18 @@
 {
   "countsNote": "Every module in every catalogue carries at least one stat, so these equal the catalogue sizes and assert that no record regresses to identity-only. No row holds only a lone `mass`: the free fuel tank, cargo rack and shield generator carry their capacities and resistances, filled by the same size/rating uniformity used for `Int_ShieldGenerator_Size1_Class4`. Zero masses are explicit, including the in-game value for `Int_DroneControl_ResourceSiphon`; its sized siblings retain their non-zero masses. The `spot` entries below pin the backfilled and corrected values.",
   "counts": {
-    "core": 516,
-    "internal": 493,
+    "core": 522,
+    "internal": 494,
     "hardpoint": 159,
     "utility": 35,
-    "all": 1203
+    "all": 1210
   },
   "priceCounts": {
-    "core": 509,
-    "internal": 479,
+    "core": 515,
+    "internal": 480,
     "hardpoint": 159,
     "utility": 35,
-    "all": 1182
+    "all": 1189
   },
   "prices": [
     {
@@ -92,8 +92,8 @@
     "Int_FighterBayMk2_Size7_Class1_Free"
   ],
   "withoutIntegrity": {
-    "note": "The 82 non-armour records that carry no integrity, pinned as a set. Not unknown values: no registry publishes an integrity for these families and the game's own module panel shows none, so the absence is the fact. The families are passenger cabins, hull and Guardian/meta-alloy reinforcement packages, fuel tanks, cargo racks, module stabilisers and planetary approach suites. A further 241 records without integrity are ship armour, a different shape, and are excluded by their 'ship' field. If a source ever supplies one of these, or a new record joins a family, this list changes and the test says so.",
-    "count": 82,
+    "note": "The non-armour records that carry no integrity, pinned as a set. Not unknown values: no registry publishes an integrity for these families and the game's own module panel shows none, so the absence is the fact. The families are passenger cabins, hull and Guardian/meta-alloy reinforcement packages, fuel tanks, cargo racks, module stabilisers and planetary approach suites. The other records without integrity are ship armour, a different shape, and are excluded by their 'ship' field. If a source ever supplies one of these, or a new record joins a family, this list changes and the test says so.",
+    "count": 83,
     "symbols": [
       "Int_FuelTank_Size1_Class3",
       "Int_FuelTank_Size2_Class3",
@@ -166,6 +166,7 @@
       "Int_PlanetApproachSuite_Advanced",
       "Int_ExpModuleStabiliser_Size3_Class3",
       "Int_ExpModuleStabiliser_Size5_Class3",
+      "Int_LargeCargoRack_Size6_Class1",
       "Int_LargeCargoRack_Size7_Class1",
       "Int_LargeCargoRack_Size8_class1",
       "Int_MkII_PassengerCabin_Size2_Class1",
@@ -1042,18 +1043,18 @@
     ]
   },
   "inGameAudit": {
-    "catalogueIdentities": 1203,
-    "identityMatches": 1188,
-    "registryOnlyIdentities": 15,
+    "catalogueIdentities": 1210,
+    "identityMatches": 1194,
+    "registryOnlyIdentities": 16,
     "numericModulesVerified": 947,
-    "armourModulesOutsideNumericVerification": 241,
+    "armourModulesOutsideNumericVerification": 247,
     "verifiedRecords": 135,
     "verifiedFields": 299,
     "catalogueFieldCounts": {
       "powerDraw": 841,
       "bootTime": 837
     },
-    "note": "In-game verification covers every catalogue identity bar two sets: the non-armour modules numerically, and the ship-armour identities whose numeric values retain their separate provenance. The bundle-granted Vessel Hangars rely on public registry and CAPI evidence; their stats match their ordinary twins but have not been checked independently in the module panel. The unreleased Large Planetary Vehicle Hangars (Int_BuggyBay{,Mk2}_Size{2,4,6}_Class3) carry values reported ahead of release that no registry publishes and that the game cannot yet be asked for. Exact component amounts and projectile boundary parameters preserve the remaining weapon values observed in-game without assigning semantics that in-game verification does not establish.",
+    "note": "In-game verification covers the non-armour modules numerically and the ship-armour identities by identity alone; their numeric values retain their separate provenance. It covers every catalogue identity except the sets that follow. The bundle-granted Vessel Hangars rely on public registry and CAPI evidence; their stats match their ordinary twins but have not been checked independently in the module panel. The unreleased Large Planetary Vehicle Hangars (Int_BuggyBay{,Mk2}_Size{2,4,6}_Class3) carry values reported ahead of release that no registry publishes and that the game cannot yet be asked for. The size-6 cargo rack (Int_LargeCargoRack_Size6_Class1) of the unreleased Anaconda Mk II is outside the audit too: its identity and stats come from the Anaconda Mk II observation. The Mk II armour (AnacondaMkII_Armour_*) counts among the identity matches only because every ship-armour record does; the audit did not read it, and its identity and stats come from the same observation. Exact component amounts and projectile boundary parameters preserve the remaining weapon values observed in-game without assigning semantics that in-game verification does not establish.",
     "verifiedValueFields": 283,
     "verifiedAbsentFields": 16,
     "componentRecords": 33
@@ -2497,6 +2498,11 @@
         "file": "journal-the-deep-black.jsonc",
         "unladenMass": 1122.299927,
         "maxJumpRange": 97.452194
+      },
+      {
+        "file": "journal-anaconda-mk-ii.jsonc",
+        "unladenMass": 1492,
+        "maxJumpRange": 39.2384
       }
     ],
     "engineeredNote": "Every engineered result the captures state where the journal's label is not the field's own first name, or where it names a field the module's record does not carry — the two places a wrong label→field resolution hides, since `effectiveStats` drops a label that resolves to nothing rather than failing and a stat with two labels can be written to whichever is asked for. `field` is written out here rather than resolved, so it says where the value belongs independently of the mapping under test. One row per distinct (module, field); `value` is in the catalogue's units, which is the journal's figure ÷ 100 for the one percentage label among them, `ShieldGenStrength`. Each is read back from `FittedModule.effectiveStats` on the build parsed from that capture, and each equals the `Value` Frontier states beside the `OriginalValue`.",

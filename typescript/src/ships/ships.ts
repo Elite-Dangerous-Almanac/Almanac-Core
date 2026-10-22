@@ -26,17 +26,19 @@ import type { CoreSlots, HardpointSlotSpec, OptionalSlotSpec, ShipSlots } from '
  * One ship hull — its **identity, stats and slot layout** in one record.
  *
  * @remarks
- * `symbol` and any `entitlement` come from Frontier's shipyard registry. `name` is the
- * installed English localisation string where in-game verification differs from that
- * registry. `manufacturer`, `size`, the stats fields (`hullMass`, `maximumSpeed`, …), and the
+ * `symbol` and any `entitlement` come from Frontier's shipyard registry, except on the
+ * Anaconda Mk II (below). `name` is the installed English localisation string where
+ * in-game verification differs from that registry. `manufacturer`, `size`, the stats fields (`hullMass`, `maximumSpeed`, …), and the
  * slot-layout fields (`core`, `hardpoints`, `optional`, …) come primarily from
  * coriolis-data, with verified in-game readings governing stat disagreements and
  * omissions. `manufacturer` and `size` are present for every hull; fields documented
  * as optional below remain absent where their source carries no value. The Lynx
  * Highliner (`MediumTransport01`), which is absent from the pinned coriolis-data
  * revision, carries equivalent fields sourced from EDSY, Frontier's update notes and
- * in-game verification. Masses are tonnes, speed/boost fields are metres per second,
- * and rotation rates are degrees per second. Minimum/full endpoint pairs are the
+ * in-game verification. The unreleased Anaconda Mk II (`AnacondaMkII`), which is absent
+ * from the pinned registries, takes its identity, stats and slot layout from an in-game
+ * observation and its prices from EDSY. Masses are tonnes, speed/boost fields are metres
+ * per second, and rotation rates are degrees per second. Minimum/full endpoint pairs are the
  * installed values at zero/four ENG pips.
  */
 export interface Ship {
@@ -61,7 +63,9 @@ export interface Ship {
      *
      * @remarks
      * Present only when the hull is gated behind an entitlement; absent (rather than
-     * empty) for hulls available to everyone.
+     * empty) for hulls available to everyone. The Anaconda Mk II is the exception: its
+     * token is not known, so the field is absent
+     * (https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/84).
      */
     readonly entitlement?: string;
 
@@ -132,7 +136,9 @@ export interface Ship {
     /**
      * Weapon hardpoints, largest first (1 Small – 4 Huge). A mount carries a
      * `restriction` only when it takes one family of weapons and nothing else — on
-     * the Type-11 Prospector's four mining mounts alone.
+     * the Type-11 Prospector's four mining mounts alone. A mount carries `alsoTakes`
+     * when it takes every weapon and also a module reserved for a restricted mount —
+     * on the Anaconda Mk II's `LargeHardpoint3` and `LargeHardpoint4` alone.
      */
     readonly hardpoints: readonly HardpointSlotSpec[];
     /** Number of tiny utility mounts. */

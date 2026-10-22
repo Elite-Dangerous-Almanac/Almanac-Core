@@ -258,6 +258,7 @@
     {
       "definition": "shipsJournalLoadout",
       "files": [
+        "ships/journal-anaconda-mk-ii.jsonc",
         "ships/journal-anaconda-slapaconda.jsonc",
         "ships/journal-cobra-mkv.jsonc",
         "ships/journal-corsair.jsonc",
@@ -2857,6 +2858,65 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "anacondaMkII": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "armour": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "hardness": { "type": "integer" },
+                    "hitPoints": { "type": "integer" },
+                    "resistances": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "explosive": { "type": "number" },
+                        "kinetic": { "type": "number" },
+                        "thermal": { "type": "integer" }
+                      },
+                      "required": ["explosive", "kinetic", "thermal"]
+                    }
+                  },
+                  "required": ["hardness", "hitPoints", "resistances"]
+                },
+                "build": { "type": "string" },
+                "jumpRange": { "$ref": "#/definitions/sharedac4e5a0d50b6" },
+                "mass": { "$ref": "#/definitions/shared54b60d04390f" },
+                "note": { "type": "string" },
+                "observedShipName": { "type": "string" },
+                "power": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "available": { "type": "integer" },
+                    "deployed": { "type": "number" },
+                    "includesDisabledModules": { "type": "boolean" },
+                    "retracted": { "type": "number" }
+                  },
+                  "required": [
+                    "available",
+                    "deployed",
+                    "includesDisabledModules",
+                    "retracted"
+                  ]
+                },
+                "shields": { "$ref": "#/definitions/shared4e11e78be2af" },
+                "speed": { "$ref": "#/definitions/shared0e2874268fa0" }
+              },
+              "required": [
+                "armour",
+                "build",
+                "jumpRange",
+                "mass",
+                "note",
+                "observedShipName",
+                "power",
+                "shields",
+                "speed"
+              ]
+            },
             "cobraMkV": {
               "type": "object",
               "additionalProperties": false,
@@ -3125,12 +3185,7 @@
                 "note": { "type": "string" },
                 "offense": { "$ref": "#/definitions/shared997edec7cdca" },
                 "power": { "$ref": "#/definitions/sharedd1a4c2fe75fe" },
-                "shields": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "properties": { "strength": { "type": "integer" } },
-                  "required": ["strength"]
-                },
+                "shields": { "$ref": "#/definitions/shared4e11e78be2af" },
                 "speed": { "$ref": "#/definitions/shared0e2874268fa0" }
               },
               "required": [
@@ -3149,6 +3204,7 @@
             "theFixer": { "$ref": "#/definitions/shared9ae71cce8656" }
           },
           "required": [
+            "anacondaMkII",
             "cobraMkV",
             "deepBlack",
             "fatArse",
@@ -8840,6 +8896,7 @@
           "additionalProperties": false,
           "properties": {
             "Anaconda": { "type": "array", "items": { "type": "string" } },
+            "AnacondaMkII": { "type": "array", "items": { "type": "string" } },
             "Asp_Scout": { "type": "array", "items": { "type": "string" } },
             "Explorer_NX": { "type": "array", "items": { "type": "string" } },
             "Federation_Dropship": {
@@ -8867,6 +8924,7 @@
           },
           "required": [
             "Anaconda",
+            "AnacondaMkII",
             "Asp_Scout",
             "Explorer_NX",
             "Federation_Dropship",
@@ -8889,6 +8947,7 @@
             "additionalProperties": false,
             "properties": {
               "accepts": { "type": "array", "items": { "type": "string" } },
+              "alsoTakes": { "type": "string" },
               "rejects": { "type": "array", "items": { "type": "string" } },
               "restriction": {
                 "anyOf": [{ "type": "string" }, { "type": "null" }]
@@ -10856,6 +10915,12 @@
         "strength": { "type": "number" }
       },
       "required": ["regeneration", "resistances", "strength"]
+    },
+    "shared4e11e78be2af": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "strength": { "type": "integer" } },
+      "required": ["strength"]
     },
     "shared4e14f41d253e": {
       "type": "object",

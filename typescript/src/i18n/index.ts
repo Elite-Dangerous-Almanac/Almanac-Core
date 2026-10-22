@@ -35,7 +35,7 @@
  * | `getExperimentalEffectName` | 86 | 100 | 100 | 100 | 100 | 100 | 100 |
  * | `getMaterialName` | 146 | 100 | 100 | 100 | 100 | 100 | 100 |
  * | `getMicroResourceName` | 226 | 100 | 100 | 100 | 100 | 100 | 100 |
- * | `getModuleName` | 1203 | 100 | 100 | 100 | 100 | 100 | 100 |
+ * | `getModuleName` | 1210 | 100 | 100 | 100 | 100 | 100 | 100 |
  * | `getPersonalModificationDescription` | 31 | 100 | 100 | 100 | 100 | 100 | 100 |
  * | `getPersonalModificationName` | 31 | 100 | 100 | 100 | 100 | 100 | 100 |
  * | `getPersonalToolName` | 4 | 100 | 100 | 100 | 100 | 100 | 100 |

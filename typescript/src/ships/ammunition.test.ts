@@ -11,6 +11,7 @@ import { ShipLoadout } from './ship-loadout.js';
 import { getPreEngineeredVariants } from './pre-engineered.js';
 import { getPreEngineeredStats } from './pre-engineered-stats.js';
 import fixture from '../../../fixtures/ships/build-metrics.jsonc' with { type: 'json' };
+import anacondaMkIIJournal from '../../../fixtures/ships/journal-anaconda-mk-ii.jsonc' with { type: 'json' };
 import slapacondaJournal from '../../../fixtures/ships/journal-anaconda-slapaconda.jsonc' with { type: 'json' };
 import kraitJournal from '../../../fixtures/ships/journal-krait-phantom.jsonc' with { type: 'json' };
 import viperJournal from '../../../fixtures/ships/journal-viper-mkiv.jsonc' with { type: 'json' };
@@ -47,6 +48,7 @@ interface JournalAmmoModule {
 
 /** Every journal capture in the fixtures, by file name. */
 const JOURNALS = [
+    ['journal-anaconda-mk-ii.jsonc', anacondaMkIIJournal],
     ['journal-anaconda-slapaconda.jsonc', slapacondaJournal],
     ['journal-krait-phantom.jsonc', kraitJournal],
     ['journal-viper-mkiv.jsonc', viperJournal],

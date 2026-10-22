@@ -26,6 +26,7 @@ import operationsFixture from '../../../fixtures/ships/operations.jsonc' with { 
 import engineeringFixture from '../../../fixtures/ships/engineering.jsonc' with { type: 'json' };
 import preEngineeredFixture from '../../../fixtures/ships/pre-engineered.jsonc' with { type: 'json' };
 import heatFixture from '../../../fixtures/ships/heat.jsonc' with { type: 'json' };
+import anacondaMkIIJournal from '../../../fixtures/ships/journal-anaconda-mk-ii.jsonc' with { type: 'json' };
 import slapacondaJournal from '../../../fixtures/ships/journal-anaconda-slapaconda.jsonc' with { type: 'json' };
 import inaraFixture from '../../../fixtures/ships/slef-inara-type-11.jsonc' with { type: 'json' };
 import lynxCapture from '../../../fixtures/ships/slef-inara-lynx-highliner.jsonc' with { type: 'json' };
@@ -2863,6 +2864,11 @@ test('every restricted mount accepts and refuses what the fixture pins', () => {
         const slot = build.slots().find((s) => s.key === rule.slot);
         assert.ok(slot, `${rule.ship} has no slot ${rule.slot}`);
         assert.equal(slot.restriction ?? null, rule.restriction, `${rule.slot} restriction`);
+        assert.equal(
+            slot.alsoTakes,
+            'alsoTakes' in rule ? rule.alsoTakes : undefined,
+            `${rule.slot} alsoTakes`,
+        );
         // `assert.throws(fn, string)` treats the string as a *message*, so a typo in a
         // `rejects` symbol would pass on the undefined-module error instead. Resolve
         // every symbol first, so a fixture typo fails loudly rather than silently
@@ -4417,26 +4423,28 @@ const offensePanelTotals = (build: ShipLoadout) => ({
     ),
 });
 
-test('all ten panel-audited builds reproduce their observed angular rates', () => {
-    const cases = [
-        ['beam Corvette', corvetteBeamsJournal, metrics.inGame.federalCorvetteBeams],
-        ['Cobra Mk V', cobraMkVJournal, metrics.inGame.cobraMkV],
-        ['Kestrel Mk II', kestrelMkIIJournal, metrics.inGame.kestrelMkII],
-        ['The Deep Black', deepBlackJournal, metrics.inGame.deepBlack],
-        ['Rescue', lynxRescueJournal, metrics.inGame.rescue],
-        ['Rescue 01', lynxJournal, metrics.inGame.rescue01],
-        ['Fat Arse', pantherJournal, metrics.inGame.fatArse],
-        ['The Fixer', corsairJournal, metrics.inGame.theFixer],
-        ['Spire Ops', spireOpsJournal, metrics.inGame.spireOps],
-        ['Slapaconda', slapacondaJournal, metrics.inGame.slapaconda],
-    ] as const;
+/** Every capture that `build-metrics.jsonc` audits against the statistics panel. */
+const PANEL_AUDITED = [
+    ['beam Corvette', corvetteBeamsJournal, metrics.inGame.federalCorvetteBeams],
+    ['Cobra Mk V', cobraMkVJournal, metrics.inGame.cobraMkV],
+    ['Kestrel Mk II', kestrelMkIIJournal, metrics.inGame.kestrelMkII],
+    ['The Deep Black', deepBlackJournal, metrics.inGame.deepBlack],
+    ['Rescue', lynxRescueJournal, metrics.inGame.rescue],
+    ['Rescue 01', lynxJournal, metrics.inGame.rescue01],
+    ['Fat Arse', pantherJournal, metrics.inGame.fatArse],
+    ['The Fixer', corsairJournal, metrics.inGame.theFixer],
+    ['Spire Ops', spireOpsJournal, metrics.inGame.spireOps],
+    ['Slapaconda', slapacondaJournal, metrics.inGame.slapaconda],
+    ['Anaconda Mk II', anacondaMkIIJournal, metrics.inGame.anacondaMkII],
+] as const;
 
+test('every panel-audited build reproduces its observed angular rates', () => {
     // The panel reports hundredths of a degree per second. Excluding reserve fuel puts
-    // all 30 residuals within the half-hundredth rounding interval; the closest is Cobra
-    // roll at 0.00491884°/s. Including reserve puts 21 outside it, with Cobra and Kestrel
-    // roll the largest misses at 0.06348252°/s and 0.05896712°/s.
+    // every residual within the half-hundredth rounding interval; the closest to its edge
+    // is Cobra roll at 0.00491884°/s. Including reserve puts most of them outside it, with
+    // Cobra and Kestrel roll the largest misses at 0.06348252°/s and 0.05896712°/s.
     const tolerance = 0.005;
-    for (const [name, event, expected] of cases) {
+    for (const [name, event, expected] of PANEL_AUDITED) {
         const actual = BuildMetrics.of(
             ShipLoadout.fromLoadout(event as LoadoutEvent),
         ).mobilityMetricsResult().value;
@@ -4448,6 +4456,17 @@ test('all ten panel-audited builds reproduce their observed angular rates', () =
                 `${name} ${axis}: calculated ${actual[axis]}, observed ${expected.speed[axis]}`,
             );
         }
+    }
+});
+
+test('every panel-audited capture states the reserve tank its hull carries', () => {
+    for (const [name, event] of PANEL_AUDITED) {
+        const capture = event as LoadoutEvent;
+        assert.equal(
+            getShipBySymbol(capture.Ship)?.reserveFuelCapacity,
+            capture.FuelCapacity?.Reserve,
+            name,
+        );
     }
 });
 
@@ -4681,6 +4700,53 @@ test('The Deep Black reproduces every observed calculated total', () => {
         },
         expected.armour.resistances,
     );
+});
+
+test('the unreleased Anaconda Mk II reproduces every observed calculated total', () => {
+    // Speed, rotation, armour and hardness all come from the hull record, so a wrong field
+    // there misses here.
+    const expected = metrics.inGame.anacondaMkII;
+    const event = anacondaMkIIJournal as LoadoutEvent;
+    const build = ShipLoadout.fromLoadout(event);
+    const fuel = build.fuelCapacity;
+    assert.ok(fuel);
+    assert.equal(build.shipName, expected.observedShipName);
+
+    assert.equal(
+        displayed(BuildMetrics.of(build).jumpRange({ fuel: fuel.main, cargo: fuel.reserve }), 2),
+        expected.jumpRange.fullTank,
+    );
+
+    const power = BuildMetrics.of(withAllModulesEnabled(event)).powerBudget();
+    assert.equal(expected.power.includesDisabledModules, true);
+    assert.equal(displayed(power.available, 2), expected.power.available);
+    assert.equal(displayed(power.retracted, 2), expected.power.retracted);
+    assert.equal(displayed(power.deployed, 2), expected.power.deployed);
+
+    const mobility = BuildMetrics.of(build).mobilityMetricsResult().value!;
+    assert.equal(displayed(mobility.speed, 0), expected.speed.top);
+    assert.equal(displayed(mobility.boost, 0), expected.speed.boost);
+
+    // No generator is fitted, so the panel's 0 is a shield the arithmetic does not compute.
+    assert.equal(expected.shields.strength, 0);
+    assert.equal(BuildMetrics.of(build).shieldMetricsResult().complete, false);
+
+    assert.equal(
+        displayed(BuildMetrics.of(build).buildMass().total + fuel.reserve, 1),
+        expected.mass.current,
+    );
+    assert.equal(displayed(BuildMetrics.of(build).thrusters()!.maxMass, 1), expected.mass.maximum);
+    const armour = BuildMetrics.of(build).armourMetrics()!;
+    assert.equal(displayed(armour.hitPoints, 1), expected.armour.hitPoints);
+    assert.deepEqual(
+        {
+            kinetic: displayed(armour.resistances.kinetic, 2),
+            thermal: displayed(armour.resistances.thermal, 2),
+            explosive: displayed(armour.resistances.explosive, 2),
+        },
+        expected.armour.resistances,
+    );
+    assert.equal(getShipBySymbol(event.Ship)?.hardness, expected.armour.hardness);
 });
 
 test('the Rescue 01 Lynx Highliner reproduces every observed calculated total', () => {
