@@ -39,9 +39,9 @@ verify the pinned hash. `command -v pnpm` should name the Corepack shim, next to
 `--frozen-lockfile` is the equivalent of `npm ci`: it installs what `pnpm-lock.yaml` pins
 and fails if the lockfile and the manifest disagree.
 
-New dependency versions serve a seven-day cooldown before they can be resolved
+New dependency versions serve a six-day cooldown before they can be resolved
 (`minimumReleaseAge` in `typescript/pnpm-workspace.yaml`), which keeps a release that
-is withdrawn in its first week out of the tree. Adding a dependency whose newest
+is withdrawn in its first six days out of the tree. Adding a dependency whose newest
 version is younger than that fails with `ERR_PNPM_NO_MATURE_MATCHING_VERSION`; ask for
 a version that has already served the cooldown rather than disabling the setting.
 

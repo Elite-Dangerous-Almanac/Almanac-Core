@@ -107,7 +107,7 @@ node --import tsx --import ./scripts/register-jsonc.mjs --test src/ships/weapons
 pnpm is pinned, with its hash, by `packageManager` in `package.json`. Run `corepack enable pnpm` (not a bare `corepack enable`, which would shim npm too).
 pnpm settings live in `pnpm-workspace.yaml`; its comments explain each one.
 
-- **Seven-day cooldown.** `minimumReleaseAge: 10080` hides releases younger than seven days, and every install audits the lockfile against it.
+- **Six-day cooldown.** `minimumReleaseAge: 8640` hides releases younger than six days, and every install audits the lockfile against it.
   Every range floor in `package.json` must be a version that has served the cooldown.
   Only the npm entry in `.github/dependabot.yml` sets the matching `cooldown`; that file explains why.
 - Do not disable the cooldown or add `minimumReleaseAgeExclude` entries to land an update. `pnpm audit --fix` can write such entries; remove them. Take the newest mature version, or wait.

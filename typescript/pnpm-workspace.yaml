@@ -5,7 +5,7 @@
 # `.npmrc`. Everything below is outside that subset, so no user- or machine-level
 # `.npmrc` can weaken it — such a setting is not overridden, it is never read.
 
-# Seven days, in minutes. A version published less than this long ago is invisible to
+# Six days, in minutes. A version published less than this long ago is invisible to
 # resolution, so a compromised or broken release cannot enter the tree on the day it
 # appears — which is the window in which such a release is usually caught and pulled.
 #
@@ -19,7 +19,7 @@
 # caught rather than installed. That audit reads publish dates from the metadata cache
 # and needs no network on a warm store, and entries only get older, so a lockfile that
 # passes today keeps passing.
-minimumReleaseAge: 10080
+minimumReleaseAge: 8640
 
 # npm's `overrides` field lives here for pnpm. `brace-expansion` is deduplicated onto
 # one advisory-free line; `esbuild` is held at the version `tsup` is pinned against so
