@@ -409,7 +409,7 @@ export interface OutfittingModuleIdentity {
 
     /**
      * The hull symbol(s) a module is restricted to, when it is ship-specific — e.g.
-     * `["Explorer_NX"]` for the Python Mk II's MkII Gravity Optimised thrusters.
+     * `["Explorer_NX"]` for the Caspian Explorer's MkII Gravity Optimised thrusters.
      *
      * @remarks
      * Present only on the handful of non-armour modules limited to particular hulls.

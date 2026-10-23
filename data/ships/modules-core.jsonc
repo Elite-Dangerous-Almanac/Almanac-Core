@@ -8327,6 +8327,9 @@
     "maxFuel": 6.8,
     "fuelMul": 0.011,
     "fuelPower": 2.5025,
+    "restrictedToShips": [
+      "Explorer_NX"
+    ],
     "fsdHeatRate": 50,
     "supercruiseOvercharge": true,
     "cost": 82042060
