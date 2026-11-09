@@ -10764,22 +10764,12 @@
           {
             "label": "CargoCapacity",
             "method": "multiplicative",
-            "min": 0.125,
-            "max": 0.125
+            "min": 0.15625,
+            "max": 0.15625
           }
         ]
       },
       "3": {
-        "features": [
-          {
-            "label": "CargoCapacity",
-            "method": "multiplicative",
-            "min": 0.188,
-            "max": 0.188
-          }
-        ]
-      },
-      "4": {
         "features": [
           {
             "label": "CargoCapacity",
@@ -10789,13 +10779,13 @@
           }
         ]
       },
-      "5": {
+      "4": {
         "features": [
           {
             "label": "CargoCapacity",
             "method": "multiplicative",
-            "min": 0.344,
-            "max": 0.344
+            "min": 0.375,
+            "max": 0.375
           }
         ]
       }
@@ -10809,22 +10799,12 @@
           {
             "label": "CargoCapacity",
             "method": "multiplicative",
-            "min": 0.125,
-            "max": 0.125
+            "min": 0.171875,
+            "max": 0.171875
           }
         ]
       },
       "3": {
-        "features": [
-          {
-            "label": "CargoCapacity",
-            "method": "multiplicative",
-            "min": 0.188,
-            "max": 0.188
-          }
-        ]
-      },
-      "4": {
         "features": [
           {
             "label": "CargoCapacity",
@@ -10834,13 +10814,13 @@
           }
         ]
       },
-      "5": {
+      "4": {
         "features": [
           {
             "label": "CargoCapacity",
             "method": "multiplicative",
-            "min": 0.344,
-            "max": 0.344
+            "min": 0.375,
+            "max": 0.375
           }
         ]
       }

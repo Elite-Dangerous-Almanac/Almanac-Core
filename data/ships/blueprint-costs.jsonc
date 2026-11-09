@@ -6201,28 +6201,6 @@
         "name": "Niobium",
         "count": 1
       }
-    ],
-    "5": [
-      {
-        "symbol": "MechanicalEquipment",
-        "name": "Mechanical Equipment",
-        "count": 1
-      },
-      {
-        "symbol": "MechanicalComponents",
-        "name": "Mechanical Components",
-        "count": 1
-      },
-      {
-        "symbol": "FedProprietaryComposites",
-        "name": "Proprietary Composites",
-        "count": 1
-      },
-      {
-        "symbol": "MilitarySupercapacitors",
-        "name": "Military Supercapacitors",
-        "count": 1
-      }
     ]
   },
   "CargoRackS6C1_Extended": {
@@ -6279,28 +6257,6 @@
       {
         "symbol": "Niobium",
         "name": "Niobium",
-        "count": 1
-      }
-    ],
-    "5": [
-      {
-        "symbol": "MechanicalEquipment",
-        "name": "Mechanical Equipment",
-        "count": 1
-      },
-      {
-        "symbol": "MechanicalComponents",
-        "name": "Mechanical Components",
-        "count": 1
-      },
-      {
-        "symbol": "FedProprietaryComposites",
-        "name": "Proprietary Composites",
-        "count": 1
-      },
-      {
-        "symbol": "MilitarySupercapacitors",
-        "name": "Military Supercapacitors",
         "count": 1
       }
     ]

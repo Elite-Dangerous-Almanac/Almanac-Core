@@ -280,10 +280,14 @@ test('getBlueprintCost weights every charged grade by its roll count', () => {
             `${climb.blueprint} ${climb.currentGrade}->${climb.grade}`,
         );
     }
-    // Every catalogued recipe reaches grade 5, so none of them is left unpinned above.
+    // Every catalogued recipe has a climb from 0 to its own top grade.
+    const topGrade = (blueprint: string) =>
+        Math.max(...Object.keys(BLUEPRINT_MERC_COIN_COSTS[blueprint]!).map(Number));
     const pinned = new Set(
         engineeringFixture.mercCoinCosts.climbs
-            .filter((climb) => climb.grade === 5 && climb.currentGrade === 0)
+            .filter(
+                (climb) => climb.grade === topGrade(climb.blueprint) && climb.currentGrade === 0,
+            )
             .map((climb) => climb.blueprint),
     );
     assert.deepEqual([...pinned].sort(), Object.keys(BLUEPRINT_MERC_COIN_COSTS).sort());

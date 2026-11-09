@@ -48,7 +48,7 @@
  * order it applies them: a journal id
  * the game writes for two different recipes, which `ships/blueprint-journal` settles by
  * reading this menu against the journal-collision catalogue; a bespoke Operations key
- * belonging to a Mercenary module sold at grade 1, whose grades 2–5 no ordinary menu lists, and
+ * belonging to a Mercenary module sold at grade 1, which no ordinary menu lists and
  * `ships/pre-engineered` resolves per module; and a build that spells a modification
  * generically — `Misc_LightWeight` where the menu lists `LifeSupport_LightWeight`, which
  * {@link getBlueprintsForModule} describes.
@@ -188,8 +188,8 @@ const moduleExclusions = new Map(
  * ungrouped module that is the same as "has no engineering route". A few instead keep a
  * Mercenary upgrade route: the Enzyme Missile Rack, fixed Mining Laser and Abrasion
  * Blaster, size-5 and size-6 cargo racks, and size-5 class-2 Module Reinforcement Package
- * have no stock menu, while their qualifying Mercenary articles take grades 2–5 of their
- * bespoke recipes through `ships/pre-engineered`. The fixed community-goal cargo racks are
+ * have no stock menu, while their qualifying Mercenary articles take their bespoke recipes, which
+ * start at grade 2, through `ships/pre-engineered`. The fixed community-goal cargo racks are
  * final articles.
  * The build corpus also contains an unsupported declaration on the Mk II Plasma Shock
  * Accelerator, which upstream denies every blueprint.

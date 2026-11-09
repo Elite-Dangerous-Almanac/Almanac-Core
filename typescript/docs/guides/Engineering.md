@@ -40,7 +40,7 @@ limpet controllers, plus individual modules denied every ordinary recipe. A few 
 symbols keep a Mercenary upgrade route despite having no stock menu: the Enzyme Missile
 Rack, fixed Mining Laser, fixed Abrasion Blaster, size-5 class-2 Module Reinforcement
 Package, and size-5 and size-6 cargo racks. Qualifying Mercenary articles can be upgraded through
-grades 2–5 of their bespoke recipes. Fixed Enzyme/AX variants and fixed community-goal
+their bespoke recipes, which start at grade 2. Fixed Enzyme/AX variants and fixed community-goal
 cargo racks remain final articles. A module with no group is therefore not a gap in the
 data.
 
@@ -197,7 +197,7 @@ or tech-broker reward does not open the same route merely because its record nam
 ordinary blueprint: that id identifies the fixed article.
 
 This route covers the **climb, not the purchase**. A Mercenary module arrives at grade 1 and
-its recipe publishes grades 2–5, the grades an engineer can still add; the grade it was sold
+its recipe starts at grade 2, the first grade an engineer can still add; the grade it was sold
 at cannot be reproduced through this route.
 
 ## Pre-engineered modules

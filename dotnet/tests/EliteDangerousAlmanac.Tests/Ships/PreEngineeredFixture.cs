@@ -32,6 +32,9 @@ internal sealed class PreEngineeredFixture
     /// <summary>One bought article after further engineering.</summary>
     public MercenaryStatClimbFixture MercenaryClimb { get; set; } = new();
 
+    /// <summary>The Extended Cargo Racks' observed capacity at every grade.</summary>
+    public List<CargoRackGradesFixture> ExtendedCargoRackGrades { get; set; } = [];
+
     /// <summary>Bought hardpoints with and without a fixed experimental effect.</summary>
     public List<MercenaryExperimentalFixture> MercenaryHardpointExperimentals { get; set; } = [];
 
@@ -156,6 +159,20 @@ internal sealed class MercenaryStatClimbFixture
 
     /// <summary>The effective stats after the climb.</summary>
     public Dictionary<string, double> Engineered { get; set; } = [];
+}
+
+/// <summary>One bought cargo rack and the capacity each grade gives it.</summary>
+internal sealed class CargoRackGradesFixture
+{
+    public string Symbol { get; set; } = string.Empty;
+
+    public string BlueprintSymbol { get; set; } = string.Empty;
+
+    /// <summary>The last grade the recipe defines.</summary>
+    public int TopGrade { get; set; }
+
+    /// <summary>The observed capacity in tonnes, keyed by grade.</summary>
+    public Dictionary<string, double> CargoCapacity { get; set; } = [];
 }
 
 /// <summary>One bought hardpoint's fixed experimental state.</summary>

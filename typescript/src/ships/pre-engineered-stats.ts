@@ -231,7 +231,7 @@ function matchesModifierSignature(
  * Mercenary articles are the exception: their bespoke blueprint is available only after
  * buying the article, while their unpublished purchase modifier block cannot identify it.
  * The module symbol and blueprint therefore identify the purchase at grade 1 and after
- * upgrading it through grades 2–5. The fitted grade and experimental effect remain the
+ * upgrading it through its recipe, which starts at grade 2. The fitted grade and experimental effect remain the
  * loadout's current engineering state; the returned variant carries the original purchase
  * grade, Merc Coin price and, on the rows sold with one, the effect the shop bakes
  * in. So a capture that states a different effect, or none, still identifies the article

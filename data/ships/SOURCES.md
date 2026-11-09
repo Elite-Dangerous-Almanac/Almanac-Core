@@ -1758,6 +1758,13 @@ up straight through with no disambiguation at all. Both paths are evidence that
     give the stored `RateOfFire` and `Range` multipliers. Screening Shell supplies the only Reload Time
     reduction for both Double Screaming recipes. The effect keeps the grade-5 reload at
     2.5 seconds, so these recipes contain no separate Reload Time feature.
+  - **Direct in-game observation supplies the Extended Cargo Rack capacities.** The
+    observation was acquired 2026-11-09 UTC. The observed capacities at grades 1–4 are
+    34, 37, 40 and 44 t on the size-5 rack, and 69, 75, 80 and 88 t on the size-6 rack.
+    Each stored multiplier is the exact fraction that gives the observed capacity from the
+    stock 32 t and 64 t racks. The grade-1 values are the `pre-engineered.jsonc` rows.
+    The game offers no grade 5 on these recipes, because a grade-5 rack is legacy engineering.
+    No legacy grade-5 figures are stored (#102).
   - **The two Lockdown recipes have different Merc-Coin costs.** The medium recipe costs
     10, 10, 20, and 40 Merc Coin per roll at grades 2–5. The large recipe costs 10, 15,
     25, and 45. Direct in-game observation supplies both sets.
@@ -1799,7 +1806,7 @@ up straight through with no disambiguation at all. Both paths are evidence that
   each grade by its roll count.
   - **A minority of recipes charge one.** Inara's blueprint
     index marks a charging recipe by rendering its name in the coin colour, and the marked
-    set is the bespoke grade-2–5 recipes a bought Mercenary article climbs plus the
+    set is the bespoke recipes, starting at grade 2, that a bought Mercenary article climbs plus the
     Operations recipes an ordinary menu lists at grades 1–5 (`FuelScoop_Efficiency`
     and the `*Laser_ThermalPlasmaConversion` recipes). One published recipe can answer to
     more than one stored id. An ordinary engineer recipe is therefore **absent rather than
@@ -1810,7 +1817,7 @@ up straight through with no disambiguation at all. Both paths are evidence that
   - **Every row is joined to its blueprint symbol by its own material recipe, not by name.** Inara
     publishes one page per recipe, keyed by its display name; each of the 18 pages' per-grade
     material lists was compared against `blueprint-costs.jsonc` before its Merc-Coin figures
-    were taken, and every row agrees on every grade, every material and every count. That is what
+    were taken, and every row agrees on every stored grade, every material and every count. That is what
     binds "Rail Gun — Enduring feedback" to `RailGun_LongShot` rather than a guess at the
     display name.
   - **One published recipe, several stored ids, one set of amounts.** Inara publishes a
@@ -1818,8 +1825,12 @@ up straight through with no disambiguation at all. Both paths are evidence that
     Cannon — Double screaming and Seeker Missile Rack — Lockdown, while this repository
     keys each as two or five per-SKU ids (see "Seven of these keys are almost certainly not
     journal ids" above). Those ids already carry **identical material recipes** at every
-    grade, from that same one page; their Merc-Coin amounts are identical for the same
+    stored grade, from that same one page; their Merc-Coin amounts are identical for the same
     reason, and are not a claim that the sizes were separately observed to cost the same.
+  - **The Extended Cargo Rack rows omit Inara's grade 5.** Inara publishes grade-5
+    materials and Merc Coin for Cargo Rack — Extended. The game offers no grade 5 on that
+    recipe, as the 2026-11-09 UTC observation above records. So `blueprint-costs.jsonc` and
+    `blueprint-merc-coin-costs.jsonc` end at grade 4. The grade 2–4 figures are Inara's.
   - **A pre-engineered article's shop price is a different number** and stays on the variant
     as `mercCoinCost`: that buys the article at grade 1, while these amounts buy the climb
     above it.
@@ -2208,7 +2219,7 @@ up straight through with no disambiguation at all. Both paths are evidence that
   `fuelScoops`, plus `PulseLaser_ThermalPlasmaConversion`,
   `BurstLaser_ThermalPlasmaConversion` and `BeamLaser_ThermalPlasmaConversion` on their
   respective laser groups. Inara publishes these as grades 1–5 with per-roll material and
-  Merc-Coin costs, distinguishing them from the grade-2–5 reward recipes. The recipe names
+  Merc-Coin costs, distinguishing them from the reward recipes that start at grade 2. The recipe names
   identify the module families, and their modifier fields match those families. The live
   Inara pages were acquired 2026-08-09 UTC; no immutable revision is exposed.
 
@@ -2306,8 +2317,8 @@ base module's name: the Mining Laser and the size-5 Frame Shift Drive.
       Screening Shell supplies both fragment cannons' Reload Time reduction. Incendiary
       Rounds supplies part of the mining laser's Thermal Load increase. FSD Interrupt
       supplies part of both Lockdown racks' Damage and Rate of Fire reductions. The
-      cannon's fixed damage split is equal parts Kinetic and Explosive. Both cargo racks
-      carry the exact multiplier implied by their observed capacities.
+      cannon's fixed damage split is equal parts Kinetic and Explosive. The cargo rack
+      multipliers come from the 2026-11-09 UTC observation under Operations above.
       Mercenary hardpoints keep the experimental state supplied by the shop. An engineer
       cannot add, remove or replace their effect. Direct observation acquired 2026-09-14 UTC
       supplies this rule.

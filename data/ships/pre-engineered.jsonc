@@ -406,7 +406,7 @@
     "acquisition": "mercenary",
     "mercCoinCost": 550,
     "modifiers": [
-      { "label": "CargoCapacity", "method": "multiplicative", "value": 0.09375 }
+      { "label": "CargoCapacity", "method": "multiplicative", "value": 0.0625 }
     ]
   },
   {
@@ -417,7 +417,7 @@
     "acquisition": "mercenary",
     "mercCoinCost": 550,
     "modifiers": [
-      { "label": "CargoCapacity", "method": "multiplicative", "value": 0.09375 }
+      { "label": "CargoCapacity", "method": "multiplicative", "value": 0.078125 }
     ]
   },
   {

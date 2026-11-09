@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using EliteDangerousAlmanac.Internal;
 using EliteDangerousAlmanac.Ships;
@@ -362,6 +363,42 @@ public class PreEngineeredTests
 
             double actual = stats.Stats[Stat(stat.Key)]!.Value;
             Assert.Equal(stat.Value, actual, 6);
+        }
+    }
+
+    [Fact]
+    public void AnExtendedCargoRackReachesItsObservedCapacityAtEveryGrade()
+    {
+        foreach (CargoRackGradesFixture expected in Fixture.ExtendedCargoRackGrades)
+        {
+            PreEngineeredVariant variant = Variant(expected.Symbol, expected.BlueprintSymbol, null);
+            ShipLoadout Bought()
+            {
+                ShipLoadout build = ShipLoadout.Empty("PantherMkII");
+                build.SetPreEngineeredVariant("Slot04_Size6", variant);
+                return build;
+            }
+
+            foreach (KeyValuePair<string, double> step in expected.CargoCapacity)
+            {
+                int grade = int.Parse(step.Key, CultureInfo.InvariantCulture);
+                ShipLoadout build = Bought();
+                if (grade != variant.Grade)
+                {
+                    build.ApplyBlueprint(
+                        "Slot04_Size6",
+                        expected.BlueprintSymbol,
+                        new ApplyBlueprintOptions(grade));
+                }
+
+                OutfittingModule stats = build.FittedModuleAt("Slot04_Size6")!.EffectiveStats!;
+                Assert.Equal(step.Value, stats.Stats[ModuleStat.CargoCapacity]!.Value);
+            }
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => Bought().ApplyBlueprint(
+                "Slot04_Size6",
+                expected.BlueprintSymbol,
+                new ApplyBlueprintOptions(expected.TopGrade + 1)));
         }
     }
 
