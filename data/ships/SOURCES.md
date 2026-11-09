@@ -1764,7 +1764,7 @@ up straight through with no disambiguation at all. Both paths are evidence that
     Each stored multiplier is the exact fraction that gives the observed capacity from the
     stock 32 t and 64 t racks. The grade-1 values are the `pre-engineered.jsonc` rows.
     The game offers no grade 5 on these recipes, because a grade-5 rack is legacy engineering.
-    No legacy grade-5 figures are stored, so an import without modifiers resolves none (#102).
+    No legacy grade-5 figures are stored (#102).
   - **The two Lockdown recipes have different Merc-Coin costs.** The medium recipe costs
     10, 10, 20, and 40 Merc Coin per roll at grades 2–5. The large recipe costs 10, 15,
     25, and 45. Direct in-game observation supplies both sets.

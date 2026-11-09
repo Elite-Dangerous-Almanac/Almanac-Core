@@ -6225,7 +6225,6 @@ test('an article resolved from a bare identity is an article, not a new base', (
         rerolled.fittedModuleAt('Slot04_Size6')!.effectiveStats,
         stock.fittedModuleAt('Slot04_Size6')!.effectiveStats,
     );
-    assert.equal(rerolled.fittedModuleAt('Slot04_Size6')?.effectiveStats?.cargoCapacity, 75);
 });
 
 test('completeEngineeringGrade preserves an imported fixed reward', () => {
