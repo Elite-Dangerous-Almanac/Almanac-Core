@@ -67,6 +67,8 @@ public sealed record ModuleDefaulted(string Slot, string? SourceSymbol, string R
 /// <remarks>
 /// An unknown or unoffered blueprint, an unoffered experimental effect, a grade or a quality
 /// outside the recipe, and a base stat the catalogues do not carry all read this way.
+/// A bought Mercenary article keeps its grade-1 figures instead:
+/// https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/102.
 /// </remarks>
 public sealed record EngineeringUnresolved(string Slot, string SourceSymbol, string BlueprintSymbol)
     : LoadoutImportOutcome(LoadoutImportAction.UnresolvedEngineering, Slot);

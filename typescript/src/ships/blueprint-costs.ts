@@ -269,7 +269,7 @@ export type BlueprintMercCoinCosts = Readonly<Record<string, number>>;
  * The raw catalogue behind {@link BlueprintCost.mercCoins}; reach for
  * {@link getBlueprintCost} or {@link getBlueprintGradeCost} unless you want the table
  * itself. A small subset of {@link BLUEPRINT_COSTS}'s ids, in two shapes. Most are the
- * bespoke recipes from grade 2 up that only a Mercenary article, bought
+ * bespoke recipes, starting at grade 2, that only a Mercenary article, bought
  * already at grade 1, can be taken through. The others are ordinary
  * engineering-menu recipes spanning grades 1–5 that happen to bill the currency too:
  * `FuelScoop_Efficiency` and the `*Laser_ThermalPlasmaConversion` recipes. Every other

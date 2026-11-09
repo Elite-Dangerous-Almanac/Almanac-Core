@@ -7252,6 +7252,35 @@
           },
           "required": ["count", "symbols"]
         },
+        "extendedCargoRackGrades": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "blueprintSymbol": { "type": "string" },
+              "cargoCapacity": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "1": { "type": "integer" },
+                  "2": { "type": "integer" },
+                  "3": { "type": "integer" },
+                  "4": { "type": "integer" }
+                },
+                "required": ["1", "2", "3", "4"]
+              },
+              "symbol": { "type": "string" },
+              "topGrade": { "type": "integer" }
+            },
+            "required": [
+              "blueprintSymbol",
+              "cargoCapacity",
+              "symbol",
+              "topGrade"
+            ]
+          }
+        },
         "festive": {
           "type": "object",
           "additionalProperties": false,
@@ -8818,6 +8847,7 @@
         "count",
         "counts",
         "engineeringLocked",
+        "extendedCargoRackGrades",
         "festive",
         "fullyUnresolved",
         "identification",

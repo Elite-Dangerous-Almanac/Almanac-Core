@@ -6625,6 +6625,36 @@ test('a Double Screaming article reaches its observed grade-five stats', () => {
     assert.equal(stats.reloadTime, expected.engineered.reloadTime);
 });
 
+test('an Extended Cargo Rack reaches its observed capacity at every grade', () => {
+    for (const expected of preEngineeredFixture.extendedCargoRackGrades) {
+        const variant = getPreEngineeredVariants(expected.symbol).find(
+            (candidate) => candidate.blueprintSymbol === expected.blueprintSymbol,
+        )!;
+        const bought = () =>
+            ShipLoadout.empty('PantherMkII').setPreEngineeredVariant('Slot04_Size6', variant);
+        for (const [grade, cargoCapacity] of Object.entries(expected.cargoCapacity)) {
+            const build =
+                variant.grade === Number(grade)
+                    ? bought()
+                    : bought().applyBlueprint('Slot04_Size6', expected.blueprintSymbol, {
+                          grade: Number(grade),
+                      });
+            assert.equal(
+                build.fittedModuleAt('Slot04_Size6')!.effectiveStats!.cargoCapacity,
+                cargoCapacity,
+                `${expected.symbol} grade ${grade}`,
+            );
+        }
+        assert.throws(
+            () =>
+                bought().applyBlueprint('Slot04_Size6', expected.blueprintSymbol, {
+                    grade: expected.topGrade + 1,
+                }),
+            RangeError,
+        );
+    }
+});
+
 test('a partial capture cannot invent a rate of fire the weapon has no cycle for', () => {
     // A third-party block that moves a stat the module carries is kept as written, so a
     // burst label can arrive beside a weapon that has no firing cycle to rebuild. There

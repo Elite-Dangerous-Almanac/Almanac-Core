@@ -21,7 +21,9 @@
  * article states one rate of fire, so the two are the same figure; `mercenaryBakedEffects` pins
  * Merc-shop rows sold with an experimental effect already applied. Each shop row also carries
  * its fixed grade-1 transformation; `mercenaryClimb` pins one shop article after further
- * engineering against its observed effective stats; `mercenaryHardpointExperimentals` pins
+ * engineering against its observed effective stats; `extendedCargoRackGrades` pins both
+ * Extended Cargo Racks' observed capacity at every grade and the last grade their recipe
+ * defines; `mercenaryHardpointExperimentals` pins
  * hardpoints with and without a fixed experimental effect;
  * `resolved` pins whole stat blocks against known in-game values; `identification.mercenary`
  * pins the Mercenary-only blueprint identity
@@ -280,6 +282,20 @@
       "reloadTime": 2.5
     }
   },
+  "extendedCargoRackGrades": [
+    {
+      "symbol": "Int_CargoRack_Size5_Class1",
+      "blueprintSymbol": "CargoRackS5C1_Extended",
+      "topGrade": 4,
+      "cargoCapacity": { "1": 34, "2": 37, "3": 40, "4": 44 }
+    },
+    {
+      "symbol": "Int_CargoRack_Size6_Class1",
+      "blueprintSymbol": "CargoRackS6C1_Extended",
+      "topGrade": 4,
+      "cargoCapacity": { "1": 69, "2": 75, "3": 80, "4": 88 }
+    }
+  ],
   "mercenaryHardpointExperimentals": [
     {
       "slot": "LargeHardpoint1",

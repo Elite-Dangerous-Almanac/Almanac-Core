@@ -11,7 +11,8 @@ import type { PreEngineeredVariant } from './pre-engineered.js';
  * the source named nothing there at all. A module whose source stated a recipe and no
  * `Modifiers` reports `unresolvedEngineering` when neither a craftable recipe nor a
  * catalogued article answers to what it named, because that module alone keeps the
- * figures of an unengineered one. Two further entries report a *reading* the
+ * figures of an unengineered one. A bought Mercenary article keeps its grade-1 figures instead:
+ * https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/102. Two further entries report a *reading* the
  * import chose rather than a change it made: `ambiguousEngineering` where an identity-only
  * block was rolled while a catalogued article answers to it just as well, and
  * `rerolledEngineering` where a stated modifier block moved nothing the module has and the

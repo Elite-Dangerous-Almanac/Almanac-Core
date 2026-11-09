@@ -47,7 +47,7 @@
  * Only modules with an ordinary engineering menu appear at all; the
  * rest are the families no ordinary blueprint reaches, plus the individual modules
  * upstream denies every blueprint. A purchased Mercenary module may still take the bespoke
- * grades above 1 it is sold with; that purchase-specific route is not an ordinary menu and is
+ * recipe it is sold with, which starts at grade 2; that purchase-specific route is not an ordinary menu and is
  * recorded by `pre-engineered.jsonc`. SOURCES.md lists both sets.
  *
  * `modules` is ordered by group, in the order `groups` declares them, and within a group

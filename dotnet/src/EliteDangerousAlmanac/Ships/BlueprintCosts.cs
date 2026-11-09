@@ -50,7 +50,7 @@ public static class BlueprintCosts
     /// </summary>
     /// <remarks>
     /// A small subset of <see cref="All"/>'s identifiers, in two shapes. Most are the bespoke
-    /// recipes from grade 2 up that only a Mercenary article, bought already at grade 1, can
+    /// recipes, starting at grade 2, that only a Mercenary article, bought already at grade 1, can
     /// be taken through. The others are ordinary engineering-menu recipes spanning grades 1
     /// through 5 that bill the currency too. Every other blueprint is absent rather than zero.
     /// </remarks>
