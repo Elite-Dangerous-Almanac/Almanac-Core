@@ -356,7 +356,7 @@
         }
       },
       {
-        "name": "flies fuelled, and only a full hold sinks it",
+        "name": "flies fuelled, but not with a full hold",
         "mass": {
           "dry": 60,
           "fuel": 8,
@@ -364,7 +364,7 @@
         },
         "expectedIssue": {
           "code": "thrusterMassExceeded",
-          "severity": "warning",
+          "severity": "error",
           "message": "MainEngines: Int_Engine_Size2_Class1 is rated to 72 t but the ship weighs 84 t fully laden",
           "params": {
             "slot": "MainEngines",

@@ -94,9 +94,8 @@ public sealed partial class ShipLoadout
     /// </para>
     /// <para>
     /// The thruster rule weighs the fitted thrusters' post-engineering maximum mass against what
-    /// the ship comes to at each load it can reach without being refitted. A ship that cannot
-    /// move on a full tank is an error; one that only fails with the hold full is a warning, and
-    /// leaves the build valid and complete.
+    /// the ship comes to at each load it can reach without being refitted. A ship too heavy at
+    /// any of those loads, a full hold included, is an error: the game refuses the fit.
     /// </para>
     /// <para>
     /// A capture may state a mass nobody can weigh. That is not refused here: this method

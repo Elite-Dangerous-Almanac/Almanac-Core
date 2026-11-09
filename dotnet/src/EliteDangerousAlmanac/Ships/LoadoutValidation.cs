@@ -45,15 +45,12 @@ public enum LoadoutIssueSeverity
 
     /// <summary>A required module is missing, so the build is not operational.</summary>
     Incomplete,
-
-    /// <summary>The build flies, but not at every load it can carry.</summary>
-    Warning,
 }
 
 /// <summary>A load a thruster rating is read against, lightest first.</summary>
 /// <remarks>
-/// A ship cannot undock without fuel, so failing dry or unladen is an error. Failing only
-/// laden is a warning, because the hold is the one load a pilot chooses.
+/// Failing at any of the three is an error: the game does not let a ship fit thrusters rated
+/// below a load it can reach.
 /// </remarks>
 public enum ThrusterLoad
 {
@@ -210,11 +207,11 @@ public sealed record LoadoutIssue(
 
 /// <summary>What a validation found.</summary>
 /// <param name="Valid">
-/// No structurally invalid mount, repeated key or incompatible module. Only an error clears
-/// this.
+/// No structurally invalid mount, repeated key, incompatible module or thruster overload. Only
+/// an error clears this.
 /// </param>
 /// <param name="Complete">
-/// Valid, with the armour and every operational core mount filled. A warning leaves this alone.
+/// Valid, with the armour and every operational core mount filled. Any issue clears this.
 /// </param>
 /// <param name="Issues">Every finding, in the order the rules raised them.</param>
 public sealed record LoadoutValidation(
@@ -336,16 +333,8 @@ public static class LoadoutValidator
         CheckFit(input, issues);
         CheckThrusterRating(input, issues);
 
-        bool valid = true;
-        bool complete = true;
-        foreach (LoadoutIssue issue in issues)
-        {
-            if (issue.Severity == LoadoutIssueSeverity.Error) valid = false;
-
-            // A warning is a note against a build that is both legal and fully mounted, so it
-            // answers neither question.
-            if (issue.Severity != LoadoutIssueSeverity.Warning) complete = false;
-        }
+        bool valid = !issues.Exists(issue => issue.Severity == LoadoutIssueSeverity.Error);
+        bool complete = issues.Count == 0;
 
         return new LoadoutValidation(
             valid,
@@ -520,9 +509,7 @@ public static class LoadoutValidator
                 if (module.ThrusterMaxMass is not double rating || mass <= rating) continue;
                 issues.Add(new LoadoutIssue(
                     LoadoutIssueCode.ThrusterMassExceeded,
-                    load == ThrusterLoad.Laden
-                        ? LoadoutIssueSeverity.Warning
-                        : LoadoutIssueSeverity.Error,
+                    LoadoutIssueSeverity.Error,
 
                     // The message quotes both figures to the tenth of a tonne an outfitting
                     // screen shows, while the members below keep them exactly as measured: a

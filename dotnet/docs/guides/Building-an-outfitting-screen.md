@@ -327,11 +327,9 @@ edits ago, and re-reading `Validation` after every edit is what surfaces that.
 
 It also carries `Load`, naming which of the ship's three loads the rating failed at —
 `ThrusterLoad.Dry`, `ThrusterLoad.Unladen` (a full main tank) or `ThrusterLoad.Laden` (a
-full hold as well). The first two are errors, and the third is the panel's one
-`LoadoutIssueSeverity.Warning`: a hauler that only outgrows its thrusters with the hold
-full is still a legal build, so it stays valid and complete and reaches you through
-`Issues` alone. Put that one beside the cargo figure rather than on the thruster mount —
-the fix is usually to carry less, not to refit.
+full hold as well). All three are errors, because the game refuses the fit at each of them.
+On a `ThrusterLoad.Laden` failure, show the cargo capacity beside the thruster mount: less
+cargo capacity, lighter modules or stronger thrusters each fix it.
 
 ## Next
 

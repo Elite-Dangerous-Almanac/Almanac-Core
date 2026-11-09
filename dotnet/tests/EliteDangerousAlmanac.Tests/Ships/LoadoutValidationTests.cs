@@ -228,9 +228,8 @@ public class LoadoutValidationTests
 
     /// <summary>Thrusters rated below what the ship weighs, at each load in turn.</summary>
     /// <remarks>
-    /// Only the lightest overloaded load is reported, and how badly it reads follows that
-    /// load: a ship too heavy dry or with a full tank cannot leave the pad at all, while one
-    /// that only a full hold sinks still flies.
+    /// Only the lightest overloaded load is reported. The game refuses the fit at every load,
+    /// a full hold included.
     /// </remarks>
     [Theory]
     [MemberData(nameof(ThrusterMassCases))]
@@ -257,8 +256,8 @@ public class LoadoutValidationTests
         Assert.Equal(expected.Params.Mass, issue.Mass);
         Assert.Equal(expected.Params.MaxMass, issue.MaxMass);
 
-        // Only a load the ship never has to fly at leaves the build legal.
-        Assert.Equal(issue.Severity == LoadoutIssueSeverity.Warning, result.Valid);
+        Assert.False(result.Valid);
+        Assert.False(result.Complete);
     }
 
     /// <summary>A ship the same thrusters carry at every load it states.</summary>

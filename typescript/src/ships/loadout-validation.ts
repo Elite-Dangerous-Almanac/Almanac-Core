@@ -44,8 +44,8 @@ export type LoadoutIssueCode =
  * figure, because that is what a journal's `UnladenMass` states. `laden` adds a full
  * hold on top.
  *
- * A ship cannot undock without fuel, so failing at `dry` or `unladen` is an error.
- * Failing only at `laden` is a warning: the hold is the one load a pilot chooses.
+ * Failing at any of the three is an error: the game does not let a ship fit thrusters
+ * rated below a load it can reach.
  */
 export type ThrusterLoad = 'dry' | 'unladen' | 'laden';
 
@@ -86,17 +86,14 @@ export interface LoadoutIssue {
     /** Machine-readable reason. */
     readonly code: LoadoutIssueCode;
     /**
-     * Invalid input is an error; a missing required module makes the build incomplete;
-     * a warning is a build that flies, but not at every load it can carry.
+     * Invalid input is an error; a missing required module makes the build incomplete.
      *
      * @remarks
-     * Only `error` clears {@link LoadoutValidation.valid}, and only `error` or
-     * `incomplete` clears {@link LoadoutValidation.complete}. A `warning` is a note
-     * against a legal, fully-mounted build, so it leaves both answers alone. Branch on
-     * {@link code} rather than on this: one severity covers findings that belong in
-     * different places on a panel.
+     * Only `error` clears {@link LoadoutValidation.valid}. Either severity clears
+     * {@link LoadoutValidation.complete}. Branch on {@link code} rather than on this:
+     * one severity covers findings that belong in different places on a panel.
      */
-    readonly severity: 'error' | 'incomplete' | 'warning';
+    readonly severity: 'error' | 'incomplete';
     /** Slot involved, in the build's own spelling when possible. */
     readonly slot?: string;
     /** Module symbol involved, when any. */
@@ -109,7 +106,7 @@ export interface LoadoutIssue {
 
 /** Summary returned by {@link validateLoadout}. */
 export interface LoadoutValidation {
-    /** No structurally invalid slots, duplicate keys, or incompatible modules. */
+    /** No structurally invalid slots, duplicate keys, incompatible modules or thruster overload. */
     readonly valid: boolean;
     /** Valid, with armour and every operational core mount filled. */
     readonly complete: boolean;
@@ -274,10 +271,10 @@ function requireTonnes(name: string, value: number | undefined): void {
  * nothing and the ship does not move at all.
  *
  * The rating is weighed against each {@link ThrusterLoad} the input can state, and the
- * lightest load that is already too heavy is the one reported. A ship that cannot move
- * `dry` or `unladen` is an error — it cannot leave a pad, where the tank is always
- * full. One that only fails `laden` is a warning, and leaves the build both valid and
- * complete: the hold is the one load a pilot chooses.
+ * lightest load that is already too heavy is the one reported. Every such finding is an
+ * error, so it clears both {@link LoadoutValidation.valid} and
+ * {@link LoadoutValidation.complete}: the game refuses a fit whose thrusters are rated
+ * below any load the ship can reach, a full hold included.
  * @example
  * ```ts
  * import { validateLoadout } from '@elite-dangerous-almanac/core/ships/loadout-validation';
@@ -427,7 +424,7 @@ export function validateLoadout(input: LoadoutValidationInput): LoadoutValidatio
             }
             issues.push({
                 code: 'thrusterMassExceeded',
-                severity: load.load === 'laden' ? 'warning' : 'error',
+                severity: 'error',
                 slot: module.slot,
                 symbol: module.symbol,
                 // The message quotes both figures to the tenth of a tonne an outfitting
@@ -473,9 +470,7 @@ export function validateLoadout(input: LoadoutValidationInput): LoadoutValidatio
     );
     return Object.freeze({
         valid: !issues.some((issue) => issue.severity === 'error'),
-        // A warning is a note against a build that is both legal and fully mounted, so
-        // it answers neither question.
-        complete: !issues.some((issue) => issue.severity !== 'warning'),
+        complete: issues.length === 0,
         issues: frozen,
     });
 }

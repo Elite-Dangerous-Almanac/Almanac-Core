@@ -174,8 +174,9 @@ test('validation abbreviates message previews without changing structured values
 
 test('a thruster rating is weighed at each load, lightest failure reported', () => {
     const { input, cases } = operationsFixture.thrusterMass;
-    const weigh = (mass: (typeof cases)[number]['mass']) =>
-        validateLoadout({
+
+    for (const { name, mass, expectedIssue } of cases) {
+        const result = validateLoadout({
             shipSymbol: layout.symbol,
             slots: enumerateSlots(layout),
             mass,
@@ -188,38 +189,18 @@ test('a thruster rating is weighed at each load, lightest failure reported', () 
                     thrusterMaxMass: input.thrusterMaxMass,
                 },
             ],
-        }).issues.filter((issue) => issue.code === 'thrusterMassExceeded');
-
-    for (const { name, mass, expectedIssue } of cases) {
-        const reported = weigh(mass);
+        });
+        const reported = result.issues.filter((issue) => issue.code === 'thrusterMassExceeded');
         // One issue, not one per load: the loads only grow, so the lightest failure
         // already says everything the heavier ones would.
         assert.equal(reported.length, 1, name);
         assert.equal(reported[0]?.severity, expectedIssue.severity, name);
         assert.equal(reported[0]?.message, expectedIssue.message, name);
         assert.deepEqual(reported[0]?.params, expectedIssue.params, name);
+        // The game refuses the fit at every load, a full hold included.
+        assert.equal(result.valid, false, name);
+        assert.equal(result.complete, false, name);
     }
-
-    // A laden-only overload is a note against a build that is legal and fully mounted,
-    // so it clears neither answer; the two heavier failures are errors.
-    const laden = cases.find((item) => item.expectedIssue.params.load === 'laden');
-    assert.ok(laden);
-    const ladenResult = validateLoadout({
-        shipSymbol: layout.symbol,
-        slots: [],
-        mass: laden.mass,
-        modules: [
-            {
-                slot: input.slot,
-                symbol: input.symbol,
-                requiresKnownSlot: false,
-                fitError: null,
-                thrusterMaxMass: input.thrusterMaxMass,
-            },
-        ],
-    });
-    assert.equal(ladenResult.valid, true);
-    assert.equal(ladenResult.complete, true);
 });
 
 test('a ship within its rating at every load it can reach is not reported', () => {
