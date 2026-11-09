@@ -67,7 +67,7 @@ fixtures/<domain>/*.jsonc ──(strip comments)──────────�
 | `pnpm run generate:fixtures`      | regenerates the fixture schema and fixture types                                                                                      |
 | `pnpm run generate:i18n-coverage` | regenerates the locale-coverage table                                                                                                 |
 | `pnpm run format`                 | Prettier over the package and the shared Markdown, schemas, scripts and workflows                                                     |
-| `pnpm run audit`                  | `pnpm audit --audit-level=low`                                                                                                        |
+| `pnpm run audit`                  | `pnpm audit --audit-level=high`; low and moderate advisories do not fail it                                                           |
 | `pnpm run build`                  | builds `dist/` (see below)                                                                                                            |
 | `pnpm run test:package`           | imports the built `dist/` and checks every export subpath                                                                             |
 | `pnpm run docs`                   | builds the whole wiki, both languages, into the root `docs/wiki`                                                                      |

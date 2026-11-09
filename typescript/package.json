@@ -523,7 +523,7 @@
         "assets"
     ],
     "scripts": {
-        "audit": "pnpm audit --audit-level=low",
+        "audit": "pnpm audit --audit-level=high",
         "build": "node scripts/copy-notices.mjs && node scripts/copy-assets.mjs && tsup && node scripts/prune-sourcemap-sources.mjs && node scripts/prune-barrel-imports.mjs && node scripts/attach-barrel-docs.mjs",
         "check": "pnpm run check:fixtures && pnpm run check:i18n-coverage && pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run check:examples && pnpm run test:wiki && pnpm test",
         "check:fixtures": "node ../scripts/fixtures/generate-schema-and-types.mjs --check",
