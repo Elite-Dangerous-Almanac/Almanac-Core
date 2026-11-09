@@ -168,7 +168,7 @@ export function getBlueprintGradeCost(
  * `g ·` (grade `g`'s cost). To price a single grade's complete progression, set
  * `currentGrade` to `grade − 1`; use {@link getBlueprintGradeCost} for one roll.
  *
- * A Mercenary article is bought at grade 1 and its recipe defines grades 2–5, so pass
+ * A Mercenary article is bought at grade 1 and its recipe starts at grade 2, so pass
  * `1` to price what an engineer can still add. The ordinary-menu recipes that also bill
  * Merc Coin, `FuelScoop_Efficiency` and the `*Laser_ThermalPlasmaConversion` recipes,
  * define grades 1–5 on a stock module and climb from `0` like any other recipe.
@@ -269,7 +269,7 @@ export type BlueprintMercCoinCosts = Readonly<Record<string, number>>;
  * The raw catalogue behind {@link BlueprintCost.mercCoins}; reach for
  * {@link getBlueprintCost} or {@link getBlueprintGradeCost} unless you want the table
  * itself. A small subset of {@link BLUEPRINT_COSTS}'s ids, in two shapes. Most are the
- * bespoke grade-2–5 recipes that only a Mercenary article, bought
+ * bespoke recipes from grade 2 up that only a Mercenary article, bought
  * already at grade 1, can be taken through. The others are ordinary
  * engineering-menu recipes spanning grades 1–5 that happen to bill the currency too:
  * `FuelScoop_Efficiency` and the `*Laser_ThermalPlasmaConversion` recipes. Every other
@@ -280,7 +280,7 @@ export type BlueprintMercCoinCosts = Readonly<Record<string, number>>;
  * ```ts
  * import { BLUEPRINT_MERC_COIN_COSTS } from '@elite-dangerous-almanac/core/ships/blueprint-costs';
  *
- * BLUEPRINT_MERC_COIN_COSTS['CargoRackS5C1_Extended']; // -> { '2': 5, '3': 10, '4': 15, '5': 30 }
+ * BLUEPRINT_MERC_COIN_COSTS['CargoRackS5C1_Extended']; // -> { '2': 5, '3': 10, '4': 15 }
  * Object.hasOwn(BLUEPRINT_MERC_COIN_COSTS, 'FSD_LongRange'); // -> false
  * ```
  */

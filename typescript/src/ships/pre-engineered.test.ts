@@ -180,22 +180,26 @@ test('every Mercenary module arrives at grade 1 and exposes only measured climbs
             );
             continue;
         }
+        // A measured recipe climbs without a gap from grade 2 to its own top grade.
+        const grades = Object.keys(blueprint.grades).map(Number);
+        assert.deepEqual(
+            grades,
+            grades.map((_, index) => index + 2),
+            `${variant.blueprintSymbol}: upgrade grades`,
+        );
+        const topGrade = grades.at(-1)!;
         // A measured recipe carries its Merc Coin costs and appears in the public route list.
         assert.ok(
-            (getBlueprintCost(variant.blueprintSymbol, 5, variant.grade)?.mercCoins ?? 0) > 0,
+            (getBlueprintCost(variant.blueprintSymbol, topGrade, variant.grade)?.mercCoins ?? 0) >
+                0,
             `${variant.symbol}: ${variant.blueprintSymbol} prices no Merc Coin above grade ${variant.grade}`,
         );
         assert.deepEqual(
             availableBlueprintsFor(variant.symbol).find(
                 (candidate) => candidate.blueprintSymbol === variant.blueprintSymbol,
             ),
-            { blueprintSymbol: variant.blueprintSymbol, grades: [2, 3, 4, 5], route: 'mercenary' },
+            { blueprintSymbol: variant.blueprintSymbol, grades, route: 'mercenary' },
             `${variant.symbol}: ${variant.blueprintSymbol} is missing from available blueprints`,
-        );
-        assert.deepEqual(
-            Object.keys(blueprint.grades).map(Number),
-            [2, 3, 4, 5],
-            `${variant.blueprintSymbol}: upgrade grades`,
         );
         const module = getModuleBySymbol(variant.symbol, ALL_MODULES)!;
         for (const [grade, recipe] of Object.entries(blueprint.grades)) {

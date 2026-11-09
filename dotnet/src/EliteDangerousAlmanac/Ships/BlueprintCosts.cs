@@ -50,7 +50,7 @@ public static class BlueprintCosts
     /// </summary>
     /// <remarks>
     /// A small subset of <see cref="All"/>'s identifiers, in two shapes. Most are the bespoke
-    /// grade 2 through 5 recipes that only a Mercenary article, bought already at grade 1, can
+    /// recipes from grade 2 up that only a Mercenary article, bought already at grade 1, can
     /// be taken through. The others are ordinary engineering-menu recipes spanning grades 1
     /// through 5 that bill the currency too. Every other blueprint is absent rather than zero.
     /// </remarks>
@@ -125,7 +125,7 @@ public static class BlueprintCosts
     /// below the target; use <see cref="FindGradeCost"/> for a single roll.
     /// </para>
     /// <para>
-    /// A Mercenary article is bought at grade 1 and its recipe defines grades 2 through 5, so
+    /// A Mercenary article is bought at grade 1 and its recipe starts at grade 2, so
     /// pass 1 to price what an engineer can still add.
     /// </para>
     /// <para>

@@ -2058,13 +2058,11 @@ type FixtureShipsEngineering = {
                 '2': number;
                 '3': number;
                 '4': number;
-                '5': number;
             };
             CargoRackS6C1_Extended: {
                 '2': number;
                 '3': number;
                 '4': number;
-                '5': number;
             };
             DetailedSurfaceScanner_LongRange: {
                 '2': number;

@@ -1758,6 +1758,13 @@ up straight through with no disambiguation at all. Both paths are evidence that
     give the stored `RateOfFire` and `Range` multipliers. Screening Shell supplies the only Reload Time
     reduction for both Double Screaming recipes. The effect keeps the grade-5 reload at
     2.5 seconds, so these recipes contain no separate Reload Time feature.
+  - **Direct in-game observation supplies both Extended Cargo Rack recipes.** The
+    observation was acquired 2026-11-09 UTC. The observed capacities at grades 1–4 are
+    34, 37, 40 and 44 t on the size-5 rack, and 69, 75, 80 and 88 t on the size-6 rack.
+    Each stored multiplier is the exact fraction that gives the observed capacity from the
+    stock 32 t and 64 t racks. The grade-1 values are the `pre-engineered.jsonc` rows.
+    The game offers no grade 5 on these recipes. A grade-5 rack is legacy engineering, so
+    the stored recipes, materials and Merc-Coin costs end at grade 4.
   - **The two Lockdown recipes have different Merc-Coin costs.** The medium recipe costs
     10, 10, 20, and 40 Merc Coin per roll at grades 2–5. The large recipe costs 10, 15,
     25, and 45. Direct in-game observation supplies both sets.
@@ -1799,7 +1806,7 @@ up straight through with no disambiguation at all. Both paths are evidence that
   each grade by its roll count.
   - **A minority of recipes charge one.** Inara's blueprint
     index marks a charging recipe by rendering its name in the coin colour, and the marked
-    set is the bespoke grade-2–5 recipes a bought Mercenary article climbs plus the
+    set is the bespoke recipes from grade 2 up that a bought Mercenary article climbs plus the
     Operations recipes an ordinary menu lists at grades 1–5 (`FuelScoop_Efficiency`
     and the `*Laser_ThermalPlasmaConversion` recipes). One published recipe can answer to
     more than one stored id. An ordinary engineer recipe is therefore **absent rather than
@@ -2208,7 +2215,7 @@ up straight through with no disambiguation at all. Both paths are evidence that
   `fuelScoops`, plus `PulseLaser_ThermalPlasmaConversion`,
   `BurstLaser_ThermalPlasmaConversion` and `BeamLaser_ThermalPlasmaConversion` on their
   respective laser groups. Inara publishes these as grades 1–5 with per-roll material and
-  Merc-Coin costs, distinguishing them from the grade-2–5 reward recipes. The recipe names
+  Merc-Coin costs, distinguishing them from the reward recipes that start at grade 2. The recipe names
   identify the module families, and their modifier fields match those families. The live
   Inara pages were acquired 2026-08-09 UTC; no immutable revision is exposed.
 

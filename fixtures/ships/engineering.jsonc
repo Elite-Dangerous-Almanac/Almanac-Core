@@ -602,7 +602,7 @@
     }
   },
   "mercCoinCosts": {
-    "description": "Merc Coin is charged per roll alongside materials. Recipes that charge none are absent. `perRoll` is the whole currency catalogue. `climbs` are totals with each grade weighted by its roll count. A grade-2-5 recipe totals the same from `currentGrade` 0 as from 1 because an undefined grade is skipped.",
+    "description": "Merc Coin is charged per roll alongside materials. Recipes that charge none are absent. `perRoll` is the whole currency catalogue. `climbs` are totals with each grade weighted by its roll count. A recipe that starts at grade 2 totals the same from `currentGrade` 0 as from 1 because an undefined grade is skipped.",
     "perRoll": {
       "FuelScoop_Efficiency": { "1": 10, "2": 15, "3": 20, "4": 25, "5": 30 },
       "BeamLaser_Overloaded": { "2": 10, "3": 15, "4": 25, "5": 50 },
@@ -630,8 +630,8 @@
         "5": 30
       },
       "DetailedSurfaceScanner_LongRange": { "2": 5, "3": 5, "4": 10, "5": 20 },
-      "CargoRackS5C1_Extended": { "2": 5, "3": 10, "4": 15, "5": 30 },
-      "CargoRackS6C1_Extended": { "2": 5, "3": 10, "4": 15, "5": 30 },
+      "CargoRackS5C1_Extended": { "2": 5, "3": 10, "4": 15 },
+      "CargoRackS6C1_Extended": { "2": 5, "3": 10, "4": 15 },
       "ModuleReinforcement_HeavyDuty": { "2": 5, "3": 5, "4": 10, "5": 25 },
       "PowerDistributor_Balanced": { "2": 5, "3": 10, "4": 15, "5": 25 },
       "PowerDistributorS3C2_SupportFocused": {
@@ -735,15 +735,15 @@
       },
       {
         "blueprint": "CargoRackS5C1_Extended",
-        "grade": 5,
+        "grade": 4,
         "currentGrade": 0,
-        "mercCoin": 250
+        "mercCoin": 100
       },
       {
         "blueprint": "CargoRackS6C1_Extended",
-        "grade": 5,
+        "grade": 4,
         "currentGrade": 0,
-        "mercCoin": 250
+        "mercCoin": 100
       },
       {
         "blueprint": "ModuleReinforcement_HeavyDuty",
@@ -879,9 +879,9 @@
       },
       {
         "blueprint": "CargoRackS5C1_Extended",
-        "grade": 5,
+        "grade": 4,
         "currentGrade": 1,
-        "mercCoin": 250
+        "mercCoin": 100
       },
       {
         "blueprint": "ModuleReinforcement_HeavyDuty",

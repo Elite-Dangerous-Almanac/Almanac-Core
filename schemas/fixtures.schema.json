@@ -3737,10 +3737,10 @@
                   "$ref": "#/definitions/shared1e44f939dc59"
                 },
                 "CargoRackS5C1_Extended": {
-                  "$ref": "#/definitions/shared1e44f939dc59"
+                  "$ref": "#/definitions/shared99acf3f49abb"
                 },
                 "CargoRackS6C1_Extended": {
-                  "$ref": "#/definitions/shared1e44f939dc59"
+                  "$ref": "#/definitions/shared99acf3f49abb"
                 },
                 "DetailedSurfaceScanner_LongRange": {
                   "$ref": "#/definitions/shared1e44f939dc59"
@@ -11307,6 +11307,16 @@
         "thermalLoad": { "type": "number" }
       },
       "required": ["damagePerSecond", "distributorDraw", "thermalLoad"]
+    },
+    "shared99acf3f49abb": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "2": { "type": "integer" },
+        "3": { "type": "integer" },
+        "4": { "type": "integer" }
+      },
+      "required": ["2", "3", "4"]
     },
     "shared9ae71cce8656": {
       "type": "object",
