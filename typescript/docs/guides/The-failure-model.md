@@ -234,14 +234,10 @@ Each issue carries a stable `code` and a `severity`:
     the thruster curve gives nothing and the ship does not move at all. Its `params`
     carry the exact `mass` and `maxMass`, in tonnes; the message rounds them to the tenth
     an outfitting screen shows. See **Weighed at three loads** below for the `load` it
-    also carries, and for when this code arrives as a warning instead.
+    also carries.
 - **`incomplete`** — `missingRequiredSlot`: a core or armour mount left empty. **No
   `ShipLoadout` reports it**, since every build fills those mounts; like `duplicateSlot`
   it reaches you only from `validateLoadout` on a list you assembled yourself.
-- **`warning`** — the build is legal and fully mounted, but it does not fly at every load
-  it can carry. A warning clears neither `valid` nor `complete`, so a panel that only
-  gates on those will never see it: read the issues. `thrusterMassExceeded` at the
-  `laden` load is the only warning.
 
 ### Weighed at three loads
 
@@ -249,20 +245,18 @@ A ship's mass is not one number, so `thrusterMassExceeded` is weighed the way an
 outfitting tool weighs it — against each load the build can reach without being
 re-fitted. `params.load` names which one the rating failed at:
 
-| `load` | What it weighs | Severity |
-| --- | --- | --- |
-| `dry` | Hull and fitted modules, empty tank, no cargo | `error` |
-| `unladen` | That plus a full main tank | `error` |
-| `laden` | That plus a full cargo hold | `warning` |
+| `load` | What it weighs |
+| --- | --- |
+| `dry` | Hull and fitted modules, empty tank, no cargo |
+| `unladen` | That plus a full main tank |
+| `laden` | That plus a full cargo hold |
 
 The loads only grow, so **only the lightest failing load is reported** — one issue per
 overloaded thruster, never three saying the same thing.
 
-`dry` and `unladen` are errors because neither is a choice: a ship undocks with a full
-tank, so a build that cannot move fuelled never leaves the pad. `laden` is a warning
-because how much cargo to take is the pilot's, and a hauler that outgrows its thrusters
-only with the hold full is a perfectly legal ship — `BuildMetrics.mobilityMetricsResult` at
-that load is what shows the cost.
+Every load is an error, `laden` included: the game refuses a fit whose thrusters are rated
+below what the ship weighs with a full hold. `BuildMetrics.mobilityMetricsResult` reports a
+speed of zero at the load the issue names.
 
 Mind the names: `ShipLoadout.unladenMass` is the **`dry`** figure, because that is what a
 journal's `UnladenMass` states. The game's own "unladen mass" readout, and the `unladen`

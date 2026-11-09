@@ -299,11 +299,10 @@ a thruster choice the player made ten edits ago, and re-reading `validation()` a
 edit is what surfaces that.
 
 It also carries `params.load`, naming which of the ship's three loads the rating failed
-at — `dry`, `unladen` (a full main tank) or `laden` (a full hold as well). The first two
-are errors, and the third is the panel's one `warning` severity: a hauler that only
-outgrows its thrusters with the hold full is still a legal build, so it stays `valid` and
-`complete` and reaches you through `issues` alone. Put that one beside the cargo figure
-rather than on the thruster mount — the fix is usually to carry less, not to refit.
+at — `dry`, `unladen` (a full main tank) or `laden` (a full hold as well). All three are
+errors, because the game refuses the fit at each of them. On a `laden` failure, show the
+cargo capacity beside the thruster mount: a smaller cargo rack is one fix, and stronger
+thrusters are the other.
 
 ## Next
 

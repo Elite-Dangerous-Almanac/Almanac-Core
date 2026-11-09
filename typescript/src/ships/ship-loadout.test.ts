@@ -302,9 +302,9 @@ test('a ship that only cannot move once fuelled is an error, not a footnote', ()
     assert.equal(BuildMetrics.of(build).mobilityMetricsResult().value?.speed, 0);
 });
 
-test('a ship that only cannot move with a full hold is a warning, and still a legal build', () => {
-    // How much cargo to take is the one load a pilot chooses, so a hauler that outgrows
-    // its thrusters only when the hold is full stays both valid and complete.
+test('a ship that cannot move only with a full hold is an error, and not a legal build', () => {
+    // The game refuses a fit whose thrusters cannot move it with a full hold, even
+    // when the ship moves with the hold empty.
     const build = ShipLoadout.default('Type9');
     build.applyBlueprint('MainEngines', 'Engine_Dirty', { grade: 5, quality: 1 });
     for (const slot of build.slots('optional')) {
@@ -322,15 +322,15 @@ test('a ship that only cannot move with a full hold is a warning, and still a le
 
     const validation = build.validation();
     const issue = validation.issues.find((item) => item.code === 'thrusterMassExceeded');
-    assert.equal(issue?.severity, 'warning');
+    assert.equal(issue?.severity, 'error');
     assert.equal(issue?.params?.load, 'laden');
     assert.equal(
         issue?.params?.mass,
         build.unladenMass + build.fuelCapacity.main + build.cargoCapacity,
     );
-    assert.equal(validation.valid, true);
-    assert.equal(validation.complete, true);
-    // It flies as loaded by default, and stops at the load the warning names.
+    assert.equal(validation.valid, false);
+    assert.equal(validation.complete, false);
+    // It moves on a full tank, and stops at the load the issue names.
     assert.ok(BuildMetrics.of(build).mobilityMetricsResult().value!.speed > 0);
     assert.equal(
         BuildMetrics.of(build).mobilityMetricsResult({ cargo: build.cargoCapacity }).value?.speed,

@@ -1149,10 +1149,8 @@ export class ShipLoadout {
      * what the ship comes to at each load it can reach without being re-fitted:
      * {@link unladenMass} alone, then with a full {@link fuelCapacity | main tank}, then
      * with a full {@link cargoCapacity | hold} as well. The lightest of those that is
-     * already too heavy is what gets reported. A ship that cannot move on a full tank is
-     * an error — it never leaves the pad, where the tank always is one — while a ship
-     * that only fails with the hold full is a warning, and leaves the build valid and
-     * complete: how much cargo to take is the pilot's call. Either way
+     * already too heavy is what gets reported, always as an error: the game refuses a
+     * fit whose thrusters cannot move it at any of those loads, a full hold included.
      * {@link ships!BuildMetrics.mobilityMetricsResult | BuildMetrics.mobilityMetricsResult} reports
      * a speed of zero at the load in question.
      *
