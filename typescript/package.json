@@ -7,7 +7,7 @@
     "engines": {
         "node": ">=22"
     },
-    "packageManager": "pnpm@11.28.5+sha512.484563d30b4c2ad27cb48aa94ff2b302dbcebc8ff6bf28816c2589886e146ce7f76f354f3bc1a438e6f5e9768c302aa0a6f7add8232903cd4cf81426cbc14d9e",
+    "packageManager": "pnpm@11.28.10+sha512.672216f06e15c109b85471d49d3fbed17e6f03ead258df08c2bf5b4a5c33321ebfbf59476bce81325efada16ace0ac78548fd0bfcd7a51369e939182a3dd50e4",
     "license": "SEE LICENSE IN LICENSE",
     "repository": {
         "type": "git",
@@ -544,20 +544,20 @@
     "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@jridgewell/sourcemap-codec": "^1.6.0",
-        "@types/node": "^26.6.5",
+        "@types/node": "^26.6.6",
         "ajv": "^8.20.0",
         "es-module-lexer": "3.0.4",
         "esbuild": "0.28.2",
-        "eslint": "^10.12.0",
-        "globals": "^17.13.0",
+        "eslint": "^10.14.0",
+        "globals": "^17.14.0",
         "prettier": "^3.9.10",
         "terser": "^5.51.2",
         "tsup": "^9.0.0",
         "tsx": "^4.23.15",
         "typedoc": "^0.28.20",
         "typedoc-github-wiki-theme": "^2.1.1",
-        "typedoc-plugin-markdown": "^4.13.1",
+        "typedoc-plugin-markdown": "^4.14.1",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.71.1"
+        "typescript-eslint": "^8.72.1"
     }
 }
