@@ -328,8 +328,8 @@ edits ago, and re-reading `Validation` after every edit is what surfaces that.
 It also carries `Load`, naming which of the ship's three loads the rating failed at —
 `ThrusterLoad.Dry`, `ThrusterLoad.Unladen` (a full main tank) or `ThrusterLoad.Laden` (a
 full hold as well). All three are errors, because the game refuses the fit at each of them.
-On a `ThrusterLoad.Laden` failure, show the cargo capacity beside the thruster mount: a
-smaller cargo rack is one fix, and stronger thrusters are the other.
+On a `ThrusterLoad.Laden` failure, show the cargo capacity beside the thruster mount: less
+cargo capacity, lighter modules or stronger thrusters each fix it.
 
 ## Next
 

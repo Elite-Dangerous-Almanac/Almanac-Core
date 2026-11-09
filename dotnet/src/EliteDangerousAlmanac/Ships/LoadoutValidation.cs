@@ -211,7 +211,7 @@ public sealed record LoadoutIssue(
 /// an error clears this.
 /// </param>
 /// <param name="Complete">
-/// Valid, with the armour and every operational core mount filled.
+/// Valid, with the armour and every operational core mount filled. Any issue clears this.
 /// </param>
 /// <param name="Issues">Every finding, in the order the rules raised them.</param>
 public sealed record LoadoutValidation(

@@ -301,8 +301,8 @@ edit is what surfaces that.
 It also carries `params.load`, naming which of the ship's three loads the rating failed
 at — `dry`, `unladen` (a full main tank) or `laden` (a full hold as well). All three are
 errors, because the game refuses the fit at each of them. On a `laden` failure, show the
-cargo capacity beside the thruster mount: a smaller cargo rack is one fix, and stronger
-thrusters are the other.
+cargo capacity beside the thruster mount: less cargo capacity, lighter modules or stronger
+thrusters each fix it.
 
 ## Next
 
