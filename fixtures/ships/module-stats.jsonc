@@ -2038,6 +2038,27 @@
     ],
     "captures": [
       {
+        "file": "journal-anaconda-mk-ii-kingslayer.jsonc",
+        "stated": 86,
+        "mapped": 83,
+        "exact": 65,
+        "withinFloatNoise": 18,
+        "unmapped": [
+          {
+            "symbol": "Hpt_BeamLaser_Gimbal_Huge",
+            "label": "DamagePerSecond"
+          },
+          {
+            "symbol": "Hpt_BeamLaser_Gimbal_Large",
+            "label": "DamagePerSecond"
+          },
+          {
+            "symbol": "Hpt_BeamLaser_Gimbal_Small",
+            "label": "DamagePerSecond"
+          }
+        ]
+      },
+      {
         "file": "journal-anaconda-slapaconda.jsonc",
         "stated": 67,
         "mapped": 67,
@@ -2504,9 +2525,14 @@
         "file": "journal-anaconda-mk-ii.jsonc",
         "unladenMass": 1492,
         "maxJumpRange": 39.2384
+      },
+      {
+        "file": "journal-anaconda-mk-ii-kingslayer.jsonc",
+        "unladenMass": 2741.299805,
+        "maxJumpRange": 34.642197
       }
     ],
-    "engineeredNote": "Every engineered result the captures state where the journal's label is not the field's own first name, or where it names a field the module's record does not carry — the two places a wrong label→field resolution hides, since `effectiveStats` drops a label that resolves to nothing rather than failing and a stat with two labels can be written to whichever is asked for. `field` is written out here rather than resolved, so it says where the value belongs independently of the mapping under test. One row per distinct (module, field); `value` is in the catalogue's units, which is the journal's figure ÷ 100 for the one percentage label among them, `ShieldGenStrength`. Each is read back from `FittedModule.effectiveStats` on the build parsed from that capture, and each equals the `Value` Frontier states beside the `OriginalValue`.",
+    "engineeredNote": "Every engineered result the captures state where the journal's label is not the field's own first name, or where it names a field the module's record does not carry — the two places a wrong label→field resolution hides, since `effectiveStats` drops a label that resolves to nothing rather than failing and a stat with two labels can be written to whichever is asked for. `field` is written out here rather than resolved, so it says where the value belongs independently of the mapping under test. One row per distinct (module, field); `value` is in the catalogue's units, which is the journal's figure ÷ 100 for the percentage labels among them, `ShieldGenStrength` and `ModuleDefenceAbsorption`. Each is read back from `FittedModule.effectiveStats` on the build parsed from that capture, and each equals the `Value` Frontier states beside the `OriginalValue`.",
     "engineered": [
       {
         "file": "journal-anaconda-slapaconda.jsonc",
@@ -2976,6 +3002,41 @@
         "symbol": "Int_ShieldGenerator_Size5_Class2",
         "field": "optMultiplier",
         "value": 1.035
+      },
+      {
+        "file": "journal-anaconda-mk-ii-kingslayer.jsonc",
+        "slot": "LargeHardpoint1",
+        "symbol": "Hpt_BeamLaser_Gimbal_Large",
+        "field": "distributorDraw",
+        "value": 3.069
+      },
+      {
+        "file": "journal-anaconda-mk-ii-kingslayer.jsonc",
+        "slot": "LargeHardpoint1",
+        "symbol": "Hpt_BeamLaser_Gimbal_Large",
+        "field": "thermalLoad",
+        "value": 3.044
+      },
+      {
+        "file": "journal-anaconda-mk-ii-kingslayer.jsonc",
+        "slot": "LargeHardpoint3",
+        "symbol": "Hpt_AdvancedTorpPylon_Fixed_Large",
+        "field": "thermalLoad",
+        "value": 38.5
+      },
+      {
+        "file": "journal-anaconda-mk-ii-kingslayer.jsonc",
+        "slot": "Slot01_Size8",
+        "symbol": "Int_ShieldGenerator_Size8_Class5_Strong",
+        "field": "optMultiplier",
+        "value": 2.19419983
+      },
+      {
+        "file": "journal-anaconda-mk-ii-kingslayer.jsonc",
+        "slot": "Slot05_Size5",
+        "symbol": "Int_ModuleReinforcement_Size5_Class2",
+        "field": "moduleProtection",
+        "value": 0.75
       }
     ]
   }

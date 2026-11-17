@@ -48,6 +48,13 @@
       "manufacturer": "Faulcon DeLacy",
       "size": "medium",
       "entitlement": "ELITE_V_PYTHON_NX"
+    },
+    {
+      "symbol": "AnacondaMkII",
+      "name": "Anaconda Mk II",
+      "manufacturer": "Faulcon DeLacy",
+      "size": "large",
+      "entitlement": "ELITE_V_ANACONDA_MKII"
     }
   ],
   "displayNameCorrections": [

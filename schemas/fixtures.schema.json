@@ -64,6 +64,7 @@
         "ships/builds/anaconda-exploration.jsonc",
         "ships/builds/anaconda-mining.jsonc",
         "ships/builds/anaconda-trade.jsonc",
+        "ships/builds/anacondamkii-combat.jsonc",
         "ships/builds/asp-combat.jsonc",
         "ships/builds/asp-exploration.jsonc",
         "ships/builds/asp-mining.jsonc",
@@ -258,6 +259,7 @@
     {
       "definition": "shipsJournalLoadout",
       "files": [
+        "ships/journal-anaconda-mk-ii-kingslayer.jsonc",
         "ships/journal-anaconda-mk-ii.jsonc",
         "ships/journal-anaconda-slapaconda.jsonc",
         "ships/journal-cobra-mkv.jsonc",
@@ -2464,8 +2466,26 @@
                 "atCapacity": { "type": "integer" },
                 "belowCapacity": {
                   "type": "array",
-                  "maxItems": 0,
-                  "items": false
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "AmmoInClip": { "type": "integer" },
+                      "AmmoInHopper": { "type": "integer" },
+                      "ammoMaximum": { "type": "integer" },
+                      "capture": { "type": "string" },
+                      "clipSize": { "type": "integer" },
+                      "symbol": { "type": "string" }
+                    },
+                    "required": [
+                      "AmmoInClip",
+                      "AmmoInHopper",
+                      "ammoMaximum",
+                      "capture",
+                      "clipSize",
+                      "symbol"
+                    ]
+                  }
                 },
                 "distinctModules": { "type": "integer" },
                 "note": { "type": "string" },
@@ -4153,19 +4173,8 @@
             },
             "finalPreEngineeredEntries": { "type": "integer" },
             "journalSpellingsAccepted": { "type": "integer" },
-            "notEngineerable": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "blueprint": { "type": "string" },
-                  "entries": { "type": "integer" },
-                  "symbol": { "type": "string" }
-                },
-                "required": ["blueprint", "entries", "symbol"]
-              }
-            },
+            "mercenaryUpgrades": { "$ref": "#/definitions/shared1531f4ed3d06" },
+            "notEngineerable": { "$ref": "#/definitions/shared1531f4ed3d06" },
             "ungroupedEntries": { "type": "integer" }
           },
           "required": [
@@ -4176,6 +4185,7 @@
             "finalPreEngineered",
             "finalPreEngineeredEntries",
             "journalSpellingsAccepted",
+            "mercenaryUpgrades",
             "notEngineerable",
             "ungroupedEntries"
           ]
@@ -10639,6 +10649,10 @@
       },
       "required": ["Main", "Reserve"]
     },
+    "shared1531f4ed3d06": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/shared35d342ba0c05" }
+    },
     "shared1540a7ca579a": {
       "type": "object",
       "additionalProperties": false,
@@ -10782,6 +10796,16 @@
         "Value": { "type": "number" }
       },
       "required": ["Label", "OriginalValue", "Value"]
+    },
+    "shared35d342ba0c05": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "blueprint": { "type": "string" },
+        "entries": { "type": "integer" },
+        "symbol": { "type": "string" }
+      },
+      "required": ["blueprint", "entries", "symbol"]
     },
     "shared3db56e8e8480": {
       "type": "object",

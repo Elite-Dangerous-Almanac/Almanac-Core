@@ -123,6 +123,12 @@ internal sealed class CorpusOptionsFixture
     /// <summary>The fixed reward articles the corpus declares, and how often each appears.</summary>
     public List<CorpusEngineeringRowFixture> FinalPreEngineered { get; set; } = [];
 
+    /// <summary>
+    /// The Mercenary articles the corpus upgrades through their own recipe, on a stock module
+    /// with no menu, and how often each appears.
+    /// </summary>
+    public List<CorpusEngineeringRowFixture> MercenaryUpgrades { get; set; } = [];
+
     /// <summary>The declarations no article takes at all, and how often each appears.</summary>
     public List<CorpusEngineeringRowFixture> NotEngineerable { get; set; } = [];
 }

@@ -7,6 +7,7 @@ Referred to throughout by source name; the pin is here, once.
 | Source                                                                                          | Pin                                                                                                                                                                         | Acquired       |
 | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
 | EDCD FDevIDs — `shipyard.csv`, `outfitting.csv`                                                 | no immutable revision recorded                                                                                                                                              | 2026-07-24 UTC |
+| EDCD FDevIDs — Anaconda Mk II revision                                                          | commit `1498b21378955b459c055022014c9d4caa738faf`; `shipyard.csv` SHA-256 `c7c12f88aac59c9f43eb9ea67697c91d6c1917d064940b37268e2b70cbcbb4bc`, `outfitting.csv` SHA-256 `6648f1554f11c2849382861f8110dea7907d00ccd96d6fc2471573d6068dfc64` | 2026-11-17 UTC |
 | EDCD/coriolis-data — `ships/*.json`, `modules/**`, `modifications/*`                            | commit `0db9234b5b9ce8c939ea84133d7ce336eea88e27`                                                                                                                           | 2026-07-24 UTC |
 | coriolis-data `modifications/modules.json`                                                      | SHA-256 `09b6427c86bc3cfb578a246f7c6be1791429bb67009b7adaa7909e30aadc160f` — read from the branch tip, so pinned by digest                                                  | 2026-08-05 UTC |
 | EDSY `eddb.js` — baseline                                                                       | commit `cd68edfba665719958ce038b6e5d9eb02d0d2b02`, SHA-256 `967834d65a75ab1dea4bbaa7e1d6674cbe4083dca03f770d058497e9f7693071`, internal `db 20260428` / `version 423039901` | 2026-08-02 UTC |
@@ -429,9 +430,9 @@ cosmetic slots are outside the hull layout.
   its `Military01`–`02` mounts take `military` modules only. Its `LargeHardpoint3` and
   `LargeHardpoint4` also take the Mining Volley Repeater (§`alsoTakes`). Every slot key
   is one the numbering rules derive, so no mount carries a `name`. The manufacturer is
-  the Anaconda's, Faulcon DeLacy, read from the shipyard. The record carries no
-  `entitlement` because no acquired source states the token. The absence does not say
-  that the hull is ungated (#84). EDSY's 2026-10-21 snapshot,
+  the Anaconda's, Faulcon DeLacy, read from the shipyard. The FDevIDs Anaconda Mk II
+  revision, pinned above, supplies the `entitlement` `ELITE_V_ANACONDA_MKII` and agrees
+  with the observed symbol and name. EDSY's 2026-10-21 snapshot,
   pinned above, agrees with every stat and mount it carries, except the repeater's
   mounts, and supplies `hullCost` and `retailCost`. The shipyard reading of
   the retail price at a 10% and a 2.5% discount is 337,801,391 cr, which the stored
@@ -1250,8 +1251,9 @@ and size-6 racks): here the discount is stated rather than solved for.
   (`AnacondaMkII_Armour_*`) take their identity, names, masses, hull boosts and
   resistances from the Anaconda Mk II observation, pinned above. They match the Caspian
   Explorer's `Mk II Ablative` set field for field, except the prices and the
-  entitlement: the Caspian Explorer's carry `ELITE_V_EXPLORER_NX`, and the Mk II's carry
-  none (#84).
+  entitlement. The FDevIDs Anaconda Mk II revision, pinned above, supplies their
+  `entitlement` `ELITE_V_ANACONDA_MKII` and agrees with the observed symbols, names,
+  classes and ratings.
 - **Deliberate stat fields:**
   - **`restrictedToShips`** carries the hull symbol(s) a non-armour module is limited
     to (coriolis's `ship` field: the MkII Gravity Optimised thrusters → `Explorer_NX`,
@@ -1476,7 +1478,8 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
 - **Size-6 Mk II Cargo Rack (`Int_LargeCargoRack_Size6_Class1`) — UNRELEASED.** The
   identity, the name, the rating, the zero mass and the 96 t capacity come from the
   Anaconda Mk II observation, pinned above, and the price from EDSY's 2026-10-21
-  snapshot. The restrictions follow the other Mk II Cargo Racks (§"Deliberate stat
+  snapshot. The FDevIDs Anaconda Mk II revision agrees with the observed symbol, name,
+  class and rating. The restrictions follow the other Mk II Cargo Racks (§"Deliberate stat
   fields"). The record is outside in-game verification, which the
   `registryOnlyIdentities` count in `fixtures/ships/module-stats.jsonc` pins. A reading
   on release replaces every value here.

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EliteDangerousAlmanac.Ships;
 using EliteDangerousAlmanac.Ships.Internal;
 using EliteDangerousAlmanac.Tests.Support;
@@ -109,6 +110,7 @@ public class BuildCorpusEngineeringTests
 
         SortedSet<string> classified = new(StringComparer.Ordinal);
         foreach (CorpusEngineeringRowFixture row in Corpus.NotEngineerable) classified.Add(row.Symbol);
+        foreach (CorpusEngineeringRowFixture row in Corpus.MercenaryUpgrades) classified.Add(row.Symbol);
         foreach (CorpusEngineeringRowFixture row in Corpus.FinalPreEngineered)
         {
             if (EngineeringOptions.GroupFor(row.Symbol) is null) classified.Add(row.Symbol);
@@ -117,7 +119,16 @@ public class BuildCorpusEngineeringTests
         Assert.Equal(classified, symbols);
         Assert.Equal(Corpus.UngroupedEntries, ungrouped.Count);
 
-        foreach (CorpusEngineeringRowFixture row in Corpus.NotEngineerable)
+        // A Mercenary upgrade is a roll of the article's own recipe, so the article must exist.
+        foreach (CorpusEngineeringRowFixture row in Corpus.MercenaryUpgrades)
+        {
+            Assert.Contains(
+                PreEngineeredCatalogue.VariantsFor(row.Symbol),
+                variant => variant.Acquisition == PreEngineeredAcquisition.Mercenary
+                    && variant.BlueprintSymbol == row.Blueprint);
+        }
+
+        foreach (CorpusEngineeringRowFixture row in Corpus.NotEngineerable.Concat(Corpus.MercenaryUpgrades))
         {
             int entries = 0;
             foreach (CorpusDeclaration declaration in Declarations)

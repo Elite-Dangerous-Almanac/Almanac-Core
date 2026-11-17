@@ -56,7 +56,7 @@ interface CorpusBuild {
 
 /**
  * The corpus is one file per build, so it is read from disk rather than imported the way
- * every other fixture is — 181 static `with { type: 'json' }` imports is not a fixture,
+ * every other fixture is — a static `with { type: 'json' }` import per build is not a fixture,
  * it is a wall. `index.jsonc` names the builds; the files themselves are the fixture. Each
  * carries a header comment, so the text is stripped before parsing, exactly as the loader
  * does for an imported fixture.
@@ -128,7 +128,7 @@ test('the index names every build file, and only those', () => {
     }
 });
 
-test('the corpus covers every released hull with 2-5 builds and unique ids', () => {
+test('the corpus covers every hull with at most 5 builds and unique ids', () => {
     assert.equal(builds.length, index.count);
     const ids = new Set(builds.map((b) => b.id));
     assert.equal(ids.size, builds.length, 'build ids must be unique');
@@ -138,19 +138,18 @@ test('the corpus covers every released hull with 2-5 builds and unique ids', () 
         assert.ok(ROLES.has(build.role), `${build.id}: unknown role "${build.role}"`);
         perHull.set(build.ship, (perHull.get(build.ship) ?? 0) + 1);
     }
-    // No player has published a build for the unreleased Anaconda Mk II:
+    // The unreleased Anaconda Mk II has one build, from one ship; it needs a second:
     // https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/83
-    const unpublished = new Set(['AnacondaMkII']);
+    const minimum = new Map([['AnacondaMkII', 1]]);
     for (const ship of SHIPS) {
-        if (unpublished.has(ship.symbol)) continue;
+        const least = minimum.get(ship.symbol) ?? 2;
         const count = perHull.get(ship.symbol) ?? 0;
-        assert.ok(count >= 2 && count <= 5, `${ship.symbol}: ${count} builds, expected 2-5`);
+        assert.ok(
+            count >= least && count <= 5,
+            `${ship.symbol}: ${count} builds, expected ${least}-5`,
+        );
     }
-    assert.equal(
-        perHull.size,
-        SHIPS.length - unpublished.size,
-        'every released hull in the shipyard has builds',
-    );
+    assert.equal(perHull.size, SHIPS.length, 'every hull in the shipyard has builds');
 });
 
 test('every corpus module fits and import restores the mounts it omits', () => {
@@ -406,6 +405,6 @@ test('the corpus spans the roles, the hull sizes and the engineered/stock divide
     const shieldless = builds.filter((build) => build.metrics.shields === null);
     const shedShields = builds.filter((build) => build.metrics.shieldsPowered === false);
     assert.equal(shieldless.length, 27, 'genuinely shieldless corpus builds');
-    assert.equal(shedShields.length, 25, 'shed generators with retained shield arithmetic');
+    assert.equal(shedShields.length, 26, 'shed generators with retained shield arithmetic');
     assert.ok(shedShields.every((build) => build.metrics.shields !== null));
 });

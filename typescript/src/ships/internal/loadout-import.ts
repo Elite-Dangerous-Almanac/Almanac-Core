@@ -30,6 +30,8 @@ import {
     matchingKeyIn,
     ownKeyIn,
 } from './loadout-state.js';
+import { capabilityValueForLabel, fieldForLabel, labelsForField } from './module-stat-labels.js';
+import { getLoadoutModifier } from '../slef.js';
 import { normalizeKey } from '../../internal/registry-index.js';
 import { deepFreeze } from '../../internal/deep-freeze.js';
 import {
@@ -194,6 +196,22 @@ function stockedMountRejects(
 ): boolean {
     const mount = layout.find((candidate) => candidate.key.toLowerCase() === slot.toLowerCase());
     return mount !== undefined && moduleFitProblem(shipSymbol, mount, stats) !== null;
+}
+
+/**
+ * Whether a captured module states a numeric value for one catalogue field, under any
+ * of the labels that name it.
+ *
+ * The labels are read the way the effective-stat lookup reads them. A capture that
+ * writes `ModuleDefenceAbsorption` states the field a recipe writes as
+ * `DamageProtection`.
+ */
+function capturesStat(module: LoadoutModule, field: keyof OutfittingModule | null): boolean {
+    if (field === null) return false;
+    return labelsForField(field).some(
+        (label) =>
+            capabilityValueForLabel(label) === null && getLoadoutModifier(module, label) !== null,
+    );
 }
 
 /** Normalize a journal event before the mutable facade takes ownership of it. */
@@ -404,12 +422,17 @@ export function normalizeLoadoutEvent(rawEvent: LoadoutEvent): ImportedLoadoutSt
             // Seed the effect-free fixed article, then retain the complete primitive
             // inputs separately. Journal presentation omits recipe-only labels such as
             // BurstInterval, while applying the effect to this baseline would make
-            // related-stat ratios count it zero times after import. Captured entries
-            // come first so their explicit values remain authoritative.
+            // related-stat ratios count it zero times after import. A captured entry
+            // stays authoritative: the article's own entry for a stat the capture
+            // states is left out, whichever label spelling the capture used.
             variantStats = getPreEngineeredStats(withoutExperimental);
+            const seeded = variantStats;
             primitiveModifiers.set(module.Slot, [
                 ...(engineering?.Modifiers ?? []),
-                ...getPreEngineeredModifiers(currentVariant),
+                ...getPreEngineeredModifiers(currentVariant).filter(
+                    (modifier) =>
+                        !capturesStat(module, fieldForLabel(modifier.Label, seeded ?? undefined)),
+                ),
             ]);
         }
         if (variantStats) moduleStats.set(module.Slot, cloneModuleStats(variantStats));

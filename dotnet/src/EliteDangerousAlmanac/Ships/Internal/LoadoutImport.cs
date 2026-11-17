@@ -357,6 +357,33 @@ internal static class LoadoutImport
     }
 
     /// <summary>
+    /// Whether a captured module states a numeric value for one stat, under any of the labels
+    /// that name it.
+    /// </summary>
+    /// <remarks>
+    /// The labels are read the way the effective-stat lookup reads them. A capture that writes
+    /// <c>ModuleDefenceAbsorption</c> states the stat a recipe writes as
+    /// <c>DamageProtection</c>.
+    /// </remarks>
+    /// <param name="module">The captured module.</param>
+    /// <param name="stat">The stat, or <see langword="null"/> for a label that names none.</param>
+    /// <returns><see langword="true"/> when the capture states the stat.</returns>
+    private static bool CapturesStat(LoadoutModule module, ModuleStat? stat)
+    {
+        if (stat is not ModuleStat named) return false;
+        foreach (string label in ModuleStatLabels.LabelsForStat(named))
+        {
+            if (ModuleStatLabels.CapabilityValueFor(label) is null
+                && Slef.FindModifier(module, label) is not null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Resolves the fixed article one mount describes, and the recipe inputs behind it.
     /// </summary>
     /// <remarks>
@@ -394,8 +421,9 @@ internal static class LoadoutImport
             // Seed the effect-free fixed article, then keep the complete recipe inputs
             // separately. A journal presentation leaves out recipe-only labels such as the
             // burst interval, while applying the effect to this baseline would make a
-            // related-stat ratio count it zero times after the import. Stated entries come
-            // first, so their own values stay authoritative.
+            // related-stat ratio count it zero times after the import. A stated entry stays
+            // authoritative: the article's own entry for a stat the capture states is left
+            // out, whichever label spelling the capture used.
             article = PreEngineeredStats.Resolve(unbaked);
 
             List<EngineeringModifier> inputs = [];
@@ -404,7 +432,13 @@ internal static class LoadoutImport
                 inputs.AddRange(stated);
             }
 
-            inputs.AddRange(PreEngineeredStats.Modifiers(current));
+            foreach (EngineeringModifier modifier in PreEngineeredStats.Modifiers(current))
+            {
+                if (!CapturesStat(module, ModuleStatLabels.StatFor(modifier.Label, article?.Stats)))
+                {
+                    inputs.Add(modifier);
+                }
+            }
             primitives[module.Slot] = new ReadOnlyCollection<EngineeringModifier>(inputs);
         }
 

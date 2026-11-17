@@ -379,11 +379,6 @@ export interface OutfittingModuleIdentity {
     /**
      * Frontier's DLC / purchase-grant entitlement token, e.g.
      * `"ELITE_HORIZONS_V_PLANETARY_LANDINGS"`. Present only on gated modules.
-     *
-     * @remarks
-     * The Anaconda Mk II armour (`AnacondaMkII_Armour_*`) is the exception: its token is
-     * not known, so the field is absent
-     * (https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/84).
      */
     readonly entitlement?: string;
     /**
