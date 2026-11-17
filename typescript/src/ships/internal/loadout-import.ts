@@ -30,7 +30,7 @@ import {
     matchingKeyIn,
     ownKeyIn,
 } from './loadout-state.js';
-import { capabilityValueForLabel, fieldForLabel, labelsForField } from './module-stat-labels.js';
+import { capabilityValueForLabel, fieldsForLabel, labelsForField } from './module-stat-labels.js';
 import { getLoadoutModifier } from '../slef.js';
 import { normalizeKey } from '../../internal/registry-index.js';
 import { deepFreeze } from '../../internal/deep-freeze.js';
@@ -199,19 +199,22 @@ function stockedMountRejects(
 }
 
 /**
- * Whether a captured module states a numeric value for one catalogue field, under any
- * of the labels that name it.
+ * Whether a captured module states a numeric value for any of the given catalogue
+ * fields, under any of the labels that name it.
  *
  * The labels are read the way the effective-stat lookup reads them. A capture that
  * writes `ModuleDefenceAbsorption` states the field a recipe writes as
- * `DamageProtection`.
+ * `DamageProtection`. A shield cell bank's `ShieldBankHeat` writes two fields, so a
+ * captured `ThermalLoad` also counts for it.
  */
-function capturesStat(module: LoadoutModule, field: keyof OutfittingModule | null): boolean {
-    if (field === null) return false;
-    return labelsForField(field).some(
-        (label) =>
-            capabilityValueForLabel(label) === null && getLoadoutModifier(module, label) !== null,
-    );
+function capturesStat(module: LoadoutModule, fields: readonly (keyof OutfittingModule)[]): boolean {
+    return fields
+        .flatMap(labelsForField)
+        .some(
+            (label) =>
+                capabilityValueForLabel(label) === null &&
+                getLoadoutModifier(module, label) !== null,
+        );
 }
 
 /** Normalize a journal event before the mutable facade takes ownership of it. */
@@ -431,7 +434,7 @@ export function normalizeLoadoutEvent(rawEvent: LoadoutEvent): ImportedLoadoutSt
                 ...(engineering?.Modifiers ?? []),
                 ...getPreEngineeredModifiers(currentVariant).filter(
                     (modifier) =>
-                        !capturesStat(module, fieldForLabel(modifier.Label, seeded ?? undefined)),
+                        !capturesStat(module, fieldsForLabel(modifier.Label, seeded ?? undefined)),
                 ),
             ]);
         }

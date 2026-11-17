@@ -1712,8 +1712,8 @@ up straight through with no disambiguation at all. Both paths are evidence that
     contains no `recipe_` string at all (both checked 2026-08-07 UTC). Nor does real export
     data: a SLEF export contributed by the repository owner carries the Mercenary Module
     Reinforcement Package as **`modulereinforcement_heavyduty`** — the registry id minus
-    the prefix, in the lower case Inara writes everything in — and across the 181-build
-    corpus **not one of 1902 declared engineering entries is prefixed**. So the prefix is
+    the prefix, in the lower case Inara writes everything in — and across the build
+    corpus **not one declared engineering entry is prefixed**. So the prefix is
     an Inara listing convention, and these keys are the id with it removed.
   - **The casing is Frontier's, taken from a raw journal.** Inara publishes these ids
     lower-case, but Inara lower-cases _every_ id it exports (`weapon_efficient`,
@@ -2165,7 +2165,7 @@ up straight through with no disambiguation at all. Both paths are evidence that
     revision to pin, because no registry publishes the fact; neither contradicts the
     report either, both being silent.
   - **The corpus neither corroborates nor contradicts the Guardian-module families.** None
-    of the build corpus's 1902 declared engineering entries engineers a
+    of the build corpus's declared engineering entries engineers a
     Guardian power plant, distributor or hull reinforcement package at all. Its
     Guardian-weapon entries are final pre-engineered articles, a separate case recorded
     below.
@@ -2206,7 +2206,7 @@ up straight through with no disambiguation at all. Both paths are evidence that
     `pre-engineered.jsonc` already records as _sold_ carrying that exact recipe. No Large
     and no Turret variant carries one, and exactly one Guardian weapon in the whole capture
     carries `GuardianModule_Sturdy` — the only recipe a player can actually roll onto it.
-  - The 181-build community corpus adds **18** final articles: 5× and 2× Guardian Plasma
+  - The community build corpus adds **18** final articles: 5× and 2× Guardian Plasma
     Launcher Fixed Medium/Small with `Weapon_Overcharged`, 6× Guardian Shard Cannon Fixed
     Medium with `Weapon_LongRange` and `special_super_penetrator_cooled`, and 5× Guardian
     Gauss Cannon Fixed Medium with `Weapon_HighCapacity`. The declarations describe the

@@ -148,6 +148,10 @@ test('the corpus covers every hull with at most 5 builds and unique ids', () => 
             count >= least && count <= 5,
             `${ship.symbol}: ${count} builds, expected ${least}-5`,
         );
+        // A hull that reaches two builds no longer needs its exemption or the issue link.
+        if (minimum.has(ship.symbol)) {
+            assert.equal(count, least, `${ship.symbol}: remove the exemption`);
+        }
     }
     assert.equal(perHull.size, SHIPS.length, 'every hull in the shipyard has builds');
 });

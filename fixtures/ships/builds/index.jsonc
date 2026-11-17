@@ -1,8 +1,8 @@
 /*
- * Index of the shared community build corpus — 182 real builds flown by Elite Dangerous players,
- * one file per build in this directory, named by `id`. A test fixture; not shipped in any package.
+ * Index of the shared community build corpus — 182 real builds by Elite Dangerous players, one
+ * file per build in this directory, named by `id`. A test fixture; not shipped in any package.
  *
- * Acquisition (2026-08-02 UTC): public Coriolis (`coriolis.io/outfit`, `s.orbis.zone`) and EDSY
+ * Acquisition (2026-08-02 UTC), for every build but the contributed one below: public Coriolis (`coriolis.io/outfit`, `s.orbis.zone`) and EDSY
  * (`edsy.org`) build links were collected from community build libraries, forum and Steam threads,
  * video descriptions and squadron documents, then decoded locally to Frontier slot keys and module
  * symbols using each tool's own published serialisation and id tables. The decoders were throwaway
@@ -10,11 +10,11 @@
  * Elite Dangerous game output assembled by a player — see ATTRIBUTIONS.md.
  *
  * Contributed build (2026-11-17 UTC): `anacondamkii-combat` is the repository owner's own Anaconda
- * Mk II, read from an Inara fleet-ship SLEF export and cross-checked against a journal `Loadout`
- * of the same ship, `journal-anaconda-mk-ii-kingslayer.jsonc`. The two agree on the module, priority
- * and recipe in every outfitting slot but one: Inara writes the vessel hangar as
- * `int_fighterbaymk2_size5_class1`, and the build keeps the journal's
- * `Int_FighterBayMk2_Size5_Class1_Free`, the symbol the game fits.
+ * Mk II. It is taken from the journal `Loadout` in `journal-anaconda-mk-ii-kingslayer.jsonc`, whose
+ * header carries its checksum. The owner's Inara SLEF export of the same ship is not stored. It
+ * agrees with the journal on the module, priority and recipe in every outfitting slot, except that
+ * it writes the vessel hangar as `int_fighterbaymk2_size5_class1` where the game fits
+ * `Int_FighterBayMk2_Size5_Class1_Free`.
  *
  * What is deliberately not kept, and what that costs: a build's own name, author and source link
  * are not stored, on the maintainer's instruction that the sources need not be credited. So no
@@ -55,8 +55,9 @@
  * eighteen describe final pre-engineered Guardian weapons rather than recipes a player may apply,
  * two put Efficient on the Mk II Plasma Shock Accelerator, which cannot be engineered, and one
  * identifies the community-goal Long Range Abrasion Blaster rather than ordinary engineering;
- * `engineering-options.jsonc` pins all three sets. Every other entry survives `applyBlueprint`,
- * the two Heavy Duty Mercenary module reinforcement packages included.
+ * `engineering-options.jsonc` pins all three sets. Every other entry survives `applyBlueprint`.
+ * That includes two Heavy Duty Mercenary module reinforcement packages, which `mercenaryUpgrades`
+ * pins because their stock module has no menu.
  *
  * Layout: one file per build, `<id>.jsonc`, named by the `id` it carries. One file per build keeps
  * a change to one build a one-file diff, and lets a port load a single build without parsing the

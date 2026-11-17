@@ -357,26 +357,29 @@ internal static class LoadoutImport
     }
 
     /// <summary>
-    /// Whether a captured module states a numeric value for one stat, under any of the labels
-    /// that name it.
+    /// Whether a captured module states a numeric value for any of the given stats, under any
+    /// of the labels that name it.
     /// </summary>
     /// <remarks>
     /// The labels are read the way the effective-stat lookup reads them. A capture that writes
     /// <c>ModuleDefenceAbsorption</c> states the stat a recipe writes as
-    /// <c>DamageProtection</c>.
+    /// <c>DamageProtection</c>. A shield cell bank's <c>ShieldBankHeat</c> writes two stats, so
+    /// a captured <c>ThermalLoad</c> also counts for it.
     /// </remarks>
     /// <param name="module">The captured module.</param>
-    /// <param name="stat">The stat, or <see langword="null"/> for a label that names none.</param>
-    /// <returns><see langword="true"/> when the capture states the stat.</returns>
-    private static bool CapturesStat(LoadoutModule module, ModuleStat? stat)
+    /// <param name="stats">The stats one label writes on the module.</param>
+    /// <returns><see langword="true"/> when the capture states one of the stats.</returns>
+    private static bool CapturesStat(LoadoutModule module, List<ModuleStat> stats)
     {
-        if (stat is not ModuleStat named) return false;
-        foreach (string label in ModuleStatLabels.LabelsForStat(named))
+        foreach (ModuleStat stat in stats)
         {
-            if (ModuleStatLabels.CapabilityValueFor(label) is null
-                && Slef.FindModifier(module, label) is not null)
+            foreach (string label in ModuleStatLabels.LabelsForStat(stat))
             {
-                return true;
+                if (ModuleStatLabels.CapabilityValueFor(label) is null
+                    && Slef.FindModifier(module, label) is not null)
+                {
+                    return true;
+                }
             }
         }
 
@@ -434,7 +437,7 @@ internal static class LoadoutImport
 
             foreach (EngineeringModifier modifier in PreEngineeredStats.Modifiers(current))
             {
-                if (!CapturesStat(module, ModuleStatLabels.StatFor(modifier.Label, article?.Stats)))
+                if (!CapturesStat(module, ModuleStatLabels.StatsFor(modifier.Label, article?.Stats)))
                 {
                     inputs.Add(modifier);
                 }

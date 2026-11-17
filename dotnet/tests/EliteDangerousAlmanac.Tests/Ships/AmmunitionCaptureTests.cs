@@ -82,15 +82,32 @@ public class AmmunitionCaptureTests
                 Assert.True(hopper <= capacity.Hopper, $"{path} {slot} hopper");
 
                 if (clip == capacity.ClipSize && hopper == capacity.Hopper) atCapacity++;
-                else below.Add($"{path} {slot}: {clip}/{hopper} of {capacity.ClipSize}/{capacity.Hopper}");
+                else
+                {
+                    below.Add(BelowCapacityKey(
+                        path[(path.LastIndexOf('/') + 1)..],
+                        fitted.GetProperty("Item").GetString()!,
+                        clip,
+                        hopper,
+                        capacity.ClipSize,
+                        capacity.Hopper));
+                }
             }
         }
 
         Assert.Equal(Fixture.JournalReadings.Readings, readings);
         Assert.Equal(Fixture.JournalReadings.DistinctModules, modules.Count);
         Assert.Equal(Fixture.JournalReadings.AtCapacity, atCapacity);
-        Assert.Equal(Fixture.JournalReadings.BelowCapacity.Count, below.Count);
+        Assert.Equal(
+            Fixture.JournalReadings.BelowCapacity.Select(row => BelowCapacityKey(
+                row.Capture, row.Symbol, row.AmmoInClip, row.AmmoInHopper, row.ClipSize, row.AmmoMaximum)),
+            below);
     }
+
+    /// <summary>One below-capacity reading as text, so a fixture row and a reading compare whole.</summary>
+    private static string BelowCapacityKey(
+        string capture, string symbol, double clip, double hopper, double clipSize, double hopperSize) =>
+        FormattableString.Invariant($"{capture} {symbol}: {clip}/{hopper} of {clipSize}/{hopperSize}");
 
     /// <summary>Engineering loads whole rounds in the magazine and in the reserve.</summary>
     /// <remarks>
