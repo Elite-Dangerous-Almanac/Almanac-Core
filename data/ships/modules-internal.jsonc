@@ -6,7 +6,7 @@
  *
  * Sources: EDCD FDevIDs (identity), EDCD/coriolis-data and EDSY (stats), the Odyssey
  * Materials Helper CAPI fixture (the six bundle-granted Vessel Hangar identities), and
- * in-game verification, which governs where a registry disagrees with it. The unreleased
+ * in-game verification, which governs where a registry disagrees with it. The
  * size-6 Mk II Cargo Rack takes its identity and stats from an in-game observation and its
  * price from EDSY.
  *

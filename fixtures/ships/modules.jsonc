@@ -100,6 +100,18 @@
       "ship": "Anaconda"
     },
     {
+      "symbol": "AnacondaMkII_Armour_Grade3",
+      "category": "core",
+      "engineeringGroup": "bulkheads",
+      "familyId": "armour",
+      "slot": "armour",
+      "name": "Mk II Ablative Military Grade Composite",
+      "class": 1,
+      "rating": "A",
+      "ship": "Anaconda Mk II",
+      "entitlement": "ELITE_V_ANACONDA_MKII"
+    },
+    {
       "symbol": "Hpt_PulseLaser_Fixed_Small",
       "category": "hardpoint",
       "engineeringGroup": "pulseLasers",

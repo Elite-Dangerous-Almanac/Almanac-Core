@@ -344,6 +344,33 @@ export function fieldForLabel(
 }
 
 /**
+ * Every catalogue field a journal modifier label writes back to on one record.
+ *
+ * @param label - The journal Modifier Label.
+ * @param stats - The record the label is being resolved against, when there is one.
+ * @returns Each field of the label that the record carries, in declaration order. If the
+ * record carries none of them, or there is no record, the result holds the one field
+ * {@link fieldForLabel} answers with. The result is empty for an unknown label.
+ * @remarks
+ * A shield cell bank carries both `shieldBankHeat` and `thermalLoad`, and
+ * `ShieldBankHeat` writes to each. {@link fieldForLabel} answers with only the first.
+ *
+ * @internal
+ */
+export function fieldsForLabel(
+    label: string,
+    stats?: OutfittingModule,
+): readonly (keyof OutfittingModule)[] {
+    const entries = BY_LABEL.get(label) ?? [];
+    const carried = entries
+        .filter((entry) => stats !== undefined && typeof stats[entry.field] === 'number')
+        .map((entry) => entry.field);
+    if (carried.length > 0) return carried;
+    const field = fieldForLabel(label, stats);
+    return field === null ? [] : [field];
+}
+
+/**
  * The damage-distribution member a journal modifier label names, or `null` for an
  * ordinary scalar stat or an unknown label.
  *

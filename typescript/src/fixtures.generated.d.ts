@@ -1083,7 +1083,14 @@ type FixtureShipsBuildMetrics = {
         };
         journalReadings: {
             atCapacity: number;
-            belowCapacity: never[];
+            belowCapacity: {
+                AmmoInClip: number;
+                AmmoInHopper: number;
+                ammoMaximum: number;
+                capture: string;
+                clipSize: number;
+                symbol: string;
+            }[];
             distinctModules: number;
             note: string;
             readings: number;
@@ -2350,6 +2357,11 @@ type FixtureShipsEngineeringOptions = {
         }[];
         finalPreEngineeredEntries: number;
         journalSpellingsAccepted: number;
+        mercenaryUpgrades: {
+            blueprint: string;
+            entries: number;
+            symbol: string;
+        }[];
         notEngineerable: {
             blueprint: string;
             entries: number;
@@ -2543,6 +2555,56 @@ type FixtureShipsHeat = {
 
 declare module '*/fixtures/ships/heat.jsonc' {
     const value: FixtureShipsHeat;
+    export default value;
+}
+
+type FixtureShipsJournalAnacondaMkIiKingslayer = {
+    CargoCapacity: number;
+    FuelCapacity: {
+        Main: number;
+        Reserve: number;
+    };
+    HullHealth: number;
+    MaxJumpRange: number;
+    Modules: {
+        AmmoInClip?: number;
+        AmmoInHopper?: number;
+        Engineering?: {
+            BlueprintID: number;
+            BlueprintName: string;
+            Engineer: string;
+            EngineerID: number;
+            ExperimentalEffect?: string;
+            ExperimentalEffect_Localised?: string;
+            Level: number;
+            Modifiers: {
+                Label: string;
+                LessIsGood: number;
+                OriginalValue: number;
+                Value: number;
+            }[];
+            Quality: number;
+        };
+        Health: number;
+        Item: string;
+        On: boolean;
+        Priority: number;
+        Slot: string;
+        Value?: number;
+    }[];
+    ModulesValue: number;
+    Rebuy: number;
+    Ship: string;
+    ShipID: number;
+    ShipIdent: string;
+    ShipName: string;
+    UnladenMass: number;
+    event: string;
+    timestamp: string;
+};
+
+declare module '*/fixtures/ships/journal-anaconda-mk-ii-kingslayer.jsonc' {
+    const value: FixtureShipsJournalAnacondaMkIiKingslayer;
     export default value;
 }
 

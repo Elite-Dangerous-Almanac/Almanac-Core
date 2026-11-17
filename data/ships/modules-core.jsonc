@@ -5,9 +5,9 @@
  * AND its engineering/mechanical stats, joined on the Frontier `symbol`.
  *
  * Sources: EDCD FDevIDs (identity), EDCD/coriolis-data and EDSY (stats), and in-game
- * verification, which governs where a registry disagrees with it. The unreleased Anaconda
- * Mk II's armour takes its identity and stats from an in-game observation and its prices
- * from EDSY.
+ * verification, which governs where a registry disagrees with it. The Anaconda
+ * Mk II's armour takes its stats from an in-game observation, its identity from that
+ * observation and FDevIDs, and its prices from EDSY.
  *
  * Credit and licence terms: ATTRIBUTIONS.md. Acquisition, revisions, derivation and
  * corrections: data/ships/SOURCES.md.
@@ -8558,6 +8558,7 @@
     "ship": "Anaconda Mk II",
     "class": 1,
     "rating": "C",
+    "entitlement": "ELITE_V_ANACONDA_MKII",
     "mass": 15,
     "hullBoost": 0.8,
     "kineticResistance": -0.2,
@@ -8574,6 +8575,7 @@
     "ship": "Anaconda Mk II",
     "class": 1,
     "rating": "B",
+    "entitlement": "ELITE_V_ANACONDA_MKII",
     "mass": 30,
     "hullBoost": 1.52,
     "kineticResistance": -0.2,
@@ -8590,6 +8592,7 @@
     "ship": "Anaconda Mk II",
     "class": 1,
     "rating": "A",
+    "entitlement": "ELITE_V_ANACONDA_MKII",
     "mass": 60,
     "hullBoost": 2.5,
     "kineticResistance": -0.2,
@@ -8606,6 +8609,7 @@
     "ship": "Anaconda Mk II",
     "class": 1,
     "rating": "A",
+    "entitlement": "ELITE_V_ANACONDA_MKII",
     "mass": 60,
     "hullBoost": 2.5,
     "kineticResistance": -0.75,
@@ -8622,6 +8626,7 @@
     "ship": "Anaconda Mk II",
     "class": 1,
     "rating": "A",
+    "entitlement": "ELITE_V_ANACONDA_MKII",
     "mass": 60,
     "hullBoost": 2.5,
     "kineticResistance": 0.25,
@@ -8638,6 +8643,7 @@
     "ship": "Anaconda Mk II",
     "class": 1,
     "rating": "C",
+    "entitlement": "ELITE_V_ANACONDA_MKII",
     "mass": 0,
     "hullBoost": 0.8,
     "kineticResistance": -0.2,

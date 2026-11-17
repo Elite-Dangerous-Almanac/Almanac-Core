@@ -1,14 +1,20 @@
 /*
- * Index of the shared community build corpus — 181 real builds published by Elite Dangerous
- * players, one file per build in this directory, named by `id`. A test fixture; not shipped in any
- * package.
+ * Index of the shared community build corpus — 182 real builds by Elite Dangerous players, one
+ * file per build in this directory, named by `id`. A test fixture; not shipped in any package.
  *
- * Acquisition (2026-08-02 UTC): public Coriolis (`coriolis.io/outfit`, `s.orbis.zone`) and EDSY
+ * Acquisition (2026-08-02 UTC), for every build but the contributed one below: public Coriolis (`coriolis.io/outfit`, `s.orbis.zone`) and EDSY
  * (`edsy.org`) build links were collected from community build libraries, forum and Steam threads,
  * video descriptions and squadron documents, then decoded locally to Frontier slot keys and module
  * symbols using each tool's own published serialisation and id tables. The decoders were throwaway
  * scripts run outside the working tree; this repository stores only the decoded data. A loadout is
  * Elite Dangerous game output assembled by a player — see ATTRIBUTIONS.md.
+ *
+ * Contributed build (2026-11-17 UTC): `anacondamkii-combat` is the repository owner's own Anaconda
+ * Mk II. It is taken from the journal `Loadout` in `journal-anaconda-mk-ii-kingslayer.jsonc`, whose
+ * header carries its checksum. The owner's Inara SLEF export of the same ship is not stored. It
+ * agrees with the journal on the module, priority and recipe in every outfitting slot, except that
+ * it writes the vessel hangar as `int_fighterbaymk2_size5_class1` where the game fits
+ * `Int_FighterBayMk2_Size5_Class1_Free`.
  *
  * What is deliberately not kept, and what that costs: a build's own name, author and source link
  * are not stored, on the maintainer's instruction that the sources need not be credited. So no
@@ -19,16 +25,16 @@
  * Validation: every stored build resolves all modules in the catalogues, fits each module into a
  * compatible slot on its hull, and fills all seven core internals. Near-duplicates (>85% identical
  * fit) are excluded, and each hull's selections span the roles represented by the corpus. The
- * corpus covers every released hull in the shipyard with 2 to 5 builds. The unreleased Anaconda
- * Mk II has no published build:
+ * corpus covers every other hull in the shipyard with 2 to 5 builds. The Anaconda Mk II has one
+ * build and needs a second:
  * https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/83
- * The corpus has 4271 fitted modules over 558 distinct module symbols, and 70 of the 1300
- * non-cargo-hatch slots on the released hulls are never occupied.
+ * The corpus has 4307 fitted modules over 562 distinct module symbols, and 73 of the 1339
+ * non-cargo-hatch slots are never occupied.
  *
  * What a build file records: what is fitted where (journal slot key + module symbol), the module's
  * power priority when it is not 0, `on: false` when the author left a module unpowered, and the
  * engineering the author declared (blueprint + grade, and the experimental effect where one is
- * fitted). The fixed cargo hatch is omitted from `modules`, and 154 of the builds omit the
+ * fitted). The fixed cargo hatch is omitted from `modules`, and 155 of the builds omit the
  * planetary approach suite as well; import restores both from the hull's default loadout before
  * `metrics` is derived. Both are weightless and the suite draws no power, so of the two only the
  * hatch's own 0.6 MW enters the pinned power figures. Declared engineering is NOT applied — every
@@ -39,7 +45,7 @@
  * of `false` pins that a shed generator makes the facade result unavailable; the accompanying
  * `shields` object still pins the generator, booster and reinforcement arithmetic with
  * synthetic capacity sufficient to keep every priority band lit, regardless of the
- * modules' stored priorities. The corpus has 27 genuinely shieldless builds and 25 such
+ * modules' stored priorities. The corpus has 27 genuinely shieldless builds and 26 such
  * shed generators. A shed booster is absent from an otherwise powered shield result.
  *
  * An implementation passes by fitting the same modules into the same slots and reproducing every
@@ -50,14 +56,16 @@
  * two put Efficient on the Mk II Plasma Shock Accelerator, which cannot be engineered, and one
  * identifies the community-goal Long Range Abrasion Blaster rather than ordinary engineering;
  * `engineering-options.jsonc` pins all three sets. Every other entry survives `applyBlueprint`.
+ * That includes two Heavy Duty Mercenary module reinforcement packages, which `mercenaryUpgrades`
+ * pins because their stock module has no menu.
  *
  * Layout: one file per build, `<id>.jsonc`, named by the `id` it carries. One file per build keeps
  * a change to one build a one-file diff, and lets a port load a single build without parsing the
- * other 180 — this is the one fixture a test reads from disk rather than importing.
+ * others — this is the one fixture a test reads from disk rather than importing.
  */
 {
-  "count": 181,
-  "declaredEngineering": 1902,
+  "count": 182,
+  "declaredEngineering": 1935,
   "builds": [
     { "id": "adder-exploration", "ship": "Adder", "role": "exploration" },
     { "id": "adder-exploration-2", "ship": "Adder", "role": "exploration" },
@@ -67,6 +75,7 @@
     { "id": "anaconda-exploration", "ship": "Anaconda", "role": "exploration" },
     { "id": "anaconda-mining", "ship": "Anaconda", "role": "mining" },
     { "id": "anaconda-trade", "ship": "Anaconda", "role": "trade" },
+    { "id": "anacondamkii-combat", "ship": "AnacondaMkII", "role": "combat" },
     { "id": "asp-combat", "ship": "Asp", "role": "combat" },
     { "id": "asp-exploration", "ship": "Asp", "role": "exploration" },
     { "id": "asp-mining", "ship": "Asp", "role": "mining" },

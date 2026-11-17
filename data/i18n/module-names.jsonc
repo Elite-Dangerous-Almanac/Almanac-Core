@@ -8,9 +8,10 @@
  *
  * `nameKeys` maps each Frontier symbol to a shared localized-name record. Each `names`
  * record carries the canonical English display name, which the owning module catalogue
- * remains authoritative for, and the five other locales the source publishes. Two
- * records hold English alone — the unreleased Large Planetary Vehicle Hangars, which no
- * acquired localisation table names yet; see data/i18n/SOURCES.md.
+ * remains authoritative for, and the five other locales the source publishes. The
+ * `Mk II Large Planetary Vehicle Hangar` record is the exception: no acquired localisation
+ * table names that module, so its five other locales are built in this repository; see
+ * data/i18n/SOURCES.md.
  *
  * A record key is the English name it holds, and each English name has one record. The
  * game distinguishes in other locales a few names that English spells the same way:

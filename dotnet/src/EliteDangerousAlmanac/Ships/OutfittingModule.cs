@@ -57,9 +57,7 @@ namespace EliteDangerousAlmanac.Ships;
 /// one ship-specific module.
 /// </param>
 /// <param name="Entitlement">
-/// Frontier's purchase-grant token, on a gated module. The Anaconda Mk II armour
-/// (<c>AnacondaMkII_Armour_*</c>) is the exception: its token is not known, so the field is
-/// absent (https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/84).
+/// Frontier's purchase-grant token, on a gated module.
 /// </param>
 /// <param name="GrantOnly">
 /// <see langword="true"/> on an article that arrives granted, with a hull or with a bundle,

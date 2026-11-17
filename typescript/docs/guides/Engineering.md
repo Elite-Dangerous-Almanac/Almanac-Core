@@ -47,7 +47,7 @@ data.
 ### Why there is no family map
 
 Inferring and comparing families from module and blueprint symbols refuses recipes the
-game offers, and disagrees with 76 entries in the 1902-entry build corpus. The failures come
+game offers, and disagrees with the build corpus. The failures come
 from the inference rather than the data — the Hatch Breaker
 Limpet Controller's symbol is `Int_DroneControl_ResourceSiphon`, which no "hatchbreaker"
 prefix rule matches, and the Caustic Sink Launcher's symbol says `causticsink` where its

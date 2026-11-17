@@ -284,6 +284,35 @@ internal static class ModuleStatLabels
         return entries[0].Stat;
     }
 
+    /// <summary>Every module stat a journal modifier label writes back to on one module.</summary>
+    /// <param name="label">The journal modifier label.</param>
+    /// <param name="stats">The stats the label is resolved against, when there are any.</param>
+    /// <returns>
+    /// Each stat of the label that the module carries, in declaration order. If the module
+    /// carries none of them, or there are no stats, the list holds the one stat
+    /// <see cref="StatFor"/> answers with. The list is empty when <see cref="StatFor"/> answers
+    /// with <see langword="null"/>.
+    /// </returns>
+    /// <remarks>
+    /// A shield cell bank carries both <see cref="ModuleStat.ShieldBankHeat"/> and
+    /// <see cref="ModuleStat.ThermalLoad"/>, and <c>ShieldBankHeat</c> writes to each.
+    /// <see cref="StatFor"/> answers with only the first.
+    /// </remarks>
+    internal static List<ModuleStat> StatsFor(string label, ModuleStats? stats)
+    {
+        List<ModuleStat> carried = [];
+        if (stats is not null && ByLabel.TryGetValue(label, out List<StatLabel>? entries))
+        {
+            foreach (StatLabel entry in entries)
+            {
+                if (entry.Stat is ModuleStat stat && stats.Has(stat)) carried.Add(stat);
+            }
+        }
+
+        if (carried.Count == 0 && StatFor(label, stats) is ModuleStat first) carried.Add(first);
+        return carried;
+    }
+
     /// <summary>The journal value divided by the catalogue value for one label.</summary>
     /// <param name="label">The journal modifier label.</param>
     /// <returns>

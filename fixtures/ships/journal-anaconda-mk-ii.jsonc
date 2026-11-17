@@ -1,7 +1,7 @@
 /*
  * Shared test fixture — not shipped in any package.
  *
- * A real Frontier journal `Loadout` event for an unreleased Anaconda Mk II, with an A-rated
+ * A real Frontier journal `Loadout` event for an Anaconda Mk II, with an A-rated
  * power plant, thrusters, frame shift drive and power distributor, D-rated life support and
  * sensors, the stock fuel tank, no weapons and no shield generator. The ship was unlocked for ARX, so no credits were
  * paid for it: the event carries no `HullValue` and no module `Value`, and its `ModulesValue` and

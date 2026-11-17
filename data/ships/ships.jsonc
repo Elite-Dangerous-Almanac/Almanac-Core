@@ -5,8 +5,8 @@
  * Sources: EDCD FDevIDs (identity), EDCD/coriolis-data (stats and slot layout), EDSY
  * (journal slot names, baseline `heatDissipation`, the Lynx Highliner coriolis-data
  * does not carry, and the Anaconda Mk II's prices), and in-game verification. The
- * unreleased Anaconda Mk II (`AnacondaMkII`) takes its identity, stats and slot layout
- * from an in-game observation.
+ * Anaconda Mk II (`AnacondaMkII`) takes its stats and slot layout from an in-game
+ * observation, and its identity from that observation and FDevIDs.
  *
  * Credit and licence terms: ATTRIBUTIONS.md. Acquisition, revisions, derivation and
  * corrections: data/ships/SOURCES.md.
@@ -4417,6 +4417,7 @@
     "name": "Anaconda Mk II",
     "manufacturer": "Faulcon DeLacy",
     "size": "large",
+    "entitlement": "ELITE_V_ANACONDA_MKII",
     "hullMass": 940,
     "minimumSpeed": 90,
     "maximumSpeed": 190,

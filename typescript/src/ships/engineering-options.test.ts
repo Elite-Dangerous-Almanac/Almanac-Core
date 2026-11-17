@@ -374,14 +374,26 @@ test('corpus engineering without an ordinary menu is explicitly classified', () 
         [...new Set(ungrouped.map((entry) => entry.symbol))].sort(),
         [
             ...fixture.corpus.notEngineerable.map((row) => row.symbol),
+            ...fixture.corpus.mercenaryUpgrades.map((row) => row.symbol),
             ...fixedUngrouped.map((row) => row.symbol),
         ].sort(),
     );
     assert.equal(ungrouped.length, fixture.corpus.ungroupedEntries);
-    for (const row of fixture.corpus.notEngineerable) {
+    for (const row of [...fixture.corpus.notEngineerable, ...fixture.corpus.mercenaryUpgrades]) {
         const entries = declared.filter((entry) => entry.symbol === row.symbol);
         assert.equal(entries.length, row.entries, row.symbol);
         for (const entry of entries) assert.equal(entry.blueprint, row.blueprint, row.symbol);
+    }
+    // A Mercenary upgrade is a roll of the article's own recipe, so the article must exist.
+    for (const row of fixture.corpus.mercenaryUpgrades) {
+        assert.ok(
+            getPreEngineeredVariants(row.symbol).some(
+                (variant) =>
+                    variant.acquisition === 'mercenary' &&
+                    variant.blueprintSymbol === row.blueprint,
+            ),
+            `${row.symbol}: no Mercenary article rolls ${row.blueprint}`,
+        );
     }
 });
 

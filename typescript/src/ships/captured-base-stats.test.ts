@@ -21,6 +21,7 @@ import { ShipLoadout } from './ship-loadout.js';
 import { damagePerSecond } from './weapons.js';
 import statsFixture from '../../../fixtures/ships/module-stats.jsonc' with { type: 'json' };
 import anacondaMkIIJournal from '../../../fixtures/ships/journal-anaconda-mk-ii.jsonc' with { type: 'json' };
+import anacondaMkIIKingslayerJournal from '../../../fixtures/ships/journal-anaconda-mk-ii-kingslayer.jsonc' with { type: 'json' };
 import slapacondaJournal from '../../../fixtures/ships/journal-anaconda-slapaconda.jsonc' with { type: 'json' };
 import corsairJournal from '../../../fixtures/ships/journal-corsair.jsonc' with { type: 'json' };
 import corvetteJournal from '../../../fixtures/ships/journal-federation-corvette.jsonc' with { type: 'json' };
@@ -46,6 +47,10 @@ import edsyAnacondaSlef from '../../../fixtures/ships/slef-edsy-anaconda-funny-h
 // fixture names, so a new capture is joined here by adding it in both places.
 const CAPTURES: readonly { file: string; loadouts: readonly LoadoutEvent[] }[] = [
     { file: 'journal-anaconda-mk-ii.jsonc', loadouts: [anacondaMkIIJournal as LoadoutEvent] },
+    {
+        file: 'journal-anaconda-mk-ii-kingslayer.jsonc',
+        loadouts: [anacondaMkIIKingslayerJournal as LoadoutEvent],
+    },
     { file: 'journal-anaconda-slapaconda.jsonc', loadouts: [slapacondaJournal as LoadoutEvent] },
     { file: 'journal-cobra-mkv.jsonc', loadouts: [cobraJournal as LoadoutEvent] },
     { file: 'journal-corsair.jsonc', loadouts: [corsairJournal as LoadoutEvent] },

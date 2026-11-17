@@ -200,8 +200,8 @@ from are credited here:
   Studios & AW2C Systems Ltd for capturing and publishing the log. No code from that
   project is used.
 - **[Coriolis](https://coriolis.io/)** (`s.orbis.zone`) and **[EDSY](https://edsy.org/)**
-  — the two share-link formats the 181-build community corpus was decoded from, using each
-  tool's own published serialisation and id tables (credited above). No code from either
+  — the two share-link formats the collected builds of the community corpus were decoded from,
+  using each tool's own published serialisation and id tables (credited above). No code from either
   is vendored here.
 - **[Inara](https://inara.cz/)** — SLEF exports produced by its loadout tool.
 
