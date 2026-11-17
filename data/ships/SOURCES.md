@@ -1341,10 +1341,10 @@ and size-6 racks): here the discount is stated rather than solved for.
 
 ### Records sourced outside the baseline registries
 
-Records not in coriolis-data / FDevIDs at the acquired revisions:
+Records that the baseline coriolis-data and FDevIDs revisions do not carry:
 
 - **Large Planetary Vehicle Hangars — nine records read before release.** They split into
-  a line that is observed and a line that is not:
+  a line whose identity is observed and a line whose identity a journal supplies:
   - `Int_LargeBuggyBay_Size{2,4,6}_Class3` and their `_Free` grant twins, named **Large
     Planetary Vehicle Hangar** — identity and stats from the in-game observation pinned
     above.
@@ -1361,7 +1361,7 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
   the released game settles each record; where it disagrees with what is stored here, the
   reading wins outright.
   - **The observed line's identity is settled.** The symbol is `Int_LargeBuggyBay_`, not
-    the `Int_BuggyBay_…_Class3` this catalogue first guessed — the same `Large` prefix
+    `Int_BuggyBay_…_Class3` — the same `Large` prefix
     Frontier uses for `Int_LargeCargoRack_Size{7,8}_Class1`, whose display name is "Mk II
     Cargo Rack". The observation also carries three `_Free` grant twins, spelled as the
     Vessel Hangars' are.
@@ -1372,8 +1372,7 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     - **The size-2 record was derived before it was observed, and the derivation held.**
       It was reasoned from two relations across the shipped hangars — the Large hangar
       taking the shipped `Class1` mass and the shipped `Class2` power draw — which
-      produced exactly the 12 t and 0.75 MW later observed. The relations are recorded
-      because they still carry the Mk II line, which has no observation.
+      produced exactly the 12 t and 0.75 MW later observed.
   - **`rating` is `F`, and a `C` alongside it is a mapping artefact.** The shipped
     hangars are `Class1` rating H and `Class2` rating G, so this family does not use the
     ordinary class-to-letter ladder that would make a `Class3` record a C. F continues
@@ -1389,8 +1388,7 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     are kept here so they are not lost.
   - **`entitlement` is omitted.** The six shipped hangars carry
     `ELITE_HORIZONS_V_PLANETARY_LANDINGS`; the Mk II Vessel Hangars, the closest recent
-    addition of the same shape, carry no token at all. Nothing states one for these, and
-    an invented token would be worse than an absent one. The FDevIDs Anaconda Mk II
+    addition of the same shape, carry no token at all. The FDevIDs Anaconda Mk II
     revision states `ELITE_HORIZONS_V_PLANETARY_LANDINGS` for the sold records and
     `ELITE_V_LARGEBUGGYBAY_FREE` for the `_Free` twins; the catalogue does not carry them
     (#108). The `_Free` twins take
@@ -1398,14 +1396,13 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     token either.
   - **The Mk II line's identity comes from a journal.** A `ModuleBuy` entry names
     `$int_mkiilargebuggybay_size4_class3_name;`, localised "Mk II Large Planetary Vehicle
-    Hangar" — so the prefix is `Int_MkIILargeBuggyBay_`, one word, and the earlier
-    `Int_BuggyBayMk2_` guess is gone. Its stats are 9/15/25.5 t at 0.5/0.8/1.2 MW,
+    Hangar" — so the prefix is `Int_MkIILargeBuggyBay_`, one word, not
+    `Int_BuggyBayMk2_`. Its stats are 9/15/25.5 t at 0.5/0.8/1.2 MW,
     integrity 30 and boot time 5 s, at sizes 2, 4 and 6.
-    - **Only the size-4 identity is read; the other two are extended from it.** The
+    - **The journal reads the size-4 identity, and FDevIDs lists all three sizes.** The
       journal names one module. Sizes 2 and 6 keep the same prefix and the same
       `_Size{n}_Class3` shape, which is how every other sized family in this catalogue
-      spells itself, and their stats are observed. It is a narrow extension of a read
-      identity rather than a guess, but it is still an extension.
+      spells itself. The FDevIDs Anaconda Mk II revision lists them with those symbols.
     - **The casing was reconstructed, and FDevIDs agrees with it.** A journal spells a
       symbol in lower case. `Int_MkIILargeBuggyBay_` follows `Int_MkII_PassengerCabin_`'s
       `MkII` and the observed `Int_LargeBuggyBay_`, minus the separator the journal shows
@@ -1418,7 +1415,7 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     `Federation_Gunship`, `Cutter`, `Independant_Trader`, `Krait_MkII`, `PantherMkII`,
     `Type9`, `Type9_Military` and `LakonMiner` — stored in the order they were reported —
     and `AnacondaMkII`, from EDSY's 2026-10-21 snapshot.
-    The plain line carries no restriction, and nothing read so far shows one. **How wide
+    The plain line carries no restriction, and nothing read shows one. **How wide
     that line's hull coverage actually is has not been established**, so its absent
     restriction is the reading its silence supports rather than a positive fact.
     - **They are exactly the hulls that can carry a ship-launched vessel**, and
@@ -1433,16 +1430,15 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     `paid = ceil(ceil(list * 9/10) * 39/40)` — and all three come back exactly from a
     round list figure that is 1.5x the shipped `Class2` hangar of the same size: 32 400,
     129 600 and 1 036 800 against 21 600, 86 400 and 691 200. `cost` stores that recovered
-    list price, as it does everywhere else. This overrides an early note that the size-2
-    figure carried no 2.5% discount: undiscounted, 28 431 would be 1.316x its `Class2`
+    list price, as it does everywhere else. The size-2 figure carries the 2.5% discount
+    too: undiscounted, 28 431 would be 1.316x its `Class2`
     sibling, against a 1.5x that lands on a round number and holds for all three sizes at
     once. The size-4 Mk II reading is a journal `ModuleBuy` `BuyPrice`; the rest are
     outfitting readings.
-    - **The two lines really do share a price, and that was doubted here.** A Mk II
-      article costing exactly its plain sibling is not how the Mk I and Mk II Vessel
-      Hangars behave, which differ at every size, so this file previously called the
-      shared size-6 figure unlikely to survive. Readings at all three sizes, taken for
-      both lines, say otherwise. The price tracks the size, not the mark.
+    - **The two lines share a price.** A Mk II article that costs exactly its plain
+      sibling is not how the Mk I and Mk II Vessel Hangars behave, which differ at every
+      size. Readings at all three sizes, taken for both lines, show the shared price. The
+      price tracks the size, not the mark.
     - **No reading pins its list price on its own.** Under a ceiling at each step,
       `list - 1` reproduces the same paid figure for all three sizes (32 399, 129 599 and
       1 036 799 do), exactly as `unique: false` marks two rows of the purchase capture.
@@ -1566,8 +1562,8 @@ Records not in coriolis-data / FDevIDs at the acquired revisions:
     duplicates of the same fitting are not carried separately.
   - **The Large Planetary Vehicle Hangars meet the rule through FDevIDs.** The FDevIDs
     Anaconda Mk II revision, pinned above, lists them. §"Records sourced outside the
-    baseline registries" says which of their values are observed, which are reported and
-    which are extended.
+    baseline registries" says which of their values are observed and which come from a
+    journal.
 
 ## Engineering (blueprints and experimental effects)
 
