@@ -25,8 +25,8 @@ public enum ShipSize
 /// <para>
 /// The Lynx Highliner (<c>MediumTransport01</c>), which is absent from the pinned
 /// coriolis-data revision, takes its stats and slot layout from EDSY, Frontier's update notes
-/// and in-game verification. The unreleased Anaconda Mk II (<c>AnacondaMkII</c>), which is
-/// absent from the pinned coriolis-data revision, takes its stats and slot layout from an
+/// and in-game verification. The Anaconda Mk II (<c>AnacondaMkII</c>), which is absent
+/// from the pinned coriolis-data revision, takes its stats and slot layout from an
 /// in-game observation and its prices from EDSY.
 /// </para>
 /// <para>

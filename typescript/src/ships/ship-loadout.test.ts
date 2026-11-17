@@ -4702,7 +4702,7 @@ test('The Deep Black reproduces every observed calculated total', () => {
     );
 });
 
-test('the unreleased Anaconda Mk II reproduces every observed calculated total', () => {
+test('the Anaconda Mk II reproduces every observed calculated total', () => {
     // Speed, rotation, armour and hardness all come from the hull record, so a wrong field
     // there misses here.
     const expected = metrics.inGame.anacondaMkII;

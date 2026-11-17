@@ -34,8 +34,8 @@ import type { CoreSlots, HardpointSlotSpec, OptionalSlotSpec, ShipSlots } from '
  * as optional below remain absent where their source carries no value. The Lynx
  * Highliner (`MediumTransport01`), which is absent from the pinned coriolis-data
  * revision, carries equivalent fields sourced from EDSY, Frontier's update notes and
- * in-game verification. The unreleased Anaconda Mk II (`AnacondaMkII`), which is absent
- * from the pinned coriolis-data revision, takes its stats and slot layout from an in-game
+ * in-game verification. The Anaconda Mk II (`AnacondaMkII`), which is absent from the
+ * pinned coriolis-data revision, takes its stats and slot layout from an in-game
  * observation and its prices from EDSY. Masses are tonnes, speed/boost fields are metres
  * per second, and rotation rates are degrees per second. Minimum/full endpoint pairs are the
  * installed values at zero/four ENG pips.

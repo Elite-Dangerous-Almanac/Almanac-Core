@@ -138,7 +138,7 @@ test('the corpus covers every hull with at most 5 builds and unique ids', () => 
         assert.ok(ROLES.has(build.role), `${build.id}: unknown role "${build.role}"`);
         perHull.set(build.ship, (perHull.get(build.ship) ?? 0) + 1);
     }
-    // The unreleased Anaconda Mk II has one build, from one ship; it needs a second:
+    // The Anaconda Mk II has one build, from one ship; it needs a second:
     // https://github.com/Elite-Dangerous-Almanac/Almanac-Core/issues/83
     const minimum = new Map([['AnacondaMkII', 1]]);
     for (const ship of SHIPS) {

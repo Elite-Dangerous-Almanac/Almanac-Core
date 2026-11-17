@@ -1,8 +1,8 @@
 /*
  * Shared test fixture — not shipped in any package.
  *
- * A real Frontier journal `Loadout` event for an engineered combat fit of the unreleased Anaconda
- * Mk II: gimballed beam lasers, two large torpedo pylons, eight shield boosters, a size-8 Prismatic
+ * A real Frontier journal `Loadout` event for an engineered combat fit of the Anaconda Mk II:
+ * gimballed beam lasers, two large torpedo pylons, eight shield boosters, a size-8 Prismatic
  * shield generator, two shield cell banks and grade-5 engineering on almost every module. Each
  * `Engineering` block states the `OriginalValue` the game holds for the stock module.
  *
